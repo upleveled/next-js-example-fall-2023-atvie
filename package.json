@@ -13,6 +13,7 @@
     "react": "latest",
     "react-dom": "latest",
     "sass": "^1.68.0",
+    "server-only": "^0.0.1",
     "sharp": "^0.32.6"
   },
   "devDependencies": {

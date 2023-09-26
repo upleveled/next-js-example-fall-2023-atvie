@@ -13,19 +13,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div>
-          <nav>
+        <nav>
+          <div>
             {/* This is not optimized */}
             {/* <a href="/">Home</a> */}
-
             {/* This is optimized */}
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
             <Link href="/animals">Animals</Link>
-          </nav>
-        </div>
+          </div>
 
-        {Math.floor(Math.random() * 10)}
+          {Math.floor(Math.random() * 10)}
+        </nav>
+
         {children}
       </body>
     </html>
