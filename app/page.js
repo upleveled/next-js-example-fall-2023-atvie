@@ -1,3 +1,10 @@
-export default function Home() {
-  return <main>Hello World!</main>;
+import GenerateButton from './GenerateButton';
+
+export default function HomePage() {
+  return (
+    <main>
+      <GenerateButton />
+      <h1>Hello UpLeveled!</h1>
+    </main>
+  );
 }
