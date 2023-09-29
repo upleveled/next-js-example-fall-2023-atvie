@@ -1,6 +1,7 @@
 import './globals.scss';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
+import CookieBanner from './CookieBanner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,6 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <CookieBanner />
         <nav>
           <div>
             {/* This is not optimized */}
@@ -21,6 +23,7 @@ export default function RootLayout({ children }) {
             <Link href="/">Home</Link>
             <Link href="/about">About</Link>
             <Link href="/animals">Animals</Link>
+            <Link href="/fruits">Fruits</Link>
           </div>
 
           {Math.floor(Math.random() * 10)}
