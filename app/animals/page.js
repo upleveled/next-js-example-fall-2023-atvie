@@ -9,7 +9,6 @@ export const metadata = {
 
 export default async function AnimalsPage() {
   const animals = await getAnimals();
-  console.log('Check: ', animals);
 
   return (
     <div>

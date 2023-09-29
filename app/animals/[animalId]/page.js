@@ -13,8 +13,6 @@ export async function generateMetadata({ params }) {
 export default async function AnimalPage(props) {
   const singleAnimal = await getAnimalById(Number(props.params.animalId));
 
-  console.log(singleAnimal);
-
   if (!singleAnimal) {
     return notFound();
   }
