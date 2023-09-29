@@ -1,17 +1,19 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getAnimal } from '../../../database/animals';
+import { getAnimalById } from '../../../database/animals';
 
-export function generateMetadata({ params }) {
-  const singleAnimal = getAnimal(Number(params.animalId));
+export async function generateMetadata({ params }) {
+  const singleAnimal = await getAnimalById(Number(params.animalId));
 
   return {
     title: singleAnimal ? singleAnimal.firstName : '',
   };
 }
 
-export default function AnimalPage(props) {
-  const singleAnimal = getAnimal(Number(props.params.animalId));
+export default async function AnimalPage(props) {
+  const singleAnimal = await getAnimalById(Number(props.params.animalId));
+
+  console.log(singleAnimal);
 
   if (!singleAnimal) {
     return notFound();
