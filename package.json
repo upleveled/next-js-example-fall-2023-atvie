@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate": "ley --require tsm"
   },
   "dependencies": {
     "dotenv": "^16.3.1",
+    "ley": "^0.8.1",
     "next": "latest",
     "postgres": "^3.3.5",
     "react": "latest",
@@ -17,7 +19,8 @@
     "sass": "^1.68.0",
     "secure-json-parse": "^2.7.0",
     "server-only": "^0.0.1",
-    "sharp": "^0.32.6"
+    "sharp": "^0.32.6",
+    "tsm": "^2.3.0"
   },
   "devDependencies": {
     "@ts-safeql/eslint-plugin": "^2.0.3",

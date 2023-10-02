@@ -1,5 +1,5 @@
 import postgres from 'postgres';
-import { setEnvironmentVariables } from './util/config';
+import { setEnvironmentVariables } from './util/config.mjs';
 
 // This file is used by node.js only
 
