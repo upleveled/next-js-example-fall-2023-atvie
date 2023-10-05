@@ -28,7 +28,7 @@ export default function FruitsPage() {
   console.log(fruitComments);
 
   const fruitsWithComments = fruits.map((fruit) => {
-    const matchingWithFruitFromCookie = fruitComments.find(
+    const matchingWithFruitFromCookie = fruitComments?.find(
       (fruitObject) => fruit.id === fruitObject.id,
     );
     return { ...fruit, comment: matchingWithFruitFromCookie?.comment };

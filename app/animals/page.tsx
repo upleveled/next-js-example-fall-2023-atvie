@@ -20,13 +20,15 @@ export default async function AnimalsPage() {
             key={`animal-div-${animal.id}`}
             data-test-id={`animal-type-${animal.type}`}
           >
-            <Link href={`/animals/${animal.id}`}>{animal.firstName}</Link>
-            <Image
-              src={`/images/${animal.firstName}.png`}
-              alt={animal.firstName}
-              width={200}
-              height={200}
-            />
+            <Link href={`/animals/${animal.id}`}>
+              <div>{animal.firstName}</div>
+              <Image
+                src={`/images/${animal.firstName}.png`}
+                alt={animal.firstName}
+                width={200}
+                height={200}
+              />
+            </Link>
           </div>
         );
       })}

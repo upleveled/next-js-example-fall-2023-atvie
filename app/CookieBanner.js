@@ -1,4 +1,5 @@
 'use client';
+
 import { useEffect, useState } from 'react';
 import { parseJson } from '../util/json';
 import { getLocalStorage, setLocalStorage } from '../util/localStorage';

@@ -5,7 +5,13 @@ import { useEffect, useState } from 'react';
 import style from './GenerateButton.module.scss';
 
 export default function GenerateButton() {
-  const [color, setColor] = useState();
+  // You can also initialize it with a string, instead
+  // const [color, setColor] = useState('');
+
+  // Pass in a generic argument of `string` type, to say
+  // that the `color` state variable may be also a string
+  // in future (at the start, it it undefined)
+  const [color, setColor] = useState<string>();
   const router = useRouter();
 
   useEffect(() => {

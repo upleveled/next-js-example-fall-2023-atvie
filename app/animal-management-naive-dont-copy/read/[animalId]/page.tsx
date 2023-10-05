@@ -1,21 +1,28 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getAnimalById } from '../../../database/animals';
+import { getAnimalById } from '../../../../database/animals';
 
-export async function generateMetadata({ params }) {
-  const singleAnimal = await getAnimalById(Number(params.animalId));
+export async function generateMetadata(props: Props) {
+  const singleAnimal = await getAnimalById(Number(props.params.animalId));
 
   return {
     title: singleAnimal ? singleAnimal.firstName : '',
   };
 }
 
-export default async function AnimalPage(props) {
+type Props = {
+  params: {
+    animalId: string
+  }
+}
+
+export default async function NaiveAnimalPage(props: Props) {
   const singleAnimal = await getAnimalById(Number(props.params.animalId));
 
   if (!singleAnimal) {
     return notFound();
   }
+
   return (
     <div>
       This is a single animal page

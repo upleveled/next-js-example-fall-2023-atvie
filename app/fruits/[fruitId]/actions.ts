@@ -8,7 +8,12 @@ import { cookies } from 'next/headers';
 import { getCookie } from '../../../util/cookies';
 import { parseJson } from '../../../util/json';
 
-export async function createOrUpdateComment(fruitId, comment) {
+export type FruitComment = {
+  id: number;
+  comment: string;
+};
+
+export async function createOrUpdateComment(fruitId: number, comment: string) {
   // 1. get the current cookie
   const fruitsCommentsCookie = getCookie('fruitsComments');
   // 2. parse the cookie value
@@ -18,7 +23,7 @@ export async function createOrUpdateComment(fruitId, comment) {
     ? // Case A: cookie is undefined
       // we need to create a new cookie with an empty array
       []
-    : parseJson(fruitsCommentsCookie);
+    : parseJson(fruitsCommentsCookie) || [];
 
   // 3. we edit the cookie value
   // We get the the object for the fruit on cookies or undefined
