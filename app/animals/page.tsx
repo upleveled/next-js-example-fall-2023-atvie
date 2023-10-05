@@ -17,13 +17,15 @@ export default async function AnimalsPage() {
       {animals.map((animal) => {
         return (
           <div key={`animal-div-${animal.id}`}>
-            <Link href={`/animals/${animal.id}`}>{animal.firstName}</Link>
-            <Image
-              src={`/images/${animal.firstName}.png`}
-              alt={animal.firstName}
-              width={200}
-              height={200}
-            />
+            <Link href={`/animals/${animal.id}`}>
+              <div>{animal.firstName}</div>
+              <Image
+                src={`/images/${animal.firstName}.png`}
+                alt={animal.firstName}
+                width={200}
+                height={200}
+              />
+            </Link>
           </div>
         );
       })}
