@@ -1,17 +1,32 @@
+import { notFound } from 'next/navigation';
 import { getFruitById } from '../../../database/fruits';
 import { getCookie } from '../../../util/cookies';
 import { parseJson } from '../../../util/json';
 import FruitCommentForm from './FruitCommentForm';
 
-export default function SingleFruitPage(props) {
+type Props = {
+  params: {
+    fruitId: string;
+  };
+};
+
+export default function SingleFruitPage(props: Props) {
   const fruit = getFruitById(Number(props.params.fruitId));
+
+  if (!fruit) {
+    notFound();
+  }
+
   const fruitsCommentsCookie = getCookie('fruitsComments');
 
   const fruitComments = !fruitsCommentsCookie
     ? []
     : parseJson(fruitsCommentsCookie);
 
-  const fruitCommentToDisplay = fruitComments.find((fruitComment) => {
+  // Alternative to always have an array type
+  // : parseJson(fruitsCommentsCookie) || [];
+
+  const fruitCommentToDisplay = fruitComments?.find((fruitComment) => {
     return fruitComment.id === fruit.id;
   });
 

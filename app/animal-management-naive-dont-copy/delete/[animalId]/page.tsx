@@ -5,8 +5,14 @@ export const metadata = {
   title: 'Naive delete animal page',
 };
 
-export default async function DeleteAnimalPage(props) {
-  const animal = await deleteAnimalById(props.params.animalId);
+type Props = {
+  params: {
+    animalId: string;
+  };
+};
+
+export default async function DeleteAnimalPage(props: Props) {
+  const animal = await deleteAnimalById(Number(props.params.animalId));
 
   if (!animal) {
     notFound();

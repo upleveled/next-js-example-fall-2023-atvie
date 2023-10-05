@@ -11,6 +11,6 @@ export function getFruits() {
   return fruits;
 }
 
-export function getFruitById(id) {
+export function getFruitById(id: number) {
   return fruits.find((fruit) => fruit.id === id);
 }

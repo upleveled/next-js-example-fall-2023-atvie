@@ -4,7 +4,15 @@ export const metadata = {
   description: 'Create a new animal',
 };
 
-export default async function NaiveCreateAnimalPage(props) {
+type Props = {
+  searchParams: {
+    firstName: string;
+    type: string;
+    accessory: string;
+  };
+};
+
+export default async function NaiveCreateAnimalPage(props: Props) {
   const animal = await createAnimal(
     props.searchParams.firstName,
     props.searchParams.type,
