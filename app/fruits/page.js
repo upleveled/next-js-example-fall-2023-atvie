@@ -38,13 +38,16 @@ export default function FruitsPage() {
     <div>
       {fruitsWithComments.map((fruit) => {
         return (
-          <div key={`fruit-${fruit.id}`}>
+          <div
+            key={`fruit-${fruit.id}`}
+            data-test-id={`fruit-name-${fruit.name}`}
+          >
             <Link href={`/fruits/${fruit.id}`}>
               <h1>
                 {fruit.icon} {fruit.name}
               </h1>
             </Link>
-            {fruit.comment}
+            <div>{fruit.comment}</div>
           </div>
         );
       })}
