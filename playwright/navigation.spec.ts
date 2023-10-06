@@ -35,7 +35,7 @@ test('navigation test', async ({ page }) => {
     page.getByRole('heading', { name: 'These are my animals' }),
   ).toBeVisible();
 
-  await expect(page.locator('[data-test-id^="animal-type-"]')).toHaveCount(5);
+  await expect(page.locator('[data-test-id^="animal-type-"]')).toHaveCount(4);
 
   for (const animal of animals) {
     await expect(page.getByTestId(`animal-type-${animal.type}`)).toHaveText(
