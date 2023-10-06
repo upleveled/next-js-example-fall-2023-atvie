@@ -16,7 +16,10 @@ export default async function AnimalsPage() {
 
       {animals.map((animal) => {
         return (
-          <div key={`animal-div-${animal.id}`}>
+          <div
+            key={`animal-div-${animal.id}`}
+            data-test-id={`animal-type-${animal.type}`}
+          >
             <Link href={`/animals/${animal.id}`}>
               <div>{animal.firstName}</div>
               <Image

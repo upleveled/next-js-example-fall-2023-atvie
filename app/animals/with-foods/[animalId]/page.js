@@ -3,6 +3,7 @@ import {
   getAnimalsWithFoods,
   getAnimalWithFoodsById,
 } from '../../../../database/animals';
+import { getAnimalWithFoods } from '../../../../util/dataStructure';
 
 export default async function AnimalFoodPage(props) {
   const animalsWithFoods = await getAnimalsWithFoods(props.params.animalId);
@@ -10,20 +11,7 @@ export default async function AnimalFoodPage(props) {
     props.params.animalId,
   );
 
-  //  transform multiple records into logical data structure
-  const animalWithFoods = {
-    id: animalsWithFoods[0].animalId,
-    firstName: animalsWithFoods[0].animalFirstName,
-    type: animalsWithFoods[0].animalType,
-    accessory: animalsWithFoods[0].animalAccessory,
-    animalFoods: animalsWithFoods.map((animalWithFood) => {
-      return {
-        id: animalWithFood.animalFoodId,
-        name: animalWithFood.animalFoodName,
-        type: animalWithFood.animalFoodType,
-      };
-    }),
-  };
+  const animalWithFoods = getAnimalWithFoods(animalsWithFoods);
 
   return (
     <div>
