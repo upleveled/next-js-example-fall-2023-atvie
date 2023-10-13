@@ -21,10 +21,7 @@ jobs:
           sudo -u postgres psql --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'" --command="\du"
       - name: Create database and allow user
         run: |
-          sudo -u postgres psql --command="CREATE USER next_js_example_fall_2023 PASSWORD 'next_js_example_fall_2023'" --command="\du"
-      - name: Create database and allow user
-        run: |
-          sudo -u postgres createdb --owner=next_js_example_fall_2023 next_js_example_fall_2023
+          sudo -u postgres createdb --owner=$PGUSERNAME $PGDATABASE
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
         with:
