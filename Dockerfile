@@ -34,5 +34,6 @@ COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/scripts ./scripts
 RUN chmod +x /app/scripts/fly-io-postgres.sh
 RUN chmod +x /app/scripts/fly-io-start.sh
+RUN /app/scripts/fly-io-postgres.sh
 
 CMD ["./scripts/fly-io-start.sh"]
