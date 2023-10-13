@@ -23,6 +23,21 @@ export const getAnimals = cache(async () => {
   return animals;
 });
 
+export const getAnimalsWithLimitAndOffset = cache(
+  async (limit: number, offset: number) => {
+    // return animals;
+    const animals = await sql<Animal[]>`
+    SELECT
+      *
+    FROM
+      animals
+    Limit ${limit}
+    OFFSET ${offset}
+  `;
+    return animals;
+  },
+);
+
 export const getAnimalById = cache(async (id: number) => {
   // Postgres always returns an array
   const [animal] = await sql<Animal[]>`
@@ -49,28 +64,28 @@ export const deleteAnimalById = cache(async (id: number) => {
 });
 
 export const createAnimal = cache(
-  async (firstName: string, type: string, accessory: string) => {
+  async (firstName: string, type: string, accessory?: string) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO animals
         (first_name, type, accessory)
       VALUES
-        (${firstName}, ${type}, ${accessory})
+        (${firstName}, ${type}, ${accessory || null})
       RETURNING *
     `;
 
-    return animal!;
+    return animal;
   },
 );
 
 export const updateAnimalById = cache(
-  async (id: number, firstName: string, type: string, accessory: string) => {
+  async (id: number, firstName: string, type: string, accessory?: string) => {
     const [animal] = await sql<Animal[]>`
       UPDATE
         animals
       SET
         first_name = ${firstName},
         type = ${type},
-        accessory = ${accessory}
+        accessory = ${accessory || null}
       WHERE id = ${id}
       RETURNING *
     `;
