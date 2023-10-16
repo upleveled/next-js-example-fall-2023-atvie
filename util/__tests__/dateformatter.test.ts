@@ -3,6 +3,6 @@ import { formatDate } from '../date';
 
 const currentDate = new Date('2023-10-14');
 
-test('calculate days until birthday', () => {
+test('format date for displaying the birth date', () => {
   expect(formatDate(currentDate)).toBe('14.10.2023');
 });
