@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getAnimalById } from '../../../database/animals';
+import { calculateDaysUntilBirthday, formatDate } from '../../../util/date';
 
 type Props = {
   params: {
@@ -23,29 +24,16 @@ export default async function AnimalPage(props: Props) {
     return notFound();
   }
 
-  const formattedBirthDate = singleAnimal.birthDate.toLocaleDateString('de-AT');
-
-  const currentDate = new Date();
-
-  const nextBirthDate = new Date(
-    currentDate.getFullYear(),
-    singleAnimal.birthDate.getMonth(),
-    singleAnimal.birthDate.getDate(),
-  );
-
-  if (nextBirthDate < currentDate) {
-    nextBirthDate.setFullYear(currentDate.getFullYear() + 1);
-  }
-
-  const daysUntilBirthday = Math.ceil(
-    (nextBirthDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
+  const daysUntilBirthday = calculateDaysUntilBirthday(
+    new Date(),
+    singleAnimal.birthDate,
   );
 
   return (
     <div>
       This is a single animal page
       <h1>{singleAnimal.firstName}</h1>
-      <div>Birth date: {formattedBirthDate}</div>
+      <div>Birth date: {formatDate(singleAnimal.birthDate)}</div>
       <div>Days left until Birthday: {daysUntilBirthday}</div>
       <Image
         src={`/images/${singleAnimal.firstName}.png`}
