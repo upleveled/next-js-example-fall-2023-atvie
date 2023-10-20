@@ -1,22 +1,21 @@
-export function formatDate(date: Date) {
-  return date.toLocaleDateString('de-AT');
+export function formatDate(
+  date: Date,
+  locale: string,
+  options: Intl.DateTimeFormatOptions = {},
+) {
+  return date.toLocaleDateString(locale, options);
 }
 
-export function calculateDaysUntilBirthday(currentDate: Date, birthDate: Date) {
-  const today = new Date();
-  const birthday = new Date(birthDate);
+export function calculateDaysUntilNextBirthday(
+  currentDate: Date,
+  birthDate: Date,
+) {
+  const currentYear = currentDate.getFullYear();
+  const birthDateThisYear = new Date(birthDate);
+  birthDateThisYear.setFullYear(currentYear);
 
-  const nextBirthday = new Date(
-    today.getFullYear(),
-    birthday.getMonth(),
-    birthday.getDate(),
-  );
-  if (nextBirthday < today) {
-    nextBirthday.setFullYear(today.getFullYear() + 1);
-  }
+  const daysDifference = birthDateThisYear.getTime() - currentDate.getTime();
+  const days = Math.ceil(daysDifference / (1000 * 60 * 60 * 24));
 
-  const daysUntilBirthday = Math.ceil(
-    (nextBirthday.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
-  );
-  return daysUntilBirthday;
+  return days < 0 ? days + 365 : days;
 }
