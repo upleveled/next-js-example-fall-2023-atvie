@@ -24,7 +24,7 @@ export default async function AnimalPage(props: Props) {
     return notFound();
   }
 
-  const daysUntilBirthday = calculateDaysUntilNextBirthday(
+  const daysUntilNextBirthday = calculateDaysUntilNextBirthday(
     new Date(),
     singleAnimal.birthDate,
   );
@@ -41,7 +41,7 @@ export default async function AnimalPage(props: Props) {
           year: 'numeric',
         })}
       </div>
-      <div>Days left until Birthday: {daysUntilBirthday}</div>
+      <div>Days left until Birthday: {daysUntilNextBirthday}</div>
       <Image
         src={`/images/${singleAnimal.firstName}.png`}
         width={200}

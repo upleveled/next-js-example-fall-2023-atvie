@@ -21,5 +21,7 @@ export function calculateDaysUntilNextBirthday(
       (1000 * 60 * 60 * 24),
   );
 
+  // Used Math.abs() to get the absolute value of the difference
+  // to avoid returning -0 when the difference is less than the same day
   return Math.abs(daysDifference < 0 ? daysDifference + 365 : daysDifference);
 }
