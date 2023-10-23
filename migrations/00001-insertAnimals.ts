@@ -6,7 +6,7 @@ const animals = [
     firstName: 'Lucia',
     type: 'Lion',
     accessory: 'Car',
-    birthDate: new Date('2020-10-19'),
+    birthDate: new Date('2020-10-23'),
   },
   {
     id: 2,

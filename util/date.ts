@@ -10,12 +10,17 @@ export function calculateDaysUntilNextBirthday(
   currentDate: Date,
   birthDate: Date,
 ) {
-  const currentYear = currentDate.getFullYear();
   const birthDateThisYear = new Date(birthDate);
-  birthDateThisYear.setFullYear(currentYear);
+  birthDateThisYear.setFullYear(currentDate.getFullYear());
 
-  const daysDifference = birthDateThisYear.getTime() - currentDate.getTime();
-  const days = Math.ceil(daysDifference / (1000 * 60 * 60 * 24));
+  const daysDifference = Math.ceil(
+    (birthDateThisYear.getTime() - currentDate.getTime()) /
+      (1000 * 60 * 60 * 24),
+  );
 
-  return days < 0 ? days + 365 : days;
+  if (daysDifference === -0) {
+    return 0;
+  }
+
+  return daysDifference < 0 ? daysDifference + 365 : daysDifference;
 }
