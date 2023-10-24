@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getAnimalById } from '../../../database/animals';
-import { daysUntilNextBirthday, formatDate } from '../../../util/dates';
+import { formatDate, getDaysUntilNextBirthday } from '../../../util/dates';
 
 type Props = {
   params: {
@@ -24,7 +24,7 @@ export default async function AnimalPage(props: Props) {
     return notFound();
   }
 
-  const daysLeftUntilBirthday = daysUntilNextBirthday(
+  const daysUntilNextBirthday = getDaysUntilNextBirthday(
     new Date(),
     singleAnimal.birthDate,
   );
@@ -41,7 +41,7 @@ export default async function AnimalPage(props: Props) {
           year: 'numeric',
         })}
       </div>
-      <div>Days left until Birthday: {daysLeftUntilBirthday}</div>
+      <div>Days left until Birthday: {daysUntilNextBirthday}</div>
       <Image
         src={`/images/${singleAnimal.firstName}.png`}
         width={200}

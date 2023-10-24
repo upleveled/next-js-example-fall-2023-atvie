@@ -13,7 +13,7 @@ export function formatDate(
   return date.toLocaleDateString(locale, options);
 }
 
-export function daysUntilNextBirthday(currentDate: Date, birthDate: Date) {
+export function getDaysUntilNextBirthday(currentDate: Date, birthDate: Date) {
   if (!(currentDate instanceof Date && birthDate instanceof Date)) {
     throw new Error('Pass only dates!');
   }
