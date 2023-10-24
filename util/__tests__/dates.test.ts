@@ -22,8 +22,6 @@ test('format date for displaying the date with different locale date formats', (
   expect(formatDate(new Date(2023, 9, 22, 12, 0, 0), 'en-US')).toBe(
     '10/22/2023',
   );
-
-  expect(() => formatDate(new Date())).not.toThrow('Pass only dates!');
 });
 
 test('format date for displaying the date with different options', () => {
@@ -61,6 +59,8 @@ test('format date for displaying the date with different options', () => {
 });
 
 test('throws an error when dates are not valid', () => {
+  expect(() => formatDate(new Date())).not.toThrow('Pass only dates!');
+
   expect(() => formatDate(new Date('25-03-2023'))).toThrow('Pass only dates!');
 
   expect(() => formatDate(new Date('25.03.2023'))).toThrow('Pass only dates!');
