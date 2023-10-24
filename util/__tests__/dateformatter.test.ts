@@ -1,10 +1,12 @@
 import { expect, test } from '@jest/globals';
-import { formatDate } from '../date';
+import { formatDate } from '../dates';
 
 test('format date for displaying the date with different locale date formats', () => {
-  expect(formatDate(new Date('2023-10-20'), 'us-US')).toBe('10/20/2023');
+  expect(formatDate(new Date('2023-10-20'))).toBe('20.10.2023');
 
-  expect(formatDate(new Date('2023-10-20'), 'de-DE')).toBe('20.10.2023');
+  expect(formatDate(new Date('2023-10-20'))).not.toBe('10/20/2023');
+
+  expect(formatDate(new Date('2023-10-20'), 'us-US')).toBe('10/20/2023');
 
   expect(formatDate(new Date('2023-10-20'), 'en-GB')).toBe('20/10/2023');
 
@@ -25,6 +27,14 @@ test('format date for displaying the date with different locale date formats', (
 });
 
 test('format date for displaying the date with different options', () => {
+  expect(
+    formatDate(new Date('2023-10-20'), 'en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    }),
+  ).toBe('October 20, 2023');
+
   expect(
     formatDate(new Date('2023-10-20'), 'de-DE', {
       year: 'numeric',
@@ -51,9 +61,11 @@ test('format date for displaying the date with different options', () => {
 });
 
 test('throws an error when dates are not valid', () => {
-  expect(formatDate(new Date('25-03-2023'), 'de-DE')).toBe('Invalid Date');
+  expect(() => formatDate(new Date('25-03-2023'))).toThrow('Pass only dates!');
 
-  expect(formatDate(new Date('25.03.2023'), 'de-DE')).toBe('Invalid Date');
+  expect(() => formatDate(new Date('25.03.2023'))).toThrow('Pass only dates!');
 
-  expect(formatDate(new Date('1698054125000'), 'de-DE')).toBe('Invalid Date');
+  expect(() => formatDate(new Date('1698054125000'))).toThrow(
+    'Pass only dates!',
+  );
 });
