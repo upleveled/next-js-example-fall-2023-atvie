@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createSession } from '../../../../database/sessions';
 import { createUser, getUserByUsername } from '../../../../database/users';
-import { User } from '../../../../migrations/00006-createTableUsers';
+import { User } from '../../../../migrations/00006-createTableusers';
 import { secureCookieOptions } from '../../../../util/cookies';
 
 const registerSchema = z.object({
