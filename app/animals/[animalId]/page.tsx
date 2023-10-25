@@ -33,14 +33,7 @@ export default async function AnimalPage(props: Props) {
     <div>
       This is a single animal page
       <h1>{singleAnimal.firstName}</h1>
-      <div>
-        Birth date:{' '}
-        {formatDate(singleAnimal.birthDate, 'de-DE', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-        })}
-      </div>
+      <div>Birth date: {formatDate(singleAnimal.birthDate)}</div>
       <div>Days left until Birthday: {daysUntilNextBirthday}</div>
       <Image
         src={`/images/${singleAnimal.firstName}.png`}
