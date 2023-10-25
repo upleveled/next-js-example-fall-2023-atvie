@@ -1,6 +1,6 @@
 import { Sql } from 'postgres';
 
-export type Sessions = {
+export type Session = {
   id: number;
   token: string;
   userId: number;

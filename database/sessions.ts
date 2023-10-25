@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import { sql } from '../database/connect';
-import { Sessions } from '../migrations/00009-alterTableSessions';
+import { Session } from '../migrations/00009-alterTableSessions';
 
 // import { Session } from '../migrations/00007-createTableSessions'; // Now using the session type from the alter table
 
@@ -15,7 +15,7 @@ export const deleteExpiredSessions = cache(async () => {
 
 export const createSession = cache(
   async (userId: number, token: string, csrfSecret: string) => {
-    const [session] = await sql<Sessions[]>`
+    const [session] = await sql<Session[]>`
       INSERT INTO sessions
         (user_id, token, csrf_secret)
       VALUES
@@ -23,7 +23,7 @@ export const createSession = cache(
       RETURNING
         id,
         token,
-        user_id
+        user_id,
         csrf_secret
     `;
 
@@ -49,7 +49,7 @@ export const deleteSessionByToken = cache(async (token: string) => {
 
 export const getValidSessionByToken = cache(async (token: string) => {
   const [session] = await sql<
-    { id: number; token: string; csrfSecret: string | null }[]
+    { id: number; token: string; csrfSecret: string }[]
   >`
     SELECT
       sessions.id,
