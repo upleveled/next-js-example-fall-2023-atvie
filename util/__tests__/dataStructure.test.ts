@@ -5,7 +5,7 @@ test('reduce animal favorite foods', () => {
   const animalWithFood = [
     {
       animalId: 1,
-      animalFirstName: 'lucia',
+      animalFirstName: 'Lucia',
       animalType: 'Lion',
       animalAccessory: 'Car',
       animalFoodId: 3,
@@ -14,7 +14,7 @@ test('reduce animal favorite foods', () => {
     },
     {
       animalId: 1,
-      animalFirstName: 'lucia',
+      animalFirstName: 'Lucia',
       animalType: 'Lion',
       animalAccessory: 'Car',
       animalFoodId: 4,
@@ -24,7 +24,7 @@ test('reduce animal favorite foods', () => {
   ];
   expect(getAnimalWithFoods(animalWithFood)).toStrictEqual({
     id: 1,
-    firstName: 'lucia',
+    firstName: 'Lucia',
     type: 'Lion',
     accessory: 'Car',
     animalFoods: [
