@@ -22,22 +22,19 @@ export function getDaysUntilNextBirthday(currentDate: Date, birthDate: Date) {
     throw new Error('Birth date must be before current date!');
   }
 
-  if (
-    birthDate.getDate() === currentDate.getDate() &&
-    birthDate.getMonth() === currentDate.getMonth()
-  ) {
-    return 0;
-  }
-
   birthDate.setFullYear(currentDate.getFullYear());
 
   if (birthDate.getTime() < currentDate.getTime()) {
     birthDate.setFullYear(currentDate.getFullYear() + 1);
   }
 
-  const daysDifference = Math.ceil(
-    (birthDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
-  );
+  const daysUntilNextBirthday =
+    birthDate.getDate() === currentDate.getDate() &&
+    birthDate.getMonth() === currentDate.getMonth()
+      ? 0
+      : Math.ceil(
+          (birthDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
+        );
 
-  return daysDifference;
+  return daysUntilNextBirthday;
 }
