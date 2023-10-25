@@ -1,7 +1,10 @@
 import './globals.scss';
 import { Inter } from 'next/font/google';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { ReactNode } from 'react';
+import { getUserBySessionToken } from '../database/users';
+import LogoutButton from './(auth)/logout/LogoutButton';
 import CookieBanner from './CookieBanner';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -15,7 +18,19 @@ type Props = {
   children: ReactNode;
 };
 
-export default function RootLayout(props: Props) {
+export default async function RootLayout(props: Props) {
+  // Task: Display the logged in user's username in the navigation bar and hide the login and register links depending on whether the user is logged in or not
+  // 1. Checking if the sessionToken cookie exists
+  // 2. Get the current logged in user from the database using the sessionToken value
+  // 3. Make decision whether to show the login and register links or not
+
+  // 1. Checking if the sessionToken cookie exists
+  const cookieStore = cookies();
+  const sessionToken = cookieStore.get('sessionToken');
+
+  const user =
+    sessionToken && (await getUserBySessionToken(sessionToken.value));
+
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -29,9 +44,23 @@ export default function RootLayout(props: Props) {
             <Link href="/about">About</Link>
             <Link href="/animals">Animals</Link>
             <Link href="/fruits">Fruits</Link>
+            <Link href="/animals-admin">Admin</Link>
           </div>
 
           {Math.floor(Math.random() * 10)}
+          <div>
+            {user ? (
+              <>
+                <div>{user.username}</div>
+                <LogoutButton />
+              </>
+            ) : (
+              <>
+                <Link href="/register">Register</Link>
+                <Link href="/login">Login</Link>
+              </>
+            )}
+          </div>
         </nav>
 
         {props.children}
