@@ -18,6 +18,8 @@ export default async function AnimalsPage() {
     sessionTokenCookie &&
     (await getValidSessionByToken(sessionTokenCookie.value));
 
+  //  Query your database to check if this user is admin
+
   // 3. If the sessionToken cookie is invalid or doesn't exist, redirect to login with returnTo
   if (!session) redirect('/login?returnTo=/animals-admin');
 
