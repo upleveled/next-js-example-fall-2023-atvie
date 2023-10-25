@@ -1,10 +1,13 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
   createAnimal,
   getAnimalsWithLimitAndOffset,
 } from '../../../database/animals';
+import { getValidSessionByToken } from '../../../database/sessions';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
+import { validateTokenAgainstSecret } from '../../../util/csrf';
 
 export type Error = {
   error: string;
@@ -26,6 +29,7 @@ const animalSchema = z.object({
   firstName: z.string(),
   type: z.string(),
   accessory: z.string().optional(),
+  csrfToken: z.string(),
 });
 
 export async function GET(
@@ -42,6 +46,23 @@ export async function GET(
         error: 'Limit and Offset need to be passed as params',
       },
       { status: 400 },
+    );
+  }
+
+  // 1. get the token from the cookie
+  const sessionTokenCookie = cookies().get('sessionToken');
+
+  // 2. check if the token has a valid session
+  const session =
+    sessionTokenCookie &&
+    (await getValidSessionByToken(sessionTokenCookie.value));
+
+  if (!session) {
+    return NextResponse.json(
+      {
+        error: 'session token is not valid',
+      },
+      { status: 401 },
     );
   }
 
@@ -68,6 +89,37 @@ export async function POST(
         error: 'The data is incomplete',
       },
       { status: 400 },
+    );
+  }
+
+  // 1. get the token from the cookie
+  const sessionTokenCookie = cookies().get('sessionToken');
+
+  // 2. check if the token has a valid session
+  const session =
+    sessionTokenCookie &&
+    (await getValidSessionByToken(sessionTokenCookie.value));
+
+  if (!session) {
+    return NextResponse.json(
+      {
+        error: 'session token is not valid',
+      },
+      { status: 401 },
+    );
+  }
+
+  const isValidCsrfToken = validateTokenAgainstSecret(
+    session.csrfSecret!,
+    result.data.csrfToken,
+  );
+
+  if (!isValidCsrfToken) {
+    return NextResponse.json(
+      {
+        error: 'session token is not valid',
+      },
+      { status: 401 },
     );
   }
 

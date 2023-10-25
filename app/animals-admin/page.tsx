@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getAnimals } from '../../database/animals';
 import { getValidSessionByToken } from '../../database/sessions';
+import { createTokenFromSecret } from '../../util/csrf';
 import AnimalsForm from './AnimalsForm';
 
 export const metadata = {
@@ -23,8 +24,12 @@ export default async function AnimalsPage() {
   // 3. If the sessionToken cookie is invalid or doesn't exist, redirect to login with returnTo
   if (!session) redirect('/login?returnTo=/animals-admin');
 
+  const csrfToken = createTokenFromSecret(session.csrfSecret!);
+
+  console.log('`check token: ', csrfToken);
+
   // 4. If the sessionToken cookie is valid, allow access to admin page
   const animals = await getAnimals();
 
-  return <AnimalsForm animals={animals} />;
+  return <AnimalsForm animals={animals} csrfToken={csrfToken} />;
 }

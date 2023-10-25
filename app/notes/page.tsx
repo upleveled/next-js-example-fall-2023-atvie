@@ -25,8 +25,6 @@ export default async function NotesPage() {
   // Display the notes for the current logged in user
   const userNote = await getUserNoteBySessionToken(sessionTokenCookie.value);
 
-  console.log('Checking: ', userNote);
-
   return (
     <div>
       <CreateNoteForm userId={user.id} />
