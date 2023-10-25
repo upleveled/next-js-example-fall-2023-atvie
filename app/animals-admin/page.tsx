@@ -24,7 +24,7 @@ export default async function AnimalsPage() {
   // 3. If the sessionToken cookie is invalid or doesn't exist, redirect to login with returnTo
   if (!session) redirect('/login?returnTo=/animals-admin');
 
-  const csrfToken = createTokenFromSecret(session.csrfSecret!);
+  const csrfToken = createTokenFromSecret(session.csrfSecret);
 
   console.log('`check token: ', csrfToken);
 

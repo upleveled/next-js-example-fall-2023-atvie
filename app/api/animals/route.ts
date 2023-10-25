@@ -110,7 +110,7 @@ export async function POST(
   }
 
   const isValidCsrfToken = validateTokenAgainstSecret(
-    session.csrfSecret!,
+    session.csrfSecret,
     result.data.csrfToken,
   );
 
