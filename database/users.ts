@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import { sql } from '../database/connect';
-import { User } from '../migrations/00006-createTableusers';
+import { User } from '../migrations/00006-createTableUsers';
 
 export type UserWithPasswordHash = User & {
   passwordHash: string;
@@ -47,3 +47,20 @@ export const getUserWithPasswordHashByUsername = cache(
     return user;
   },
 );
+
+export const getUserBySessionToken = cache(async (token: string) => {
+  const [user] = await sql<User[]>`
+   SELECT
+      users.id,
+      users.username
+    FROM
+      users
+    INNER JOIN
+      sessions ON (
+        sessions.token = ${token} AND
+        sessions.user_id = users.id AND
+        sessions.expiry_timestamp > now()
+      )
+  `;
+  return user;
+});
