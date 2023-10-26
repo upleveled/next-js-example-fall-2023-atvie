@@ -8,11 +8,11 @@ import {
 } from '../migrations/00004-createTableAnimalFoods';
 
 // const animals1 = [
-//   { id: 1, firstName: 'lucia', type: 'Lion', accessory: 'Car' },
-//   { id: 2, firstName: 'macca', type: 'Dog', accessory: 'Comb' },
-//   { id: 3, firstName: 'jojo', type: 'Dodo', accessory: 'Dojo' },
-//   { id: 4, firstName: 'flo', type: 'Parrot', accessory: 'carrot' },
-//   { id: 5, firstName: 'bili', type: 'Capybara', accessory: 'Pen' },
+//   { id: 1, firstName: 'Lucia', type: 'Lion', accessory: 'Car' },
+//   { id: 2, firstName: 'Macca', type: 'Dog', accessory: 'Comb' },
+//   { id: 3, firstName: 'Jojo', type: 'Dodo', accessory: 'Dojo' },
+//   { id: 4, firstName: 'Flo', type: 'Parrot', accessory: 'Carrot' },
+//   { id: 5, firstName: 'Bili', type: 'Capybara', accessory: 'Pen' },
 // ];
 
 export const getAnimals = cache(async () => {
