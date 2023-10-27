@@ -5,6 +5,7 @@ export type Animal = {
   firstName: string;
   type: string;
   accessory: string | null;
+  birthDate: Date;
 };
 
 export async function up(sql: Sql) {
@@ -13,7 +14,8 @@ export async function up(sql: Sql) {
       id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       first_name varchar(30) NOT NULL,
       type varchar(30) NOT NULL,
-      accessory varchar(30)
+      accessory varchar(30),
+      birth_date Date NOT NULL
     );
   `;
 }

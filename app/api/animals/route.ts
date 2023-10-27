@@ -26,6 +26,7 @@ const animalSchema = z.object({
   firstName: z.string(),
   type: z.string(),
   accessory: z.string().optional(),
+  birthDate: z.coerce.date(),
 });
 
 export async function GET(
@@ -75,6 +76,7 @@ export async function POST(
   const animal = await createAnimal(
     result.data.firstName,
     result.data.type,
+    result.data.birthDate,
     result.data.accessory,
   );
 

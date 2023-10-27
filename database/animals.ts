@@ -64,12 +64,17 @@ export const deleteAnimalById = cache(async (id: number) => {
 });
 
 export const createAnimal = cache(
-  async (firstName: string, type: string, accessory?: string) => {
+  async (
+    firstName: string,
+    type: string,
+    birthDate: Date,
+    accessory?: string,
+  ) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO animals
-        (first_name, type, accessory)
+        (first_name, type, accessory, birth_date)
       VALUES
-        (${firstName}, ${type}, ${accessory || null})
+        (${firstName}, ${type}, ${accessory || null}, ${birthDate})
       RETURNING *
     `;
 
@@ -78,14 +83,21 @@ export const createAnimal = cache(
 );
 
 export const updateAnimalById = cache(
-  async (id: number, firstName: string, type: string, accessory?: string) => {
+  async (
+    id: number,
+    firstName: string,
+    type: string,
+    birthDate: Date,
+    accessory?: string,
+  ) => {
     const [animal] = await sql<Animal[]>`
       UPDATE
         animals
       SET
         first_name = ${firstName},
         type = ${type},
-        accessory = ${accessory || null}
+        accessory = ${accessory || null},
+        birth_date = ${birthDate}
       WHERE id = ${id}
       RETURNING *
     `;

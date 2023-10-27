@@ -11,11 +11,13 @@ export default function AnimalsForm({ animals }: Props) {
   const [firstNameInput, setFirstNameInput] = useState('');
   const [typeInput, setTypeInput] = useState('');
   const [accessoryInput, setAccessoryInput] = useState('');
+  const [birthDateInput, setBirthDateInput] = useState('');
 
   const [onEditId, setOnEditId] = useState(0);
   const [onEditFirstNameInput, setOnEditFirstNameInput] = useState('');
   const [onEditTypeInput, setOnEditTypeInput] = useState('');
   const [onEditAccessoryInput, setOnEditAccessoryInput] = useState('');
+  const [onEditBirthDateInput, setOnEditBirthDateInput] = useState('');
 
   async function createAnimal() {
     const response = await fetch('/api/animals', {
@@ -24,6 +26,7 @@ export default function AnimalsForm({ animals }: Props) {
         firstName: firstNameInput,
         type: typeInput,
         accessory: accessoryInput,
+        birthDate: new Date(birthDateInput),
       }),
     });
 
@@ -39,6 +42,7 @@ export default function AnimalsForm({ animals }: Props) {
         firstName: onEditFirstNameInput,
         type: onEditTypeInput,
         accessory: onEditAccessoryInput,
+        birthDate: new Date(onEditBirthDateInput),
       }),
     });
 
@@ -97,6 +101,15 @@ export default function AnimalsForm({ animals }: Props) {
             />
           </label>
           <br />
+          <label>
+            Birth date:
+            <input
+              type="date"
+              value={birthDateInput}
+              onChange={(event) => setBirthDateInput(event.currentTarget.value)}
+            />
+          </label>
+          <br />
           <button>Create +</button>
         </form>
       </div>
@@ -134,6 +147,18 @@ export default function AnimalsForm({ animals }: Props) {
                 }
                 disabled={animal.id !== onEditId}
               />
+              <input
+                type="date"
+                value={
+                  animal.id !== onEditId
+                    ? new Date(animal.birthDate).toISOString().split('T')[0]
+                    : onEditBirthDateInput
+                }
+                onChange={(event) =>
+                  setOnEditBirthDateInput(event.currentTarget.value)
+                }
+                disabled={animal.id !== onEditId}
+              />
               {onEditId === animal.id ? (
                 <button
                   onClick={async () => {
@@ -141,7 +166,7 @@ export default function AnimalsForm({ animals }: Props) {
                     setOnEditId(0);
                   }}
                 >
-                  save
+                  Save
                 </button>
               ) : (
                 <button
@@ -149,6 +174,7 @@ export default function AnimalsForm({ animals }: Props) {
                     setOnEditFirstNameInput(animal.firstName);
                     setOnEditTypeInput(animal.type);
                     setOnEditAccessoryInput(animal.accessory || '');
+                    setOnEditBirthDateInput(animal.birthDate.toLocaleString());
                     setOnEditId(animal.id);
                   }}
                 >
