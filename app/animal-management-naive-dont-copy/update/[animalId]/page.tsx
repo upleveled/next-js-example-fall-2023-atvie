@@ -18,7 +18,7 @@ export default async function NaiveAnimalUpdatePage(props: Props) {
     Number(props.params.animalId),
     props.searchParams.firstName,
     props.searchParams.type,
-    props.searchParams.birthDate,
+    new Date(props.searchParams.birthDate),
     props.searchParams.accessory,
   );
 

@@ -12,9 +12,9 @@ export async function generateMetadata(props: Props) {
 
 type Props = {
   params: {
-    animalId: string
-  }
-}
+    animalId: string;
+  };
+};
 
 export default async function NaiveAnimalPage(props: Props) {
   const singleAnimal = await getAnimalById(Number(props.params.animalId));
@@ -27,6 +27,7 @@ export default async function NaiveAnimalPage(props: Props) {
     <div>
       This is a single animal page
       <h1>{singleAnimal.firstName}</h1>
+      <div>Birth date: {singleAnimal.birthDate.toLocaleDateString()}</div>
       <Image
         src={`/images/${singleAnimal.firstName}.png`}
         width={200}
