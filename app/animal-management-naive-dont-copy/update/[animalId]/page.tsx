@@ -9,6 +9,7 @@ type Props = {
     firstName: string;
     type: string;
     accessory: string;
+    birthDate: Date;
   };
 };
 
@@ -17,6 +18,7 @@ export default async function NaiveAnimalUpdatePage(props: Props) {
     Number(props.params.animalId),
     props.searchParams.firstName,
     props.searchParams.type,
+    props.searchParams.birthDate,
     props.searchParams.accessory,
   );
 
