@@ -8,16 +8,15 @@ export type Note = {
 
 export async function up(sql: Sql) {
   await sql`
-    CREATE TABLE notes (
-      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-      text_content text NOT NULL
-    );
+    CREATE TABLE
+      notes (
+        id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+        text_content text NOT NULL
+      );
   `;
 }
 
 export async function down(sql: Sql) {
-  await sql`
-    DROP TABLE notes
-  `;
+  await sql` DROP TABLE notes `;
 }

@@ -12,9 +12,9 @@ export async function generateMetadata(props: Props) {
 
 type Props = {
   params: {
-    animalId: string
-  }
-}
+    animalId: string;
+  };
+};
 
 export default async function NaiveAnimalPage(props: Props) {
   const singleAnimal = await getAnimalById(Number(props.params.animalId));
