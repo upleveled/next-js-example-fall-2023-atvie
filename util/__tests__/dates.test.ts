@@ -2,7 +2,7 @@ import { expect, test } from '@jest/globals';
 import { formatDate, getDaysUntilNextBirthday } from '../dates';
 
 test('format date for displaying the date with different locale date formats', () => {
-  expect(formatDate(new Date('2023-10-20'))).toBe('20.10.2023');
+  expect(formatDate(new Date('2023-10-20'))).toBe('20/10/2023');
 
   expect(formatDate(new Date('2023-10-20'), 'us-US')).toBe('10/20/2023');
 
@@ -19,9 +19,7 @@ test('format date for displaying the date with different locale date formats', (
 
   // Create a new Date object from individual values
   // Months are 0 based, because they are represented as an index in an array
-  expect(formatDate(new Date(2023, 9, 22, 12, 0, 0), 'en-US')).toBe(
-    '10/22/2023',
-  );
+  expect(formatDate(new Date(2023, 9, 22), 'en-US')).toBe('10/22/2023');
 });
 
 test('format date for displaying the date with different options', () => {
