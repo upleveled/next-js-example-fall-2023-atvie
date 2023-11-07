@@ -28,13 +28,11 @@ export function getDaysUntilNextBirthday(currentDate: Date, birthDate: Date) {
     birthDate.setFullYear(currentDate.getFullYear() + 1);
   }
 
+  // Set UTC time to 0 to compare only days (avoid time zones)
+  currentDate.setUTCHours(0, 0, 0, 0);
+
   const daysUntilNextBirthday =
-    birthDate.getDate() === currentDate.getDate() &&
-    birthDate.getMonth() === currentDate.getMonth()
-      ? 0
-      : Math.ceil(
-          (birthDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
-        );
+    (birthDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24);
 
   return daysUntilNextBirthday;
 }
