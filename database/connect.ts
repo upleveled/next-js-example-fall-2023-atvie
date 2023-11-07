@@ -1,5 +1,5 @@
 import 'server-only';
-import { headers } from 'next/headers';
+import { unstable_noStore as noStore } from 'next/cache';
 import postgres, { Sql } from 'postgres';
 import { setEnvironmentVariables } from '../util/config.mjs';
 
@@ -38,7 +38,7 @@ function connectOneTimeToDatabase() {
   return ((
     ...sqlParameters: Parameters<typeof globalThis.postgresSqlClient>
   ) => {
-    headers();
+    noStore();
     return globalThis.postgresSqlClient(...sqlParameters);
   }) as typeof globalThis.postgresSqlClient;
 }
