@@ -4,7 +4,7 @@ import { formatDate, getDaysUntilNextBirthday } from '../dates';
 test('format date for displaying the date with different locale date formats', () => {
   expect(formatDate(new Date('2023-10-20'))).toBe('20/10/2023');
 
-  expect(formatDate(new Date('2023-10-20'), 'us-US')).toBe('10/20/2023');
+  expect(formatDate(new Date('2023-10-20'), 'en-US')).toBe('10/20/2023');
 
   expect(formatDate(new Date('2023-10-20'), 'en-GB')).toBe('20/10/2023');
 
