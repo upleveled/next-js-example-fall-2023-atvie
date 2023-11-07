@@ -92,7 +92,7 @@ test('calculate days until next birthday', () => {
 
   // pass timestamp values to the function
   expect(
-    getDaysUntilNextBirthday(new Date(1627634400000), new Date(1627634400000)),
+    getDaysUntilNextBirthday(new Date(1697673600000), new Date(1697673600000)),
   ).toBe(0);
 
   // pass individual values to the function
