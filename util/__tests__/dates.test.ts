@@ -101,11 +101,11 @@ test('calculate days until next birthday', () => {
 
 test('throws an error when arguments are not dates', () => {
   // @ts-expect-error testing incorrect arguments
-  expect(() => getDaysUntilNextBirthday('123', '2023-01-01')).toThrow(
+  expect(() => getDaysUntilNextBirthday('123', new Date('2023-01-01'))).toThrow(
     'Pass only dates!',
   );
   // @ts-expect-error testing incorrect arguments
-  expect(() => getDaysUntilNextBirthday('2023-01-01', NaN)).toThrow(
+  expect(() => getDaysUntilNextBirthday(new Date('2023-01-01'), NaN)).toThrow(
     'Pass only dates!',
   );
   // @ts-expect-error testing incorrect arguments

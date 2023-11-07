@@ -7,14 +7,14 @@ export function formatDate(
     day: '2-digit',
   },
 ) {
-  if (!(date instanceof Date) || isNaN(date.getTime())) {
+  if (!(date instanceof Date)) {
     throw new Error('Pass only dates!');
   }
   return date.toLocaleDateString(locale, options);
 }
 
 export function getDaysUntilNextBirthday(currentDate: Date, birthDate: Date) {
-  if (!(currentDate instanceof Date && birthDate instanceof Date)) {
+  if (!(currentDate instanceof Date) || !(birthDate instanceof Date)) {
     throw new Error('Pass only dates!');
   }
 
