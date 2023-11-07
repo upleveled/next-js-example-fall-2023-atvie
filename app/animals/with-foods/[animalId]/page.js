@@ -3,7 +3,7 @@ import {
   getAnimalsWithFoods,
   getAnimalWithFoodsById,
 } from '../../../../database/animals';
-import { getAnimalWithFoods } from '../../../../util/dataStructures';
+import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
 export default async function AnimalFoodPage(props) {
   const animalsWithFoods = await getAnimalsWithFoods(props.params.animalId);
@@ -11,7 +11,7 @@ export default async function AnimalFoodPage(props) {
     props.params.animalId,
   );
 
-  const animalWithFoods = getAnimalWithFoods(animalsWithFoods);
+  const animalWithFoods = reduceAnimalsWithFoods(animalsWithFoods);
 
   return (
     <div>
