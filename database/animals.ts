@@ -78,13 +78,15 @@ export const createAnimal = cache(
         animals (
           first_name,
           type,
-          accessory
+          accessory,
+          birth_date
         )
       VALUES
         (
           ${firstName},
           ${type},
-          ${accessory || null}
+          ${accessory || null},
+          ${birthDate}
         ) RETURNING *
     `;
 

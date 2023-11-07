@@ -32,7 +32,7 @@ export default async function NaiveCreateAnimalPage(props: Props) {
       <p>has been created with the following information</p>
       <p>Type: {animal.type}</p>
       <p>Accessory: {animal.accessory}</p>
-      <p>Birth date: {animal.birthDate.toLocaleDateString()}</p>
+      <p>Birth date: {animal.birthDate.toLocaleDateString('en-GB')}</p>
     </div>
   );
 }
