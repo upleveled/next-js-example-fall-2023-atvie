@@ -41,18 +41,30 @@ const animals = [
 export async function up(sql: Sql) {
   for (const animal of animals) {
     await sql`
-      INSERT INTO animals
-        (first_name, type, accessory, birth_date)
+      INSERT INTO
+        animals (
+          first_name,
+          type,
+          accessory,
+          birth_date
+        )
       VALUES
-        (${animal.firstName}, ${animal.type}, ${animal.accessory}, ${animal.birthDate})
-  `;
+        (
+          ${animal.firstName},
+          ${animal.type},
+          ${animal.accessory},
+          ${animal.birthDate}
+        )
+    `;
   }
 }
 
 export async function down(sql: Sql) {
   for (const animal of animals) {
     await sql`
-      DELETE FROM animals WHERE id = ${animal.id}
+      DELETE FROM animals
+      WHERE
+        id = ${animal.id}
     `;
   }
 }

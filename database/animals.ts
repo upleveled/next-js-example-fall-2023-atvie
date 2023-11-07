@@ -18,7 +18,10 @@ import {
 export const getAnimals = cache(async () => {
   // return animals;
   const animals = await sql<Animal[]>`
-    SELECT * FROM animals
+    SELECT
+      *
+    FROM
+      animals
   `;
   return animals;
 });
@@ -27,13 +30,15 @@ export const getAnimalsWithLimitAndOffset = cache(
   async (limit: number, offset: number) => {
     // return animals;
     const animals = await sql<Animal[]>`
-    SELECT
-      *
-    FROM
-      animals
-    Limit ${limit}
-    OFFSET ${offset}
-  `;
+      SELECT
+        *
+      FROM
+        animals
+      LIMIT
+        ${limit}
+      OFFSET
+        ${offset}
+    `;
     return animals;
   },
 );
@@ -53,11 +58,9 @@ export const getAnimalById = cache(async (id: number) => {
 
 export const deleteAnimalById = cache(async (id: number) => {
   const [animal] = await sql<Animal[]>`
-    DELETE FROM
-      animals
+    DELETE FROM animals
     WHERE
-      id = ${id}
-    RETURNING *
+      id = ${id} RETURNING *
   `;
 
   return animal;
@@ -71,11 +74,18 @@ export const createAnimal = cache(
     accessory?: string,
   ) => {
     const [animal] = await sql<Animal[]>`
-      INSERT INTO animals
-        (first_name, type, accessory, birth_date)
+      INSERT INTO
+        animals (
+          first_name,
+          type,
+          accessory
+        )
       VALUES
-        (${firstName}, ${type}, ${accessory || null}, ${birthDate})
-      RETURNING *
+        (
+          ${firstName},
+          ${type},
+          ${accessory || null}
+        ) RETURNING *
     `;
 
     return animal;
@@ -91,15 +101,14 @@ export const updateAnimalById = cache(
     accessory?: string,
   ) => {
     const [animal] = await sql<Animal[]>`
-      UPDATE
-        animals
+      UPDATE animals
       SET
         first_name = ${firstName},
         type = ${type},
         accessory = ${accessory || null},
         birth_date = ${birthDate}
-      WHERE id = ${id}
-      RETURNING *
+      WHERE
+        id = ${id} RETURNING *
     `;
     return animal;
   },
@@ -130,10 +139,8 @@ export const getAnimalsWithFoods = cache(async (id: number) => {
       foods.type AS animal_food_type
     FROM
       animals
-    INNER JOIN
-      animal_foods ON animals.id = animal_foods.animal_id
-    INNER JOIN
-      foods ON foods.id = animal_foods.food_id
+      INNER JOIN animal_foods ON animals.id = animal_foods.animal_id
+      INNER JOIN foods ON foods.id = animal_foods.food_id
     WHERE
       animals.id = ${id}
   `;
@@ -150,11 +157,12 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
       animals.accessory AS animal_accessory,
       (
         SELECT
-          json_agg(foods.*)
+          json_agg (
+            foods.*
+          )
         FROM
           animal_foods
-        INNER JOIN
-          foods ON animal_foods.food_id = foods.id
+          INNER JOIN foods ON animal_foods.food_id = foods.id
         WHERE
           animal_foods.animal_id = animals.id
       ) AS animal_foods
@@ -163,7 +171,10 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
     WHERE
       animals.id = ${id}
     GROUP BY
-      animals.first_name, animals.type, animals.accessory, animals.id;
+      animals.first_name,
+      animals.type,
+      animals.accessory,
+      animals.id;
   `;
 
   return animal;

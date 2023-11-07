@@ -31,8 +31,11 @@ const sql = postgres();
 
 console.log(
   await sql`
-  SELECT * FROM animals
-`,
+    SELECT
+      *
+    FROM
+      animals
+  `,
 );
 
 // This is only for the example, in your code you will want
