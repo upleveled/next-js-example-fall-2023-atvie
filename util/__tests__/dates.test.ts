@@ -58,14 +58,12 @@ test('format date for displaying the date with different options', () => {
 
 test('throws an error when dates are not valid', () => {
   expect(() => formatDate(new Date())).not.toThrow('Pass only dates!');
-
-  expect(() => formatDate(new Date('25-03-2023'))).toThrow('Pass only dates!');
-
-  expect(() => formatDate(new Date('25.03.2023'))).toThrow('Pass only dates!');
-
-  expect(() => formatDate(new Date('1698054125000'))).toThrow(
-    'Pass only dates!',
-  );
+  // @ts-expect-error testing incorrect arguments
+  expect(() => formatDate(false)).toThrow('Pass only dates!');
+  // @ts-expect-error testing incorrect arguments
+  expect(() => formatDate('Lucia')).toThrow('Pass only dates!');
+  // @ts-expect-error testing incorrect arguments
+  expect(() => formatDate('25-03-2023')).toThrow('Pass only dates!');
 });
 
 test('calculate days until next birthday', () => {
