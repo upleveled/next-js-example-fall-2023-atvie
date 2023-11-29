@@ -23,7 +23,7 @@ export default async function AnimalsPage() {
             <Link href={`/animals/${animal.id}`}>
               <div>{animal.firstName}</div>
               <Image
-                src={`/images/${animal.firstName}.png`}
+                src={`/images/${animal.firstName.toLowerCase()}.png`}
                 alt={animal.firstName}
                 width={200}
                 height={200}

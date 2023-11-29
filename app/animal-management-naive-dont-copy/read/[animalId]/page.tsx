@@ -29,7 +29,7 @@ export default async function NaiveAnimalPage(props: Props) {
       <h1>{singleAnimal.firstName}</h1>
       <div>Birth date: {singleAnimal.birthDate.toLocaleDateString()}</div>
       <Image
-        src={`/images/${singleAnimal.firstName}.png`}
+        src={`/images/${singleAnimal.firstName.toLowerCase()}.png`}
         width={200}
         height={200}
         alt={singleAnimal.firstName}

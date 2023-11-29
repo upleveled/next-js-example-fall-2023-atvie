@@ -19,7 +19,7 @@ export default async function AnimalFoodPage(props) {
         {animalWithFoods.firstName} (using data transformation in JavaScript)
       </h1>
       <Image
-        src={`/images/${animalWithFoods.firstName}.png`}
+        src={`/images/${animalWithFoods.firstName.toLowerCase()}.png`}
         alt={`A picture of ${animalWithFoods.firstName}`}
         width={200}
         height={200}
@@ -46,7 +46,7 @@ export default async function AnimalFoodPage(props) {
         SQL using json_agg)
       </h1>
       <Image
-        src={`/images/${animalWithFoodJsonAgg.animalFirstName}.png`}
+        src={`/images/${animalWithFoodJsonAgg.animalFirstName.toLowerCase()}.png`}
         alt={`A picture of ${animalWithFoodJsonAgg.animalFirstName}`}
         width={200}
         height={200}
