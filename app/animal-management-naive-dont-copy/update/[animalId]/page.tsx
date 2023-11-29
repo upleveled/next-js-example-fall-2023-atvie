@@ -9,7 +9,7 @@ type Props = {
     firstName: string;
     type: string;
     accessory: string;
-    birthDate: Date;
+    birthDate: string;
   };
 };
 
