@@ -11,10 +11,16 @@ const animalFoods = [
 export async function up(sql: Sql) {
   for (const animalFood of animalFoods) {
     await sql`
-      INSERT INTO animal_foods
-        (animal_id, food_id)
+      INSERT INTO
+        animal_foods (
+          animal_id,
+          food_id
+        )
       VALUES
-        (${animalFood.animalId}, ${animalFood.foodId})
+        (
+          ${animalFood.animalId},
+          ${animalFood.foodId}
+        )
     `;
   }
 }
@@ -22,8 +28,9 @@ export async function up(sql: Sql) {
 export async function down(sql: Sql) {
   for (const animalFood of animalFoods) {
     await sql`
-      DELETE FROM animal_foods WHERE id = ${animalFood.id}
-
+      DELETE FROM animal_foods
+      WHERE
+        id = ${animalFood.id}
     `;
   }
 }

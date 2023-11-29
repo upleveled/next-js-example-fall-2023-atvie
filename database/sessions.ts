@@ -6,22 +6,27 @@ import { Session } from '../migrations/00009-alterTableSessions';
 
 export const deleteExpiredSessions = cache(async () => {
   await sql`
-    DELETE FROM
-      sessions
+    DELETE FROM sessions
     WHERE
-      expiry_timestamp < now()
-    `;
+      expiry_timestamp < now ()
+  `;
 });
 
 export const createSession = cache(
   async (userId: number, token: string, csrfSecret: string) => {
     const [session] = await sql<Session[]>`
-      INSERT INTO sessions
-        (user_id, token, csrf_secret)
+      INSERT INTO
+        sessions (
+          user_id,
+          token,
+          csrf_secret
+        )
       VALUES
-        (${userId}, ${token}, ${csrfSecret})
-      RETURNING
-        id,
+        (
+          ${userId},
+          ${token},
+          ${csrfSecret}
+        ) RETURNING id,
         token,
         user_id,
         csrf_secret
@@ -35,12 +40,9 @@ export const createSession = cache(
 
 export const deleteSessionByToken = cache(async (token: string) => {
   const [session] = await sql<{ id: number; token: string }[]>`
-    DELETE FROM
-      sessions
+    DELETE FROM sessions
     WHERE
-      sessions.token = ${token}
-    RETURNING
-      id,
+      sessions.token = ${token} RETURNING id,
       token
   `;
 
@@ -59,8 +61,7 @@ export const getValidSessionByToken = cache(async (token: string) => {
       sessions
     WHERE
       sessions.token = ${token}
-    AND
-      sessions.expiry_timestamp > now()
+      AND sessions.expiry_timestamp > now ()
   `;
 
   return session;

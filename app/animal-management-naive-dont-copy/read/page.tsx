@@ -19,7 +19,7 @@ export default async function NaiveAnimalsPage() {
           <div key={`animal-div-${animal.id}`}>
             <Link href={`/animals/${animal.id}`}>{animal.firstName}</Link>
             <Image
-              src={`/images/${animal.firstName}.png`}
+              src={`/images/${animal.firstName.toLowerCase()}.png`}
               alt={animal.firstName}
               width={200}
               height={200}

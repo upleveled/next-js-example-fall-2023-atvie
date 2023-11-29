@@ -3,7 +3,7 @@ import {
   getAnimalsWithFoods,
   getAnimalWithFoodsById,
 } from '../../../../database/animals';
-import { getAnimalWithFoods } from '../../../../util/dataStructures';
+import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
 export default async function AnimalFoodPage(props) {
   const animalsWithFoods = await getAnimalsWithFoods(props.params.animalId);
@@ -11,7 +11,7 @@ export default async function AnimalFoodPage(props) {
     props.params.animalId,
   );
 
-  const animalWithFoods = getAnimalWithFoods(animalsWithFoods);
+  const animalWithFoods = reduceAnimalsWithFoods(animalsWithFoods);
 
   return (
     <div>
@@ -19,7 +19,7 @@ export default async function AnimalFoodPage(props) {
         {animalWithFoods.firstName} (using data transformation in JavaScript)
       </h1>
       <Image
-        src={`/images/${animalWithFoods.firstName}.png`}
+        src={`/images/${animalWithFoods.firstName.toLowerCase()}.png`}
         alt={`A picture of ${animalWithFoods.firstName}`}
         width={200}
         height={200}
@@ -46,7 +46,7 @@ export default async function AnimalFoodPage(props) {
         SQL using json_agg)
       </h1>
       <Image
-        src={`/images/${animalWithFoodJsonAgg.animalFirstName}.png`}
+        src={`/images/${animalWithFoodJsonAgg.animalFirstName.toLowerCase()}.png`}
         alt={`A picture of ${animalWithFoodJsonAgg.animalFirstName}`}
         width={200}
         height={200}
