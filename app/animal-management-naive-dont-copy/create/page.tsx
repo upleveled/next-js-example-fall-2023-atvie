@@ -15,12 +15,12 @@ type Props = {
 };
 
 export default async function NaiveCreateAnimalPage(props: Props) {
-  const animal = await createAnimal(
-    props.searchParams.firstName,
-    props.searchParams.type,
-    new Date(props.searchParams.birthDate),
-    props.searchParams.accessory,
-  );
+  const animal = await createAnimal({
+    firstName: props.searchParams.firstName,
+    type: props.searchParams.type,
+    accessory: props.searchParams.accessory || null,
+    birthDate: new Date(props.searchParams.birthDate),
+  });
 
   if (typeof animal === 'undefined') {
     notFound();
