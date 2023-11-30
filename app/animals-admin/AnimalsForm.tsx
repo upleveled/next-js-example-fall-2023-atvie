@@ -1,4 +1,5 @@
 'use client';
+import dayjs from 'dayjs';
 import { useState } from 'react';
 import { Animal } from '../../migrations/00000-createTableAnimal';
 
@@ -11,13 +12,13 @@ export default function AnimalsForm({ animals }: Props) {
   const [firstNameInput, setFirstNameInput] = useState('');
   const [typeInput, setTypeInput] = useState('');
   const [accessoryInput, setAccessoryInput] = useState('');
-  const [birthDateInput, setBirthDateInput] = useState('');
+  const [birthDateInput, setBirthDateInput] = useState(new Date());
 
   const [onEditId, setOnEditId] = useState(0);
   const [onEditFirstNameInput, setOnEditFirstNameInput] = useState('');
   const [onEditTypeInput, setOnEditTypeInput] = useState('');
   const [onEditAccessoryInput, setOnEditAccessoryInput] = useState('');
-  const [onEditBirthDateInput, setOnEditBirthDateInput] = useState('');
+  const [onEditBirthDateInput, setOnEditBirthDateInput] = useState(new Date());
 
   async function createAnimal() {
     const response = await fetch('/api/animals', {
@@ -26,7 +27,7 @@ export default function AnimalsForm({ animals }: Props) {
         firstName: firstNameInput,
         type: typeInput,
         accessory: accessoryInput,
-        birthDate: new Date(birthDateInput),
+        birthDate: birthDateInput,
       }),
     });
 
@@ -42,7 +43,7 @@ export default function AnimalsForm({ animals }: Props) {
         firstName: onEditFirstNameInput,
         type: onEditTypeInput,
         accessory: onEditAccessoryInput,
-        birthDate: new Date(onEditBirthDateInput),
+        birthDate: onEditBirthDateInput,
       }),
     });
 
@@ -105,8 +106,10 @@ export default function AnimalsForm({ animals }: Props) {
             Birth date:
             <input
               type="date"
-              value={birthDateInput}
-              onChange={(event) => setBirthDateInput(event.currentTarget.value)}
+              value={dayjs(birthDateInput).format('YYYY-MM-DD')}
+              onChange={(event) =>
+                setBirthDateInput(new Date(event.currentTarget.value))
+              }
             />
           </label>
           <br />
@@ -151,11 +154,11 @@ export default function AnimalsForm({ animals }: Props) {
                 type="date"
                 value={
                   animal.id !== onEditId
-                    ? new Date(animal.birthDate).toISOString().split('T')[0]
-                    : onEditBirthDateInput
+                    ? dayjs(animal.birthDate).format('YYYY-MM-DD')
+                    : dayjs(onEditBirthDateInput).format('YYYY-MM-DD')
                 }
                 onChange={(event) =>
-                  setOnEditBirthDateInput(event.currentTarget.value)
+                  setOnEditBirthDateInput(new Date(event.currentTarget.value))
                 }
                 disabled={animal.id !== onEditId}
               />
@@ -174,7 +177,7 @@ export default function AnimalsForm({ animals }: Props) {
                     setOnEditFirstNameInput(animal.firstName);
                     setOnEditTypeInput(animal.type);
                     setOnEditAccessoryInput(animal.accessory || '');
-                    setOnEditBirthDateInput(animal.birthDate.toLocaleString());
+                    setOnEditBirthDateInput(animal.birthDate);
                     setOnEditId(animal.id);
                   }}
                 >
