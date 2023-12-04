@@ -6,7 +6,7 @@ export const deleteExpiredSessions = cache(async () => {
   await sql`
     DELETE FROM sessions
     WHERE
-      expiry_timestamp < now ()
+      expiry_timestamp < NOW()
   `;
 });
 
@@ -21,7 +21,9 @@ export const createSession = cache(async (userId: number, token: string) => {
       (
         ${userId},
         ${token}
-      ) RETURNING id,
+      )
+    RETURNING
+      id,
       token,
       user_id
   `;
@@ -32,10 +34,14 @@ export const createSession = cache(async (userId: number, token: string) => {
 });
 
 export const deleteSessionByToken = cache(async (token: string) => {
-  const [session] = await sql<{ id: number; token: string }[]>`
+  // 'Pick' is a TS utility type that picks specified properties
+  // from a type and excluding the rest
+  const [session] = await sql<Pick<Session, 'id' | 'token'>[]>`
     DELETE FROM sessions
     WHERE
-      sessions.token = ${token} RETURNING id,
+      sessions.token = ${token}
+    RETURNING
+      id,
       token
   `;
 
@@ -43,7 +49,7 @@ export const deleteSessionByToken = cache(async (token: string) => {
 });
 
 export const getValidSessionByToken = cache(async (token: string) => {
-  const [session] = await sql<{ id: number; token: string }[]>`
+  const [session] = await sql<Pick<Session, 'id' | 'token'>[]>`
     SELECT
       sessions.id,
       sessions.token
@@ -51,7 +57,7 @@ export const getValidSessionByToken = cache(async (token: string) => {
       sessions
     WHERE
       sessions.token = ${token}
-      AND sessions.expiry_timestamp > now ()
+      AND sessions.expiry_timestamp > NOW()
   `;
 
   return session;

@@ -24,7 +24,9 @@ export const createUser = cache(
         (
           ${username.toLowerCase()},
           ${passwordHash}
-        ) RETURNING id,
+        )
+      RETURNING
+        id,
         username
     `;
     return user;
@@ -68,7 +70,7 @@ export const getUserBySessionToken = cache(async (token: string) => {
       INNER JOIN sessions ON (
         sessions.token = ${token}
         AND sessions.user_id = users.id
-        AND sessions.expiry_timestamp > now ()
+        AND sessions.expiry_timestamp > NOW()
       )
   `;
   return user;
@@ -86,7 +88,7 @@ export const getUserNoteBySessionToken = cache(async (token: string) => {
       INNER JOIN sessions ON (
         sessions.token = ${token}
         AND sessions.user_id = users.id
-        AND sessions.expiry_timestamp > now ()
+        AND sessions.expiry_timestamp > NOW()
       )
   `;
   return notes;

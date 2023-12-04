@@ -60,7 +60,9 @@ export const deleteAnimalById = cache(async (id: number) => {
   const [animal] = await sql<Animal[]>`
     DELETE FROM animals
     WHERE
-      id = ${id} RETURNING *
+      id = ${id}
+    RETURNING
+      *
   `;
 
   return animal;
@@ -72,7 +74,7 @@ export const createAnimal = cache(
       INSERT INTO
         animals (
           first_name,
-          type,
+          TYPE,
           accessory
         )
       VALUES
@@ -80,7 +82,9 @@ export const createAnimal = cache(
           ${firstName},
           ${type},
           ${accessory || null}
-        ) RETURNING *
+        )
+      RETURNING
+        *
     `;
 
     return animal;
@@ -93,10 +97,12 @@ export const updateAnimalById = cache(
       UPDATE animals
       SET
         first_name = ${firstName},
-        type = ${type},
-        accessory = ${accessory || null}
+      TYPE = ${type},
+      accessory = ${accessory || null}
       WHERE
-        id = ${id} RETURNING *
+        id = ${id}
+      RETURNING
+        *
     `;
     return animal;
   },
@@ -145,9 +151,7 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
       animals.accessory AS animal_accessory,
       (
         SELECT
-          json_agg (
-            foods.*
-          )
+          JSON_AGG(foods.*)
         FROM
           animal_foods
           INNER JOIN foods ON animal_foods.food_id = foods.id
