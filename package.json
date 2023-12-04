@@ -2,6 +2,7 @@
   "name": "next-js-example-fall-2023-vienna-austria",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
@@ -37,12 +38,12 @@
     "@types/node": "^20.8.2",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
-    "eslint-config-upleveled": "^6.1.0",
+    "eslint-config-upleveled": "^7.3.3",
     "libpg-query": "^15.0.2",
-    "prettier-plugin-embed": "^0.2.5",
-    "prettier-plugin-sql": "^0.15.1",
+    "prettier-plugin-embed": "^0.3.0",
+    "prettier-plugin-sql": "^0.17.0",
     "stylelint": "^15.10.3",
-    "stylelint-config-upleveled": "^1.0.2",
+    "stylelint-config-upleveled": "^1.0.3",
     "typescript": "^5.2.2"
   }
 }
