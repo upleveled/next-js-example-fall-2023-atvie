@@ -12,7 +12,7 @@ export async function up(sql: Sql) {
       notes (
         id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-        text_content text NOT NULL
+        text_content TEXT NOT NULL
       );
   `;
 }
