@@ -69,7 +69,7 @@ export const deleteAnimalById = cache(async (id: number) => {
 });
 
 export const createAnimal = cache(
-  // 'Omit' is a utility type that removes a property from a type
+  // 'Omit' is a utility type that excludes a property from a type
   async ({ firstName, type, accessory, birthDate }: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
