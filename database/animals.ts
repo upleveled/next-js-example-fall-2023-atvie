@@ -60,29 +60,22 @@ export const deleteAnimalById = cache(async (id: number) => {
   const [animal] = await sql<Animal[]>`
     DELETE FROM animals
     WHERE
-      id = ${id} RETURNING *
+      id = ${id}
+    RETURNING
+      *
   `;
 
   return animal;
 });
 
 export const createAnimal = cache(
-  async ({
-    firstName,
-    type,
-    accessory,
-    birthDate,
-  }: {
-    firstName: string;
-    type: string;
-    accessory: string | null;
-    birthDate: Date;
-  }) => {
+  // 'Omit' is a utility type that removes a property from a type
+  async ({ firstName, type, accessory, birthDate }: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
         animals (
           first_name,
-          type,
+          TYPE,
           accessory,
           birth_date
         )
@@ -92,7 +85,9 @@ export const createAnimal = cache(
           ${type},
           ${accessory},
           ${birthDate}
-        ) RETURNING *
+        )
+      RETURNING
+        *
     `;
 
     return animal;
@@ -105,11 +100,13 @@ export const updateAnimalById = cache(
       UPDATE animals
       SET
         first_name = ${firstName},
-        type = ${type},
-        accessory = ${accessory},
-        birth_date = ${birthDate}
+      TYPE = ${type},
+      accessory = ${accessory},
+      birth_date = ${birthDate}
       WHERE
-        id = ${id} RETURNING *
+        id = ${id}
+      RETURNING
+        *
     `;
     return animal;
   },
@@ -158,9 +155,7 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
       animals.accessory AS animal_accessory,
       (
         SELECT
-          json_agg (
-            foods.*
-          )
+          JSON_AGG(foods.*)
         FROM
           animal_foods
           INNER JOIN foods ON animal_foods.food_id = foods.id

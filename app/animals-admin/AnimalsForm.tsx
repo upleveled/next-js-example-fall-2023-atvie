@@ -106,6 +106,8 @@ export default function AnimalsForm({ animals }: Props) {
             Birth date:
             <input
               type="date"
+              // use dayjs to format the date to YYYY-MM-DD
+              // to display the date in the input field
               value={dayjs(birthDateInput).format('YYYY-MM-DD')}
               onChange={(event) =>
                 setBirthDateInput(new Date(event.currentTarget.value))
@@ -152,11 +154,13 @@ export default function AnimalsForm({ animals }: Props) {
               />
               <input
                 type="date"
-                value={
+                // use dayjs to format the date to YYYY-MM-DD
+                // to display the date in the input field
+                value={dayjs(
                   animal.id !== onEditId
-                    ? dayjs(animal.birthDate).format('YYYY-MM-DD')
-                    : dayjs(onEditBirthDateInput).format('YYYY-MM-DD')
-                }
+                    ? animal.birthDate
+                    : onEditBirthDateInput,
+                ).format('YYYY-MM-DD')}
                 onChange={(event) =>
                   setOnEditBirthDateInput(new Date(event.currentTarget.value))
                 }
