@@ -5,8 +5,8 @@ export async function up(sql: Sql) {
     CREATE TABLE
       foods (
         id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        name VARCHAR(30) NOT NULL,
-        type VARCHAR(30) NOT NULL
+        NAME VARCHAR(30) NOT NULL,
+        TYPE VARCHAR(30) NOT NULL
       )
   `;
 }

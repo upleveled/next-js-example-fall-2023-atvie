@@ -13,7 +13,9 @@ export const createNote = cache(async (userId: number, textContent: string) => {
       (
         ${userId},
         ${textContent}
-      ) RETURNING *
+      )
+    RETURNING
+      *
   `;
 
   return note;
