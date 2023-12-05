@@ -69,10 +69,10 @@ export const deleteAnimalById = cache(async (id: number) => {
 });
 
 export const createAnimal = cache(
-  // use an object as a parameter to allow optional properties
-  // before non-optional parameters (accessory before birthDate)
+  // Accepts an object as an argument, allowing optional properties
+  // like 'accessory' before required properties like 'birthDate'
 
-  // 'Omit' is a utility type that excludes a property from a type
+  // 'Omit' is a TS utility type that excludes a property from a type
   async ({ firstName, type, accessory, birthDate }: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
@@ -98,8 +98,8 @@ export const createAnimal = cache(
 );
 
 export const updateAnimalById = cache(
-  // use an object as a parameter to allow optional properties
-  // before non-optional parameters (accessory before birthDate)
+  // Accepts an object as an argument, allowing optional properties
+  // like 'accessory' before required properties like 'birthDate'
   async ({ id, firstName, type, accessory, birthDate }: Animal) => {
     const [animal] = await sql<Animal[]>`
       UPDATE animals
