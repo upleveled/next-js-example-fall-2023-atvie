@@ -1,11 +1,11 @@
 import { expect, test } from '@jest/globals';
-import { getAnimalWithFoods } from '../dataStructures';
+import { reduceAnimalsWithFoods } from '../dataStructures';
 
 test('reduce animal favorite foods', () => {
   const animalWithFood = [
     {
       animalId: 1,
-      animalFirstName: 'lucia',
+      animalFirstName: 'Lucia',
       animalType: 'Lion',
       animalAccessory: 'Car',
       animalFoodId: 3,
@@ -14,7 +14,7 @@ test('reduce animal favorite foods', () => {
     },
     {
       animalId: 1,
-      animalFirstName: 'lucia',
+      animalFirstName: 'Lucia',
       animalType: 'Lion',
       animalAccessory: 'Car',
       animalFoodId: 4,
@@ -22,9 +22,9 @@ test('reduce animal favorite foods', () => {
       animalFoodType: 'Fruit',
     },
   ];
-  expect(getAnimalWithFoods(animalWithFood)).toStrictEqual({
+  expect(reduceAnimalsWithFoods(animalWithFood)).toStrictEqual({
     id: 1,
-    firstName: 'lucia',
+    firstName: 'Lucia',
     type: 'Lion',
     accessory: 'Car',
     animalFoods: [

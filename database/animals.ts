@@ -8,20 +8,40 @@ import {
 } from '../migrations/00004-createTableAnimalFoods';
 
 // const animals1 = [
-//   { id: 1, firstName: 'lucia', type: 'Lion', accessory: 'Car' },
-//   { id: 2, firstName: 'macca', type: 'Dog', accessory: 'Comb' },
-//   { id: 3, firstName: 'jojo', type: 'Dodo', accessory: 'Dojo' },
-//   { id: 4, firstName: 'flo', type: 'Parrot', accessory: 'carrot' },
-//   { id: 5, firstName: 'bili', type: 'Capybara', accessory: 'Pen' },
+//   { id: 1, firstName: 'Lucia', type: 'Lion', accessory: 'Car' },
+//   { id: 2, firstName: 'Macca', type: 'Dog', accessory: 'Comb' },
+//   { id: 3, firstName: 'Jojo', type: 'Dodo', accessory: 'Dojo' },
+//   { id: 4, firstName: 'Flo', type: 'Parrot', accessory: 'Carrot' },
+//   { id: 5, firstName: 'Bili', type: 'Capybara', accessory: 'Pen' },
 // ];
 
 export const getAnimals = cache(async () => {
   // return animals;
   const animals = await sql<Animal[]>`
-    SELECT * FROM animals
+    SELECT
+      *
+    FROM
+      animals
   `;
   return animals;
 });
+
+export const getAnimalsWithLimitAndOffset = cache(
+  async (limit: number, offset: number) => {
+    // return animals;
+    const animals = await sql<Animal[]>`
+      SELECT
+        *
+      FROM
+        animals
+      LIMIT
+        ${limit}
+      OFFSET
+        ${offset}
+    `;
+    return animals;
+  },
+);
 
 export const getAnimalById = cache(async (id: number) => {
   // Postgres always returns an array
@@ -38,41 +58,51 @@ export const getAnimalById = cache(async (id: number) => {
 
 export const deleteAnimalById = cache(async (id: number) => {
   const [animal] = await sql<Animal[]>`
-    DELETE FROM
-      animals
+    DELETE FROM animals
     WHERE
       id = ${id}
-    RETURNING *
+    RETURNING
+      *
   `;
 
   return animal;
 });
 
 export const createAnimal = cache(
-  async (firstName: string, type: string, accessory: string) => {
+  async (firstName: string, type: string, accessory?: string) => {
     const [animal] = await sql<Animal[]>`
-      INSERT INTO animals
-        (first_name, type, accessory)
+      INSERT INTO
+        animals (
+          first_name,
+          TYPE,
+          accessory
+        )
       VALUES
-        (${firstName}, ${type}, ${accessory})
-      RETURNING *
+        (
+          ${firstName},
+          ${type},
+          ${accessory || null}
+        )
+      RETURNING
+        *
     `;
 
-    return animal!;
+    return animal;
   },
 );
 
 export const updateAnimalById = cache(
-  async (id: number, firstName: string, type: string, accessory: string) => {
+  async (id: number, firstName: string, type: string, accessory?: string) => {
     const [animal] = await sql<Animal[]>`
-      UPDATE
-        animals
+      UPDATE animals
       SET
         first_name = ${firstName},
-        type = ${type},
-        accessory = ${accessory}
-      WHERE id = ${id}
-      RETURNING *
+      TYPE = ${type},
+      accessory = ${accessory || null}
+      WHERE
+        id = ${id}
+      RETURNING
+        *
     `;
     return animal;
   },
@@ -103,10 +133,8 @@ export const getAnimalsWithFoods = cache(async (id: number) => {
       foods.type AS animal_food_type
     FROM
       animals
-    INNER JOIN
-      animal_foods ON animals.id = animal_foods.animal_id
-    INNER JOIN
-      foods ON foods.id = animal_foods.food_id
+      INNER JOIN animal_foods ON animals.id = animal_foods.animal_id
+      INNER JOIN foods ON foods.id = animal_foods.food_id
     WHERE
       animals.id = ${id}
   `;
@@ -123,11 +151,10 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
       animals.accessory AS animal_accessory,
       (
         SELECT
-          json_agg(foods.*)
+          JSON_AGG(foods.*)
         FROM
           animal_foods
-        INNER JOIN
-          foods ON animal_foods.food_id = foods.id
+          INNER JOIN foods ON animal_foods.food_id = foods.id
         WHERE
           animal_foods.animal_id = animals.id
       ) AS animal_foods
@@ -136,7 +163,10 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
     WHERE
       animals.id = ${id}
     GROUP BY
-      animals.first_name, animals.type, animals.accessory, animals.id;
+      animals.first_name,
+      animals.type,
+      animals.accessory,
+      animals.id;
   `;
 
   return animal;

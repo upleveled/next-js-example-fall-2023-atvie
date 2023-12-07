@@ -66,3 +66,30 @@ psql -U <user name> <database name>
 ```bash
 sudo -u <user name> psql -U <user name> <database name>
 ```
+
+# API design
+
+```
+export type Animal = {
+  id: number;
+  firstName: string;
+  type: string;
+  accessory: string | null;
+};
+
+type Error = {
+  message: string;
+};
+
+```
+
+```
+- /api/animals/
+  - GET    => Animal[] | Error query: limit and offset (read animals)
+  - POST   => Animal   | Error   (create animal)
+
+- /api/animals/:id (dynamic route)
+  - GET    => Animal   | Error   (read animal)
+  - PUT    => Animal   | Error   (update animal)
+  - Delete => Animal   | Error   (delete animal)
+```

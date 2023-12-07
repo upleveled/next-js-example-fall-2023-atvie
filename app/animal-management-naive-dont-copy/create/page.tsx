@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { createAnimal } from '../../../database/animals';
 
 export const metadata = {
@@ -18,6 +19,10 @@ export default async function NaiveCreateAnimalPage(props: Props) {
     props.searchParams.type,
     props.searchParams.accessory,
   );
+
+  if (typeof animal === 'undefined') {
+    notFound();
+  }
 
   return (
     <div>

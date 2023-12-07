@@ -15,7 +15,26 @@ nav {
   justify-content: space-around;
   align-items: center;
 
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
   > div a {
     margin: 4px;
   }
+}
+
+.error {
+  color: red;
+  background: grey;
+}
+
+.logoutButton {
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
 }

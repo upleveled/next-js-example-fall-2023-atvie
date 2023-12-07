@@ -1,6 +1,6 @@
 import { AnimalFood } from '../migrations/00004-createTableAnimalFoods';
 
-export function getAnimalWithFoods(animalsWithFoods: AnimalFood[]) {
+export function reduceAnimalsWithFoods(animalsWithFoods: AnimalFood[]) {
   if (typeof animalsWithFoods[0] === 'undefined') {
     throw new Error('No animal found');
   }

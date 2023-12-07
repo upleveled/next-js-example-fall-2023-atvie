@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:lts-alpine AS builder
 ENV NODE_ENV production
 # Install necessary tools
 RUN apk add --no-cache libc6-compat yq --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community
@@ -12,7 +12,7 @@ RUN pnpm install
 RUN pnpm build
 
 # Multi-stage builds: runner stage
-FROM node:18-alpine AS runner
+FROM node:lts-alpine AS runner
 ENV NODE_ENV production
 # Install necessary tools
 RUN apk add bash postgresql

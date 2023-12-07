@@ -14,11 +14,19 @@ CREATE TABLE animals (
 INSERT INTO animals
  (first_name, type, accessory)
 VALUES
-  ('lucia',  'Lion', 'Car'),
-  ('macca',  'Dog', 'Comb'),
-  ('jojo',  'Dodo', 'Dojo'),
-  ('flo',  'Parrot', 'carrot'),
-  ('bili',  'Capybara', 'Pen');
+  ('Lucia',  'Lion', 'Car'),
+  ('Macca',  'Dog', 'Comb'),
+  ('Jojo',  'Dodo', 'Dojo'),
+  ('Flo',  'Parrot', 'Carrot'),
+  ('Bili',  'Capybara', 'Pen');
 
 -- Read some animals (R in CRUD - Read)
 SELECT * FROM animals;
+
+
+
+CREATE DATABASE fall_2023;
+CREATE USER fall_2023 WITH ENCRYPTED PASSWORD 'fall_2023';
+GRANT ALL PRIVILEGES ON DATABASE fall_2023 TO fall_2023;
+\connect fall_2023;
+CREATE SCHEMA fall_2023 AUTHORIZATION fall_2023;

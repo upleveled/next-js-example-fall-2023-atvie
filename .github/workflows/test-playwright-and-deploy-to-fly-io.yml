@@ -5,12 +5,13 @@ jobs:
   playwright-tests:
     name: Playwright Tests
     runs-on: ubuntu-latest # or macos-latest, windows-latest
+    timeout-minutes: 30
     # Update env variables with your own database credentials
     env:
       PGHOST: localhost
-      PGDATABASE: next_js_example_spring_2023
-      PGUSERNAME: next_js_example_spring_2023
-      PGPASSWORD: next_js_example_spring_2023
+      PGDATABASE: next_js_example_fall_2023
+      PGUSERNAME: next_js_example_fall_2023
+      PGPASSWORD: next_js_example_fall_2023
     steps:
       - name: Start preinstalled PostgreSQL on Ubuntu
         run: |
@@ -18,11 +19,11 @@ jobs:
           pg_isready
       - name: Create database user
         run: |
-          sudo -u postgres psql --command="CREATE USER next_js_example_spring_2023 PASSWORD 'next_js_example_spring_2023'" --command="\du"
+          sudo -u postgres psql --command="CREATE USER $PGUSERNAME PASSWORD '$PGPASSWORD'" --command="\du"
       - name: Create database and allow user
         run: |
-          sudo -u postgres createdb --owner=next_js_example_spring_2023 next_js_example_spring_2023
-      - uses: actions/checkout@v3
+          sudo -u postgres createdb --owner=$PGUSERNAME $PGDATABASE
+      - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v2
         with:
           version: 'latest'
@@ -30,7 +31,7 @@ jobs:
       # Use the official setup-node action (sets up Node.js):
       # https://github.com/actions/setup-node
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 'lts/*'
           cache: 'pnpm'
@@ -77,6 +78,7 @@ jobs:
   deploy:
     name: Deploy to Fly.io
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: playwright-tests
     if: github.ref == 'refs/heads/main'
     env:
