@@ -154,8 +154,6 @@ export default function AnimalsForm({ animals }: Props) {
               />
               <input
                 type="date"
-                // use dayjs to format the date to YYYY-MM-DD
-                // to display the date in the input field
                 value={dayjs(
                   animal.id !== onEditId
                     ? animal.birthDate
