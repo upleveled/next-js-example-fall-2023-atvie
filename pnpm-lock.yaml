@@ -98,7 +98,7 @@ devDependencies:
     specifier: ^15.10.3
     version: 15.10.3(typescript@5.2.2)
   stylelint-config-upleveled:
-    specifier: ^1.0.3
+    specifier: ^1.0.2
     version: 1.0.3(postcss@8.4.31)(stylelint@15.10.3)
   typescript:
     specifier: ^5.2.2
