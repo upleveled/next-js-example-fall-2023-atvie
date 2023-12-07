@@ -10,25 +10,25 @@ echo "Creating folders for PostgreSQL and adding permissions for postgres user..
 mkdir -p $VOLUME_PATH/run/postgresql/data/
 chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql/data/
 
-  echo "PostgreSQL config file doesn't exist, initializing database..."
+echo "PostgreSQL config file doesn't exist, initializing database..."
 
-  # Initialize a database in the data directory
-  su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
+# Initialize a database in the data directory
+su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
 
-  # Update PostgreSQL config path to use volume location if app has a volume
-  sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, running database as non-persistent (new deploys erase changes not saved in migrations)"
+# Update PostgreSQL config path to use volume location if app has a volume
+sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, running database as non-persistent (new deploys erase changes not saved in migrations)"
 
-  # Configure PostgreSQL to listen for connections from any address
-  echo "listen_addresses='*'" >> $VOLUME_PATH/run/postgresql/data/postgresql.conf
+# Configure PostgreSQL to listen for connections from any address
+echo "listen_addresses='*'" >> $VOLUME_PATH/run/postgresql/data/postgresql.conf
 
-  # Start database
-  su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
+# Start database
+su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
 
-  # Create database and user with credentials from Fly.io secrets
-  psql -U postgres postgres << SQL
-    CREATE DATABASE $PGDATABASE;
-    CREATE USER $PGUSERNAME WITH ENCRYPTED PASSWORD '$PGPASSWORD';
-    GRANT ALL PRIVILEGES ON DATABASE $PGDATABASE TO $PGUSERNAME;
-    \\connect $PGDATABASE;
-    CREATE SCHEMA $PGUSERNAME AUTHORIZATION $PGUSERNAME;
+# Create database and user with credentials from Fly.io secrets
+psql -U postgres postgres << SQL
+  CREATE DATABASE $PGDATABASE;
+  CREATE USER $PGUSERNAME WITH ENCRYPTED PASSWORD '$PGPASSWORD';
+  GRANT ALL PRIVILEGES ON DATABASE $PGDATABASE TO $PGUSERNAME;
+  \\connect $PGDATABASE;
+  CREATE SCHEMA $PGUSERNAME AUTHORIZATION $PGUSERNAME;
 SQL

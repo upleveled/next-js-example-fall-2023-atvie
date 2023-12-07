@@ -34,6 +34,13 @@ COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/scripts ./scripts
 RUN chmod +x /app/scripts/fly-io-postgres.sh
 RUN chmod +x /app/scripts/fly-io-start.sh
-RUN /app/scripts/fly-io-postgres.sh
+
+# Check if PostgreSQL is already running and set CMD accordingly
+RUN if pg_ctl status -D /postgres-volume/run/postgresql/data/; then \
+      echo "PostgreSQL is already running. Continuing with migrations and starting the application..."; \
+    else \
+      echo "PostgreSQL is not running. Initializing database and creating volume..."; \
+      /app/scripts/fly-io-postgres.sh; \
+    fi
 
 CMD ["./scripts/fly-io-start.sh"]
