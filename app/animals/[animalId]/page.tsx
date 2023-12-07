@@ -26,7 +26,7 @@ export default async function AnimalPage(props: Props) {
 
   const daysUntilNextBirthday = getDaysUntilNextBirthday(
     new Date(),
-    new Date(singleAnimal.birthDate),
+    singleAnimal.birthDate,
   );
 
   return (
