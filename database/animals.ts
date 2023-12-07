@@ -98,8 +98,6 @@ export const createAnimal = cache(
 );
 
 export const updateAnimalById = cache(
-  // Accepts an object as an argument, allowing optional properties
-  // like 'accessory' before required properties like 'birthDate'
   async ({ id, firstName, type, accessory, birthDate }: Animal) => {
     const [animal] = await sql<Animal[]>`
       UPDATE animals
