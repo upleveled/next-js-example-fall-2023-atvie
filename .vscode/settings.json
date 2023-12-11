@@ -9,6 +9,6 @@
     "javascript",
     "typescriptreact"
   ],
-  // Disble Rewrap on save to prevent potential code comment formatting issues
+  // Disable comment formatting on save from Rewrap VS Code extension
   "rewrap.onSave": false
 }
