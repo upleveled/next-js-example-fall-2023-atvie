@@ -92,22 +92,20 @@ function AnimalsListForm({
   animalList: Animal[];
   setAnimalList: (animalList: Animal[]) => void;
 }) {
-  const [draft, setDraft] = useState({
-    id: 0,
-    firstName: '',
-    type: '',
-    accessory: '',
-    birthDate: new Date(),
-  });
+  const [idDraft, setIdDraft] = useState(0);
+  const [firstNameDraft, setFirstNameDraft] = useState('');
+  const [typeDraft, setTypeDraft] = useState('');
+  const [accessoryDraft, setAccessoryDraft] = useState('');
+  const [birthDateDraft, setBirthDateDraft] = useState(new Date());
 
   async function updateAnimalById(id: number) {
     const response = await fetch(`/api/animals/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
-        firstName: draft.firstName,
-        type: draft.type,
-        accessory: draft.accessory,
-        birthDate: draft.birthDate,
+        firstName: firstNameDraft,
+        type: typeDraft,
+        accessory: accessoryDraft,
+        birthDate: birthDateDraft,
       }),
     });
 
@@ -142,61 +140,50 @@ function AnimalsListForm({
       {animalList.map((animal) => (
         <div key={`animal-inputs-${animal.id}`}>
           <input
-            value={animal.id !== draft.id ? animal.firstName : draft.firstName}
-            onChange={(event) =>
-              setDraft({ ...draft, firstName: event.currentTarget.value })
-            }
-            disabled={animal.id !== draft.id}
+            value={animal.id !== idDraft ? animal.firstName : firstNameDraft}
+            onChange={(event) => setFirstNameDraft(event.currentTarget.value)}
+            disabled={animal.id !== idDraft}
           />
           <input
-            value={animal.id !== draft.id ? animal.type : draft.type}
-            onChange={(event) =>
-              setDraft({ ...draft, type: event.currentTarget.value })
-            }
-            disabled={animal.id !== draft.id}
+            value={animal.id !== idDraft ? animal.type : typeDraft}
+            onChange={(event) => setTypeDraft(event.currentTarget.value)}
+            disabled={animal.id !== idDraft}
           />
           <input
             value={
-              animal.id !== draft.id ? animal.accessory || '' : draft.accessory
+              animal.id !== idDraft ? animal.accessory || '' : accessoryDraft
             }
-            onChange={(event) =>
-              setDraft({ ...draft, accessory: event.currentTarget.value })
-            }
-            disabled={animal.id !== draft.id}
+            onChange={(event) => setAccessoryDraft(event.currentTarget.value)}
+            disabled={animal.id !== idDraft}
           />
           <input
             type="date"
             value={dayjs(
-              animal.id !== draft.id ? animal.birthDate : draft.birthDate,
+              animal.id !== idDraft ? animal.birthDate : birthDateDraft,
             ).format('YYYY-MM-DD')}
             onChange={(event) =>
-              setDraft({
-                ...draft,
-                birthDate: new Date(event.currentTarget.value),
-              })
+              setBirthDateDraft(new Date(event.currentTarget.value))
             }
-            disabled={animal.id !== draft.id}
+            disabled={animal.id !== idDraft}
           />
-          {draft.id === animal.id ? (
+          {idDraft === animal.id ? (
             <button
               onClick={async () => {
                 await updateAnimalById(animal.id);
-                setDraft({ ...draft, id: 0 });
+                setIdDraft(0);
               }}
             >
               Save
             </button>
           ) : (
             <button
-              onClick={() =>
-                setDraft({
-                  id: animal.id,
-                  firstName: animal.firstName,
-                  type: animal.type,
-                  accessory: animal.accessory || '',
-                  birthDate: animal.birthDate,
-                })
-              }
+              onClick={() => {
+                setIdDraft(animal.id);
+                setFirstNameDraft(animal.firstName);
+                setTypeDraft(animal.type);
+                setAccessoryDraft(animal.accessory || '');
+                setBirthDateDraft(animal.birthDate);
+              }}
             >
               Edit
             </button>
