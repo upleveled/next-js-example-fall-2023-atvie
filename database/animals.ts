@@ -97,8 +97,8 @@ export const updateAnimalById = cache(
       UPDATE animals
       SET
         first_name = ${firstName},
-      TYPE = ${type},
-      accessory = ${accessory || null}
+        TYPE = ${type},
+        accessory = ${accessory || null}
       WHERE
         id = ${id}
       RETURNING
