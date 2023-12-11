@@ -13,7 +13,7 @@ export async function up(sql: Sql) {
     CREATE TABLE animals (
       id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
       first_name VARCHAR(30) NOT NULL,
-      TYPE VARCHAR(30) NOT NULL,
+      type VARCHAR(30) NOT NULL,
       accessory VARCHAR(30),
       birth_date DATE NOT NULL
     );

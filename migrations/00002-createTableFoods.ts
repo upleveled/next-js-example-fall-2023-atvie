@@ -4,8 +4,8 @@ export async function up(sql: Sql) {
   await sql`
     CREATE TABLE foods (
       id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      NAME VARCHAR(30) NOT NULL,
-      TYPE VARCHAR(30) NOT NULL
+      name VARCHAR(30) NOT NULL,
+      type VARCHAR(30) NOT NULL
     )
   `;
 }
