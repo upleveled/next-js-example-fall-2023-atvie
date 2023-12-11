@@ -19,8 +19,8 @@ export async function up(sql: Sql) {
     await sql`
       INSERT INTO
         foods (
-          NAME,
-          TYPE
+          name,
+          type
         )
       VALUES
         (

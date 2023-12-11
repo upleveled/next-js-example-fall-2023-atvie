@@ -44,5 +44,10 @@
     "stylelint": "^15.10.3",
     "stylelint-config-upleveled": "^1.0.2",
     "typescript": "^5.2.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "sql-formatter": "15.0.2"
+    }
   }
 }

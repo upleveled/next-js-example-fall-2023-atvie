@@ -7,12 +7,11 @@ export type User = {
 
 export async function up(sql: Sql) {
   await sql`
-    CREATE TABLE
-      users (
-        id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        username VARCHAR(80) NOT NULL UNIQUE,
-        password_hash VARCHAR(80) NOT NULL
-      );
+    CREATE TABLE users (
+      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      username VARCHAR(80) NOT NULL UNIQUE,
+      password_hash VARCHAR(80) NOT NULL
+    );
   `;
 }
 
