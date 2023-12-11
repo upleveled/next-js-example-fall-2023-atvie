@@ -8,5 +8,7 @@
     "postcss",
     "javascript",
     "typescriptreact"
-  ]
+  ],
+  // Disble Rewrap on save to prevent potential code comment formatting issues
+  "rewrap.onSave": false
 }
