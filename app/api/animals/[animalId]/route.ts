@@ -16,9 +16,10 @@ const animalSchema = z.object({
   firstName: z.string(),
   type: z.string(),
   accessory: z.string().optional(),
-  // birth date is a string when it comes from the client side. Zod with
-  // 'z.coerce.date()' converts any input value to a Date object before validation
-  // If the conversion fails, an error will be thrown
+  // The `birthDate` is received as a string from the client side. Zod, with
+  // `z.coerce.date()`, automatically converts any input value to a Date object
+  // before validation. If the conversion encounters issues (e.g., invalid
+  // format), an error will be thrown
   birthDate: z.coerce.date(),
 });
 
