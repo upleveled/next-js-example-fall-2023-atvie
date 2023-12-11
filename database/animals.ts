@@ -74,7 +74,7 @@ export const createAnimal = cache(
       INSERT INTO
         animals (
           first_name,
-          TYPE,
+          type,
           accessory
         )
       VALUES
@@ -97,8 +97,8 @@ export const updateAnimalById = cache(
       UPDATE animals
       SET
         first_name = ${firstName},
-      TYPE = ${type},
-      accessory = ${accessory || null}
+        type = ${type},
+        accessory = ${accessory || null}
       WHERE
         id = ${id}
       RETURNING
