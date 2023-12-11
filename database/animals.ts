@@ -125,6 +125,7 @@ export const updateAnimalById = cache(
 // animalAccessory: string | null;
 // animalFoodId: number;
 // animalFoodName: string;
+// animalFoodType: string;
 
 // Join query for getting animal with related food/foods
 export const getAnimalsWithFoods = cache(async (id: number) => {
