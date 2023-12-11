@@ -9,25 +9,19 @@ type Props = {
 
 export default function AnimalsForm({ animals }: Props) {
   const [animalList, setAnimalList] = useState(animals);
-  const [firstNameInput, setFirstNameInput] = useState('');
-  const [typeInput, setTypeInput] = useState('');
-  const [accessoryInput, setAccessoryInput] = useState('');
-  const [birthDateInput, setBirthDateInput] = useState(new Date());
-
-  const [onEditId, setOnEditId] = useState(0);
-  const [onEditFirstNameInput, setOnEditFirstNameInput] = useState('');
-  const [onEditTypeInput, setOnEditTypeInput] = useState('');
-  const [onEditAccessoryInput, setOnEditAccessoryInput] = useState('');
-  const [onEditBirthDateInput, setOnEditBirthDateInput] = useState(new Date());
+  const [firstName, setFirstName] = useState('');
+  const [type, setType] = useState('');
+  const [accessory, setAccessory] = useState('');
+  const [birthDate, setBirthDate] = useState(new Date());
 
   async function createAnimal() {
     const response = await fetch('/api/animals', {
       method: 'POST',
       body: JSON.stringify({
-        firstName: firstNameInput,
-        type: typeInput,
-        accessory: accessoryInput,
-        birthDate: birthDateInput,
+        firstName,
+        type,
+        accessory,
+        birthDate,
       }),
     });
 
@@ -36,14 +30,84 @@ export default function AnimalsForm({ animals }: Props) {
     setAnimalList([...animalList, data.animal]);
   }
 
+  return (
+    <>
+      <div>
+        <form
+          onSubmit={async (event) => {
+            event.preventDefault();
+            await createAnimal();
+          }}
+        >
+          <label>
+            First Name:
+            <input
+              value={firstName}
+              onChange={(event) => setFirstName(event.currentTarget.value)}
+            />
+          </label>
+          <br />
+          <label>
+            Type:
+            <input
+              value={type}
+              onChange={(event) => setType(event.currentTarget.value)}
+            />
+          </label>
+          <br />
+          <label>
+            Accessory:
+            <input
+              value={accessory}
+              onChange={(event) => setAccessory(event.currentTarget.value)}
+            />
+          </label>
+          <br />
+          <label>
+            Birth date:
+            <input
+              type="date"
+              // use dayjs to format the date to YYYY-MM-DD
+              // to display the date in the input field
+              value={dayjs(birthDate).format('YYYY-MM-DD')}
+              onChange={(event) =>
+                setBirthDate(new Date(event.currentTarget.value))
+              }
+            />
+          </label>
+          <br />
+          <button>Create +</button>
+        </form>
+      </div>
+      <br />
+      <AnimalsListForm animalList={animalList} setAnimalList={setAnimalList} />
+    </>
+  );
+}
+
+function AnimalsListForm({
+  animalList,
+  setAnimalList,
+}: {
+  animalList: Animal[];
+  setAnimalList: (animalList: Animal[]) => void;
+}) {
+  const [draft, setDraft] = useState({
+    id: 0,
+    firstName: '',
+    type: '',
+    accessory: '',
+    birthDate: new Date(),
+  });
+
   async function updateAnimalById(id: number) {
     const response = await fetch(`/api/animals/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
-        firstName: onEditFirstNameInput,
-        type: onEditTypeInput,
-        accessory: onEditAccessoryInput,
-        birthDate: onEditBirthDateInput,
+        firstName: draft.firstName,
+        type: draft.type,
+        accessory: draft.accessory,
+        birthDate: draft.birthDate,
       }),
     });
 
@@ -70,129 +134,78 @@ export default function AnimalsForm({ animals }: Props) {
   }
 
   return (
-    <>
-      <div>
-        <form
-          onSubmit={async (event) => {
-            event.preventDefault();
-            await createAnimal();
-          }}
-        >
-          <label>
-            First Name:
-            <input
-              value={firstNameInput}
-              onChange={(event) => setFirstNameInput(event.currentTarget.value)}
-            />
-          </label>
-          <br />
-          <label>
-            Type:
-            <input
-              value={typeInput}
-              onChange={(event) => setTypeInput(event.currentTarget.value)}
-            />
-          </label>
-          <br />
-          <label>
-            Accessory:
-            <input
-              value={accessoryInput}
-              onChange={(event) => setAccessoryInput(event.currentTarget.value)}
-            />
-          </label>
-          <br />
-          <label>
-            Birth date:
-            <input
-              type="date"
-              // use dayjs to format the date to YYYY-MM-DD
-              // to display the date in the input field
-              value={dayjs(birthDateInput).format('YYYY-MM-DD')}
-              onChange={(event) =>
-                setBirthDateInput(new Date(event.currentTarget.value))
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
+    >
+      {animalList.map((animal) => (
+        <div key={`animal-inputs-${animal.id}`}>
+          <input
+            value={animal.id !== draft.id ? animal.firstName : draft.firstName}
+            onChange={(event) =>
+              setDraft({ ...draft, firstName: event.currentTarget.value })
+            }
+            disabled={animal.id !== draft.id}
+          />
+          <input
+            value={animal.id !== draft.id ? animal.type : draft.type}
+            onChange={(event) =>
+              setDraft({ ...draft, type: event.currentTarget.value })
+            }
+            disabled={animal.id !== draft.id}
+          />
+          <input
+            value={
+              animal.id !== draft.id ? animal.accessory || '' : draft.accessory
+            }
+            onChange={(event) =>
+              setDraft({ ...draft, accessory: event.currentTarget.value })
+            }
+            disabled={animal.id !== draft.id}
+          />
+          <input
+            type="date"
+            value={dayjs(
+              animal.id !== draft.id ? animal.birthDate : draft.birthDate,
+            ).format('YYYY-MM-DD')}
+            onChange={(event) =>
+              setDraft({
+                ...draft,
+                birthDate: new Date(event.currentTarget.value),
+              })
+            }
+            disabled={animal.id !== draft.id}
+          />
+          {draft.id === animal.id ? (
+            <button
+              onClick={async () => {
+                await updateAnimalById(animal.id);
+                setDraft({ ...draft, id: 0 });
+              }}
+            >
+              Save
+            </button>
+          ) : (
+            <button
+              onClick={() =>
+                setDraft({
+                  id: animal.id,
+                  firstName: animal.firstName,
+                  type: animal.type,
+                  accessory: animal.accessory || '',
+                  birthDate: animal.birthDate,
+                })
               }
-            />
-          </label>
-          <br />
-          <button>Create +</button>
-        </form>
-      </div>
-      <br />
-      <>
-        {animalList.map((animal) => {
-          return (
-            <div key={`animal-inputs-${animal.id}`}>
-              <input
-                value={
-                  animal.id !== onEditId
-                    ? animal.firstName
-                    : onEditFirstNameInput
-                }
-                onChange={(event) =>
-                  setOnEditFirstNameInput(event.currentTarget.value)
-                }
-                disabled={animal.id !== onEditId}
-              />
-              <input
-                value={animal.id !== onEditId ? animal.type : onEditTypeInput}
-                onChange={(event) =>
-                  setOnEditTypeInput(event.currentTarget.value)
-                }
-                disabled={animal.id !== onEditId}
-              />
-              <input
-                value={
-                  animal.id !== onEditId
-                    ? animal.accessory || ''
-                    : onEditAccessoryInput
-                }
-                onChange={(event) =>
-                  setOnEditAccessoryInput(event.currentTarget.value)
-                }
-                disabled={animal.id !== onEditId}
-              />
-              <input
-                type="date"
-                value={dayjs(
-                  animal.id !== onEditId
-                    ? animal.birthDate
-                    : onEditBirthDateInput,
-                ).format('YYYY-MM-DD')}
-                onChange={(event) =>
-                  setOnEditBirthDateInput(new Date(event.currentTarget.value))
-                }
-                disabled={animal.id !== onEditId}
-              />
-              {onEditId === animal.id ? (
-                <button
-                  onClick={async () => {
-                    await updateAnimalById(animal.id);
-                    setOnEditId(0);
-                  }}
-                >
-                  Save
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    setOnEditFirstNameInput(animal.firstName);
-                    setOnEditTypeInput(animal.type);
-                    setOnEditAccessoryInput(animal.accessory || '');
-                    setOnEditBirthDateInput(animal.birthDate);
-                    setOnEditId(animal.id);
-                  }}
-                >
-                  Edit
-                </button>
-              )}
-              <button onClick={async () => await deleteAnimalById(animal.id)}>
-                Delete
-              </button>
-            </div>
-          );
-        })}
-      </>
-    </>
+            >
+              Edit
+            </button>
+          )}
+          <button onClick={async () => await deleteAnimalById(animal.id)}>
+            Delete
+          </button>
+        </div>
+      ))}
+    </form>
   );
 }
