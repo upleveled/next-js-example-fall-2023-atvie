@@ -7,11 +7,13 @@ import {
   AnimalWithFoodsInJsonAgg,
 } from '../migrations/00004-createTableAnimalFoods';
 
-// const animals1 = [ { id: 1, firstName: 'Lucia', type: 'Lion', accessory:
-//   'Car' }, { id: 2, firstName: 'Macca', type: 'Dog', accessory: 'Comb' }, {
-//   id: 3, firstName: 'Jojo', type: 'Dodo', accessory: 'Dojo' }, { id: 4,
-//   firstName: 'Flo', type: 'Parrot', accessory: 'Carrot' }, { id: 5,
-//   firstName: 'Bili', type: 'Capybara', accessory: 'Pen' }, ];
+// const animals1 = [
+//   { id: 1, firstName: 'Lucia', type: 'Lion', accessory: 'Car' },
+//   { id: 2, firstName: 'Macca', type: 'Dog', accessory: 'Comb' },
+//   { id: 3, firstName: 'Jojo', type: 'Dodo', accessory: 'Dojo' },
+//   { id: 4, firstName: 'Flo', type: 'Parrot', accessory: 'Carrot' },
+//   { id: 5, firstName: 'Bili', type: 'Capybara', accessory: 'Pen' },
+// ];
 
 export const getAnimals = cache(async () => {
   // return animals;
@@ -68,9 +70,9 @@ export const deleteAnimalById = cache(async (id: number) => {
 
 export const createAnimal = cache(
   // Accepts an object as an argument, allowing optional properties like
-  // 'accessory' before required properties like 'birthDate'
+  // `accessory` before required properties like `birthDate`
 
-  // 'Omit' is a TS utility type that excludes a property from a type
+  // `Omit` is a TS utility type that excludes a property from a type
   async ({ firstName, type, accessory, birthDate }: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
@@ -113,12 +115,16 @@ export const updateAnimalById = cache(
   },
 );
 
-// export function getAnimal(id: number) { return animals1.find((animal) =>
-//   animal.id === id); }
+// export function getAnimal(id: number) {
+//   return animals1.find((animal) => animal.id === id);
+// }
 
-// animalId: number; animalFirstName: string; animalType: string;
-// animalAccessory: string | null; animalFoodId: number; animalFoodName: string;
-// animalFoodType: string;
+// animalId: number;
+// animalFirstName: string;
+// animalType: string;
+// animalAccessory: string | null;
+// animalFoodId: number;
+// animalFoodName: string;
 
 // Join query for getting animal with related food/foods
 export const getAnimalsWithFoods = cache(async (id: number) => {
