@@ -21,7 +21,6 @@ export default function AnimalsForm({ animals }: Props) {
         <form
           onSubmit={async (event) => {
             event.preventDefault();
-
             await fetch('/api/animals', {
               method: 'POST',
               body: JSON.stringify({
@@ -31,7 +30,6 @@ export default function AnimalsForm({ animals }: Props) {
                 birthDate,
               }),
             });
-
             router.refresh();
           }}
         >
