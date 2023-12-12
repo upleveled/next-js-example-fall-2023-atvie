@@ -69,7 +69,7 @@ export const deleteAnimalById = cache(async (id: number) => {
 });
 
 export const createAnimal = cache(
-  // Accepts an object as an argument, allowing optional properties like
+  // Accept an object as an argument, allowing optional properties like
   // `accessory` before required properties like `birthDate`
 
   // `Omit` is a TS utility type that excludes a property from a type
