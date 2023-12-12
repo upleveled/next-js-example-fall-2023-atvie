@@ -9,27 +9,11 @@ type Props = {
 };
 
 export default function AnimalsForm({ animals }: Props) {
-  const [animalList, setAnimalList] = useState(animals);
   const [firstName, setFirstName] = useState('');
   const [type, setType] = useState('');
   const [accessory, setAccessory] = useState('');
   const [birthDate, setBirthDate] = useState(new Date());
-
-  async function createAnimal() {
-    const response = await fetch('/api/animals', {
-      method: 'POST',
-      body: JSON.stringify({
-        firstName,
-        type,
-        accessory,
-        birthDate,
-      }),
-    });
-
-    const data = await response.json();
-
-    setAnimalList([...animalList, data.animal]);
-  }
+  const router = useRouter();
 
   return (
     <>
@@ -37,7 +21,18 @@ export default function AnimalsForm({ animals }: Props) {
         <form
           onSubmit={async (event) => {
             event.preventDefault();
-            await createAnimal();
+
+            await fetch('/api/animals', {
+              method: 'POST',
+              body: JSON.stringify({
+                firstName,
+                type,
+                accessory,
+                birthDate,
+              }),
+            });
+
+            router.refresh();
           }}
         >
           <label>
@@ -81,12 +76,12 @@ export default function AnimalsForm({ animals }: Props) {
         </form>
       </div>
       <br />
-      <AnimalsListForm animalList={animalList} />
+      <AnimalsListForm animals={animals} />
     </>
   );
 }
 
-function AnimalsListForm({ animalList }: { animalList: Animal[] }) {
+function AnimalsListForm({ animals }: { animals: Animal[] }) {
   const [idDraft, setIdDraft] = useState(0);
   const [firstNameDraft, setFirstNameDraft] = useState('');
   const [typeDraft, setTypeDraft] = useState('');
@@ -100,7 +95,7 @@ function AnimalsListForm({ animalList }: { animalList: Animal[] }) {
         event.preventDefault();
       }}
     >
-      {animalList.map((animal) => (
+      {animals.map((animal) => (
         <div key={`animal-inputs-${animal.id}`}>
           <input
             value={animal.id !== idDraft ? animal.firstName : firstNameDraft}
