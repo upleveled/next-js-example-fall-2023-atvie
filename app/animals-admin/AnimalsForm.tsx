@@ -8,7 +8,7 @@ type Props = {
   animals: Animal[];
 };
 
-export default function AnimalsForm({ animals }: Props) {
+export default function AnimalsForm(props: Props) {
   const [firstName, setFirstName] = useState('');
   const [type, setType] = useState('');
   const [accessory, setAccessory] = useState('');
@@ -74,12 +74,12 @@ export default function AnimalsForm({ animals }: Props) {
         </form>
       </div>
       <br />
-      <AnimalsListForm animals={animals} />
+      <AnimalsListForm animals={props.animals} />
     </>
   );
 }
 
-function AnimalsListForm({ animals }: { animals: Animal[] }) {
+function AnimalsListForm(props: Props) {
   const [idDraft, setIdDraft] = useState(0);
   const [firstNameDraft, setFirstNameDraft] = useState('');
   const [typeDraft, setTypeDraft] = useState('');
@@ -93,7 +93,7 @@ function AnimalsListForm({ animals }: { animals: Animal[] }) {
         event.preventDefault();
       }}
     >
-      {animals.map((animal) => (
+      {props.animals.map((animal) => (
         <div key={`animal-inputs-${animal.id}`}>
           <input
             value={animal.id !== idDraft ? animal.firstName : firstNameDraft}
