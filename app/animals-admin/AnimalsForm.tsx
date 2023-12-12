@@ -1,5 +1,6 @@
 'use client';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Animal } from '../../migrations/00000-createTableAnimal';
 
@@ -80,56 +81,18 @@ export default function AnimalsForm({ animals }: Props) {
         </form>
       </div>
       <br />
-      <AnimalsListForm animalList={animalList} setAnimalList={setAnimalList} />
+      <AnimalsListForm animalList={animalList} />
     </>
   );
 }
 
-function AnimalsListForm({
-  animalList,
-  setAnimalList,
-}: {
-  animalList: Animal[];
-  setAnimalList: (animalList: Animal[]) => void;
-}) {
+function AnimalsListForm({ animalList }: { animalList: Animal[] }) {
   const [idDraft, setIdDraft] = useState(0);
   const [firstNameDraft, setFirstNameDraft] = useState('');
   const [typeDraft, setTypeDraft] = useState('');
   const [accessoryDraft, setAccessoryDraft] = useState('');
   const [birthDateDraft, setBirthDateDraft] = useState(new Date());
-
-  async function updateAnimalById(id: number) {
-    const response = await fetch(`/api/animals/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        firstName: firstNameDraft,
-        type: typeDraft,
-        accessory: accessoryDraft,
-        birthDate: birthDateDraft,
-      }),
-    });
-
-    const data = await response.json();
-
-    setAnimalList(
-      animalList.map((animal) => {
-        if (animal.id === data.animal.id) {
-          return data.animal;
-        }
-        return animal;
-      }),
-    );
-  }
-
-  async function deleteAnimalById(id: number) {
-    const response = await fetch(`/api/animals/${id}`, {
-      method: 'DELETE',
-    });
-
-    const data = await response.json();
-
-    setAnimalList(animalList.filter((animal) => animal.id !== data.animal.id));
-  }
+  const router = useRouter();
 
   return (
     <form
@@ -169,8 +132,17 @@ function AnimalsListForm({
           {idDraft === animal.id ? (
             <button
               onClick={async () => {
-                await updateAnimalById(animal.id);
+                await fetch(`/api/animals/${animal.id}`, {
+                  method: 'PUT',
+                  body: JSON.stringify({
+                    firstName: firstNameDraft,
+                    type: typeDraft,
+                    accessory: accessoryDraft,
+                    birthDate: birthDateDraft,
+                  }),
+                });
                 setIdDraft(0);
+                router.refresh();
               }}
             >
               Save
@@ -188,7 +160,14 @@ function AnimalsListForm({
               Edit
             </button>
           )}
-          <button onClick={async () => await deleteAnimalById(animal.id)}>
+          <button
+            onClick={async () => {
+              await fetch(`/api/animals/${animal.id}`, {
+                method: 'DELETE',
+              });
+              router.refresh();
+            }}
+          >
             Delete
           </button>
         </div>
