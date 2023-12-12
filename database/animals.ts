@@ -71,7 +71,7 @@ export const deleteAnimalById = cache(async (id: number) => {
 export const createAnimal = cache(
   // Accept an object as an argument, allowing optional properties like
   // `accessory` before required properties like `birthDate`
-
+  //
   // `Omit` is a TS utility type that excludes a property from a type
   async ({ firstName, type, accessory, birthDate }: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
