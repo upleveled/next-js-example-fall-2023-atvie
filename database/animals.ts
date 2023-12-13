@@ -73,7 +73,7 @@ export const createAnimal = cache(
   // `accessory` before required properties like `birthDate`
   //
   // `Omit` is a TS utility type that excludes a property from a type
-  async ({ firstName, type, accessory, birthDate }: Omit<Animal, 'id'>) => {
+  async (newAnimal: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
         animals (
@@ -84,10 +84,10 @@ export const createAnimal = cache(
         )
       VALUES
         (
-          ${firstName},
-          ${type},
-          ${accessory},
-          ${birthDate}
+          ${newAnimal.firstName},
+          ${newAnimal.type},
+          ${newAnimal.accessory},
+          ${newAnimal.birthDate}
         )
       RETURNING
         *
@@ -97,23 +97,21 @@ export const createAnimal = cache(
   },
 );
 
-export const updateAnimalById = cache(
-  async ({ id, firstName, type, accessory, birthDate }: Animal) => {
-    const [animal] = await sql<Animal[]>`
-      UPDATE animals
-      SET
-        first_name = ${firstName},
-        type = ${type},
-        accessory = ${accessory},
-        birth_date = ${birthDate}
-      WHERE
-        id = ${id}
-      RETURNING
-        *
-    `;
-    return animal;
-  },
-);
+export const updateAnimalById = cache(async (updatedAnimal: Animal) => {
+  const [animal] = await sql<Animal[]>`
+    UPDATE animals
+    SET
+      first_name = ${updatedAnimal.firstName},
+      type = ${updatedAnimal.type},
+      accessory = ${updatedAnimal.accessory},
+      birth_date = ${updatedAnimal.birthDate}
+    WHERE
+      id = ${updatedAnimal.id}
+    RETURNING
+      *
+  `;
+  return animal;
+});
 
 // export function getAnimal(id: number) {
 //   return animals1.find((animal) => animal.id === id);
