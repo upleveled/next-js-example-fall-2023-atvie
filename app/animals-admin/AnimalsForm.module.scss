@@ -1,0 +1,93 @@
+.container {
+  display: grid;
+  grid-template: 1fr / 2fr 1fr;
+  grid-template-areas: 'table form';
+  padding: 1.5rem;
+  gap: 1rem;
+  height: 100vh;
+}
+
+.tableContainer {
+  overflow: auto;
+
+  table {
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-collapse: collapse;
+  }
+
+  thead {
+    height: 3rem;
+    text-align: left;
+  }
+
+  th {
+    padding: 0 1rem;
+    height: 3rem;
+  }
+
+  tr {
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
+
+    &:hover {
+      background-color: #dbeafe;
+    }
+
+    td {
+      padding: 1rem;
+      vertical-align: middle;
+    }
+  }
+}
+
+.selectedRow {
+  background-color: #dbeafe;
+}
+
+.editContainer {
+  position: sticky;
+  top: 0;
+  padding: 1.5rem;
+
+  h2 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+  }
+
+  label {
+    font-size: 0.875rem;
+    line-height: 1rem;
+  }
+
+  input {
+    display: flex;
+    height: 1rem;
+    width: 100%;
+    border-radius: 0.375rem;
+    border: 1px solid;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  text-align: center;
+  font-size: 0.875rem;
+  height: 2.25rem;
+  border-radius: 0.375rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+
+  &:hover {
+    background-color: #dbeafe;
+  }
+}
