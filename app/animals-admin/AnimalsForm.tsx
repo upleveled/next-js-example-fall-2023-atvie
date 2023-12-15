@@ -18,6 +18,7 @@ export default function AnimalsForm(props: Props) {
   const [type, setType] = useState('');
   const [accessory, setAccessory] = useState('');
   const [birthDate, setBirthDate] = useState(new Date());
+
   const router = useRouter();
 
   function resetFormStates() {
