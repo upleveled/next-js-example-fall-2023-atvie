@@ -9,10 +9,10 @@ export type Session = {
 export async function up(sql: Sql) {
   await sql`
     CREATE TABLE sessions (
-      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      token VARCHAR(150) NOT NULL UNIQUE,
-      expiry_timestamp TIMESTAMP NOT NULL DEFAULT NOW() + INTERVAL '24 hours',
-      user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE
+      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      token varchar(150) NOT NULL UNIQUE,
+      expiry_timestamp timestamp NOT NULL DEFAULT now() + interval '24 hours',
+      user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE
     );
   `;
 }

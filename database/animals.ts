@@ -72,11 +72,7 @@ export const createAnimal = cache(
   async (firstName: string, type: string, accessory?: string) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
-        animals (
-          first_name,
-          type,
-          accessory
-        )
+        animals (first_name, type, accessory)
       VALUES
         (
           ${firstName},
@@ -151,7 +147,7 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
       animals.accessory AS animal_accessory,
       (
         SELECT
-          JSON_AGG(foods.*)
+          json_agg(foods.*)
         FROM
           animal_foods
           INNER JOIN foods ON animal_foods.food_id = foods.id
