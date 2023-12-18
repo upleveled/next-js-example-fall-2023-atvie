@@ -45,10 +45,5 @@
     "stylelint": "^15.10.3",
     "stylelint-config-upleveled": "^1.0.2",
     "typescript": "^5.2.2"
-  },
-  "pnpm": {
-    "overrides": {
-      "@ts-safeql/shared": "3.0.0-next.0"
-    }
   }
 }
