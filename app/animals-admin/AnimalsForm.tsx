@@ -11,7 +11,6 @@ type Props = {
 };
 
 export default function AnimalsForm(props: Props) {
-  const [isEditing, setIsEditing] = useState(false);
   const [selectedId, setSelectedId] = useState(0);
   const [id, setId] = useState(0);
   const [firstName, setFirstName] = useState('');
@@ -22,7 +21,6 @@ export default function AnimalsForm(props: Props) {
   const router = useRouter();
 
   function resetFormStates() {
-    setIsEditing(false);
     setSelectedId(0);
     setId(0);
     setFirstName('');
@@ -31,25 +29,21 @@ export default function AnimalsForm(props: Props) {
     setBirthDate(new Date());
   }
 
-  function handleRowClick(animalId: number) {
-    if (selectedId === animalId) {
-      resetFormStates();
-    } else {
-      setSelectedId(animalId);
-      setIsEditing(true);
+  function handleEdit(animalId: number) {
+    const selectedAnimal = props.animals.find(
+      (animal) => animal.id === animalId,
+    );
 
-      const selectedAnimal = props.animals.find(
-        (animal) => animal.id === animalId,
-      );
-
-      if (selectedAnimal) {
-        setId(selectedAnimal.id);
-        setFirstName(selectedAnimal.firstName);
-        setType(selectedAnimal.type);
-        setAccessory(selectedAnimal.accessory || '');
-        setBirthDate(selectedAnimal.birthDate);
-      }
+    if (!selectedAnimal) {
+      return;
     }
+
+    setSelectedId(animalId);
+    setId(selectedAnimal.id);
+    setFirstName(selectedAnimal.firstName);
+    setType(selectedAnimal.type);
+    setAccessory(selectedAnimal.accessory || '');
+    setBirthDate(selectedAnimal.birthDate);
   }
 
   return (
@@ -69,19 +63,35 @@ export default function AnimalsForm(props: Props) {
               <tr
                 key={`animal-${animal.id}`}
                 className={selectedId === animal.id ? styles.selectedRow : ''}
-                onClick={() => handleRowClick(animal.id)}
               >
                 <td>{animal.firstName}</td>
                 <td>{animal.type}</td>
                 <td>{animal.accessory}</td>
                 <td>{dayjs(animal.birthDate).format('YYYY-MM-DD')}</td>
+                <td>
+                  <button onClick={() => handleEdit(animal.id)}>Edit</button>
+                </td>
+                <td>
+                  <button
+                    className={styles.button}
+                    onClick={async () => {
+                      await fetch(`/api/animals/${animal.id}`, {
+                        method: 'DELETE',
+                      });
+                      resetFormStates();
+                      router.refresh();
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
       <div className={styles.editContainer}>
-        <h2>{isEditing ? 'Edit Animal' : 'Add Animal'}</h2>
+        <h2>{selectedId > 0 ? 'Edit Animal' : 'Add Animal'}</h2>
         <form
           onSubmit={(event) => {
             event.preventDefault();
@@ -90,7 +100,6 @@ export default function AnimalsForm(props: Props) {
           <label>
             Name
             <input
-              placeholder="Name"
               onChange={(event) => setFirstName(event.currentTarget.value)}
               value={firstName}
             />
@@ -98,7 +107,6 @@ export default function AnimalsForm(props: Props) {
           <label>
             Type
             <input
-              placeholder="Type"
               onChange={(event) => setType(event.currentTarget.value)}
               value={type}
             />
@@ -106,7 +114,6 @@ export default function AnimalsForm(props: Props) {
           <label>
             Accessory
             <input
-              placeholder="Accessory"
               onChange={(event) => setAccessory(event.currentTarget.value)}
               value={accessory}
             />
@@ -115,46 +122,31 @@ export default function AnimalsForm(props: Props) {
             Birth Date
             <input
               type="date"
-              placeholder="Date"
               value={dayjs(birthDate).format('YYYY-MM-DD')}
               onChange={(event) =>
                 setBirthDate(new Date(event.currentTarget.value))
               }
             />
           </label>
-          {isEditing ? (
-            <div className={styles.buttonContainer}>
-              <button
-                className={styles.button}
-                onClick={async () => {
-                  await fetch(`/api/animals/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                      firstName,
-                      type,
-                      accessory,
-                      birthDate,
-                    }),
-                  });
-                  resetFormStates();
-                  router.refresh();
-                }}
-              >
-                Save Changes
-              </button>
-              <button
-                className={styles.button}
-                onClick={async () => {
-                  await fetch(`/api/animals/${id}`, {
-                    method: 'DELETE',
-                  });
-                  resetFormStates();
-                  router.refresh();
-                }}
-              >
-                Delete
-              </button>
-            </div>
+          {selectedId > 0 ? (
+            <button
+              className={styles.button}
+              onClick={async () => {
+                await fetch(`/api/animals/${id}`, {
+                  method: 'PUT',
+                  body: JSON.stringify({
+                    firstName,
+                    type,
+                    accessory,
+                    birthDate,
+                  }),
+                });
+                resetFormStates();
+                router.refresh();
+              }}
+            >
+              Save Changes
+            </button>
           ) : (
             <button
               className={styles.button}
