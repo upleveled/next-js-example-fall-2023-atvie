@@ -4,7 +4,7 @@ import { sql } from '../database/connect';
 import { Animal } from '../migrations/00000-createTableAnimal';
 import {
   AnimalFood,
-  AnimalWithFoodsInJsonAgg,
+  AnimalWithFoods,
 } from '../migrations/00004-createTableAnimalFoods';
 
 // const animals1 = [
@@ -139,7 +139,7 @@ export const getAnimalsWithFoods = cache(async (id: number) => {
 
 // Join query for getting a single animal with related food/foods using Json_aag
 export const getAnimalWithFoodsById = cache(async (id: number) => {
-  const [animal] = await sql<AnimalWithFoodsInJsonAgg[]>`
+  const [animal] = await sql<AnimalWithFoods[]>`
     SELECT
       animals.id AS animal_id,
       animals.first_name AS animal_first_name,
