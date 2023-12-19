@@ -68,8 +68,8 @@ devDependencies:
     specifier: ^1.38.1
     version: 1.38.1
   '@ts-safeql/eslint-plugin':
-    specifier: ^3.0.0-next.1
-    version: 3.0.0-next.1(eslint@8.55.0)(libpg-query@15.0.2)(typescript@5.2.2)
+    specifier: ^3.0.0-next.2
+    version: 3.0.0-next.2(eslint@8.55.0)(libpg-query@15.0.2)(typescript@5.2.2)
   '@types/node':
     specifier: ^20.8.2
     version: 20.8.2
@@ -1257,14 +1257,14 @@ packages:
     engines: {node: '>= 10'}
     dev: false
 
-  /@ts-safeql/eslint-plugin@3.0.0-next.1(eslint@8.55.0)(libpg-query@15.0.2)(typescript@5.2.2):
-    resolution: {integrity: sha512-td3HFpECLm+/u9lr3RSWHXRS3X3YxjG1R7BXDDjSyeZwSPFVUWdRE17+9M1KhPaJz0wT+2gaQru1yKTE9FNqxA==}
+  /@ts-safeql/eslint-plugin@3.0.0-next.2(eslint@8.55.0)(libpg-query@15.0.2)(typescript@5.2.2):
+    resolution: {integrity: sha512-jNMbfI/j/2suMJIQs9uZ/5k9jReUFNyYZ/DMBuXZ8IoSCCT9/sS6ImD4NApEAEKgEmySy0xTQLYGPn5kOREHeQ==}
     peerDependencies:
       libpg-query: '>=13.2.5'
     dependencies:
-      '@ts-safeql/generate': 3.0.0-next.1
-      '@ts-safeql/shared': 3.0.0-next.1
-      '@ts-safeql/test-utils': 0.0.13-next.1
+      '@ts-safeql/generate': 3.0.0-next.2
+      '@ts-safeql/shared': 3.0.0-next.2
+      '@ts-safeql/test-utils': 0.0.13-next.2
       '@typescript-eslint/utils': 5.62.0(eslint@8.55.0)(typescript@5.2.2)
       chokidar: 3.5.3
       esbuild: 0.17.17
@@ -1283,27 +1283,27 @@ packages:
       - typescript
     dev: true
 
-  /@ts-safeql/generate@3.0.0-next.1:
-    resolution: {integrity: sha512-hRciS3dGmjGRQFmXrstA7HSAuNmtuDdMM2g3cDtsE7uZKIy8wc8FhIF+kDGw+HhEP+y7xt4lApJg5Mg/5K4xlg==}
+  /@ts-safeql/generate@3.0.0-next.2:
+    resolution: {integrity: sha512-YlSk2nqcFb0oU3EOkHoT6Z10V+HBG62DOeDqj0GNin4r5h/hGsKGesYmJ/fngqy1o6V4jvszos8BXjE5Kogd4A==}
     dependencies:
-      '@ts-safeql/shared': 3.0.0-next.1
-      '@ts-safeql/test-utils': 0.0.13-next.1
+      '@ts-safeql/shared': 3.0.0-next.2
+      '@ts-safeql/test-utils': 0.0.13-next.2
       fp-ts: 2.16.1
       pg-connection-string: 2.5.0
       postgres: 3.3.5
     dev: true
 
-  /@ts-safeql/shared@3.0.0-next.1:
-    resolution: {integrity: sha512-xPoFzfACCR9sUr1I1c6sMhC71lbM3OqSgFP87cV0hNsoxSR91sT9JmvzV9xlTJ05ZHsRe9Z4RYsN533ZlI4+Ug==}
+  /@ts-safeql/shared@3.0.0-next.2:
+    resolution: {integrity: sha512-QK+4RJ2O633CT3mAhlduk4Ew1obZWOo0QUbAWY+Kj0EgtIDySPj+spPJrhT9cdls8TWiAUfLVUKR6DJkbVcn/w==}
     dependencies:
       minimatch: 9.0.3
       postgres: 3.3.5
     dev: true
 
-  /@ts-safeql/test-utils@0.0.13-next.1:
-    resolution: {integrity: sha512-NKDNJ4G3Zh+lt/LeSaVOKHTgHAiD/XAw0Nur2UAS3V5wLDFYhDEX7w6p5ATmmKZlrvJWzbixGanshvr5MCcyBw==}
+  /@ts-safeql/test-utils@0.0.13-next.2:
+    resolution: {integrity: sha512-biUFC08nAY/J/0P/Cz72B7nwDkOZkPfsyFoSLEwlcozw5PefNMrTrpM7xVBSCcY0zWtznAOoxn7S77dib6M/Ig==}
     dependencies:
-      '@ts-safeql/shared': 3.0.0-next.1
+      '@ts-safeql/shared': 3.0.0-next.2
       nanoid: 4.0.2
       pg-connection-string: 2.5.0
       postgres: 3.3.5
