@@ -129,8 +129,8 @@ export const getAnimalsWithFoods = cache(async (id: number) => {
       foods.type AS animal_food_type
     FROM
       animals
-      INNER JOIN animal_foods ON animals.id = animal_foods.animal_id
-      INNER JOIN foods ON foods.id = animal_foods.food_id
+      LEFT JOIN animal_foods ON animals.id = animal_foods.animal_id
+      LEFT JOIN foods ON foods.id = animal_foods.food_id
     WHERE
       animals.id = ${id}
   `;
