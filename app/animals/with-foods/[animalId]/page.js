@@ -32,7 +32,7 @@ export default async function AnimalFoodPage(props) {
       <ul>
         {animalWithFoods.animalFoods.map((animalFood) => {
           return (
-            <li key={`This-${animalFood.name}-${animalFood.id}`}>
+            <li key={`animal-with-foods-${animalFood.name}-${animalFood.id}`}>
               {animalFood.name}
             </li>
           );
@@ -60,7 +60,7 @@ export default async function AnimalFoodPage(props) {
       <ul>
         {animalWithFoodJsonAgg.animalFoods.map((animalFood) => {
           return (
-            <li key={`This-${animalFood.name}-${animalFood.id}`}>
+            <li key={`animal-with-food-${animalFood.name}-${animalFood.id}`}>
               {animalFood.name}
             </li>
           );
