@@ -145,24 +145,18 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
       animals.first_name AS animal_first_name,
       animals.type AS animal_type,
       animals.accessory AS animal_accessory,
-      (
-        SELECT
-          json_agg(foods.*)
-        FROM
-          animal_foods
-          INNER JOIN foods ON animal_foods.food_id = foods.id
-        WHERE
-          animal_foods.animal_id = animals.id
-      ) AS animal_foods
+      json_agg(foods.*) AS animal_foods
     FROM
       animals
+      INNER JOIN animal_foods ON animals.id = animal_foods.animal_id
+      INNER JOIN foods ON foods.id = animal_foods.food_id
     WHERE
       animals.id = ${id}
     GROUP BY
       animals.first_name,
       animals.type,
       animals.accessory,
-      animals.id;
+      animals.id
   `;
 
   return animal;
