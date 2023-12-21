@@ -1,4 +1,5 @@
 import { Image } from 'next/dist/client/image-component';
+import { notFound } from 'next/navigation';
 import {
   getAnimalsWithFoods,
   getAnimalWithFoodsById,
@@ -10,6 +11,8 @@ export default async function AnimalFoodPage(props) {
   const animalWithFoodJsonAgg = await getAnimalWithFoodsById(
     props.params.animalId,
   );
+
+  if (!animalsWithFoods[0]) notFound();
 
   const animalWithFoods = reduceAnimalsWithFoods(animalsWithFoods);
 

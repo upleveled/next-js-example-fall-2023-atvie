@@ -1,14 +1,12 @@
 import { AnimalFood } from '../migrations/00004-createTableAnimalFoods';
 
 export function reduceAnimalsWithFoods(animalsWithFoods: AnimalFood[]) {
-  if (typeof animalsWithFoods[0] === 'undefined') {
-    throw new Error('No animal found');
-  }
+  const animal = animalsWithFoods[0]!;
   const animalWithFoods = {
-    id: animalsWithFoods[0].animalId,
-    firstName: animalsWithFoods[0].animalFirstName,
-    type: animalsWithFoods[0].animalType,
-    accessory: animalsWithFoods[0].animalAccessory,
+    id: animal.animalId,
+    firstName: animal.animalFirstName,
+    type: animal.animalType,
+    accessory: animal.animalAccessory,
     animalFoods: animalsWithFoods.map((animalWithFood) => {
       return {
         id: animalWithFood.animalFoodId,
