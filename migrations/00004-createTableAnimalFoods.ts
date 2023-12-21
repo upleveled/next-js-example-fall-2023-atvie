@@ -6,9 +6,9 @@ export type AnimalFood = {
   animalFirstName: string;
   animalType: string;
   animalAccessory: string | null;
-  animalFoodId: number;
-  animalFoodName: string;
-  animalFoodType: string;
+  animalFoodId: number | null;
+  animalFoodName: string | null;
+  animalFoodType: string | null;
 };
 
 type JsonAgg = Food[];
