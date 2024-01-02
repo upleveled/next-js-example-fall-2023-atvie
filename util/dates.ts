@@ -22,7 +22,7 @@ export function getDaysUntilNextBirthday(currentDate: Date, birthDate: Date) {
     throw new Error('Birth date must be before current date!');
   }
 
-  // Create new date objects to avoid mutating the original birth date
+  // Create new date objects to avoid mutating the current date and original birth date
   const startOfCurrentDate = new Date(currentDate);
   const nextBirthDate = new Date(birthDate);
 
