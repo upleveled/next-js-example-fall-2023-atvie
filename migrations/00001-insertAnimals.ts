@@ -44,7 +44,7 @@ export async function up(sql: Sql) {
       INSERT INTO
         animals (
           first_name,
-          TYPE,
+          type,
           accessory,
           birth_date
         )

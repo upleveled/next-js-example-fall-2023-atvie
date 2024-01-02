@@ -89,11 +89,14 @@ devDependencies:
     specifier: ^15.0.2
     version: 15.0.2
   prettier-plugin-embed:
-    specifier: ^0.3.0
-    version: 0.3.1
+    specifier: ^0.3.2
+    version: 0.3.2
   prettier-plugin-sql:
-    specifier: ^0.17.0
-    version: 0.17.0(prettier@3.0.3)
+    specifier: ^0.18.0
+    version: 0.18.0(prettier@3.0.3)
+  sql-formatter:
+    specifier: ^15.0.2
+    version: 15.0.2
   stylelint:
     specifier: ^15.10.3
     version: 15.10.3(typescript@5.2.2)
@@ -3426,7 +3429,6 @@ packages:
     peerDependenciesMeta:
       babel-plugin-macros:
         optional: true
-    dev: false
 
   /deep-equal@2.2.2:
     resolution:
@@ -7472,10 +7474,10 @@ packages:
         integrity: sha512-uYr7J37ae/ORWdZeQ1xxMJe3NtdmqMC/JZK+geofDrkLUApKRHPd18/TxtBOJ4A0/+uUIliorNrfYV6s1b02eQ==,
       }
 
-  /node-sql-parser@4.11.0:
+  /node-sql-parser@4.15.0:
     resolution:
       {
-        integrity: sha512-ElheoPibjc7IVyRdsORgkzJi0DWm3f0LYSsm/eJIeUt3M/csDLTblLDR4zl5Qi7jmVjJ1KpEkPKSbgVGEzU5Xw==,
+        integrity: sha512-zckPbcES2qfR5WqlL+p1s6TualZCUxYO4xtvMUpoYvTJA8BmG0W55Hd8sJJYTKN/8OmxqgwOK68rUId+qWl6UA==,
       }
     engines: { node: '>=8' }
     dependencies:
@@ -8062,27 +8064,30 @@ packages:
     engines: { node: '>= 0.8.0' }
     dev: true
 
-  /prettier-plugin-embed@0.3.1:
+  /prettier-plugin-embed@0.3.2:
     resolution:
       {
-        integrity: sha512-uQlvCzhedkERa6SNGc2JEckENx+kGEjKW/dSO5Nfsv77Xpr8FbgIpgD34QWSk6oi1vGVbjBJitbdBelvqx9jZw==,
+        integrity: sha512-e9LbRHdgmcIfRhHIx1vS95C5ZedWo9MulqaYYR76D8A9mIhtN52N5XkePv/1TBHJdWl8qGmrv6UKawJS8TMRKw==,
       }
     dependencies:
+      dedent: 1.5.1
       micro-memoize: 4.1.2
       package-up: 5.0.0
+    transitivePeerDependencies:
+      - babel-plugin-macros
     dev: true
 
-  /prettier-plugin-sql@0.17.0(prettier@3.0.3):
+  /prettier-plugin-sql@0.18.0(prettier@3.0.3):
     resolution:
       {
-        integrity: sha512-amidsFV6LdQF0gJMspfxn6sZTOC5m5St7A5QOBNZ49NGElT1fwdQiG4Y4wgRha3Mh9q3JwljOHfCfQhaxDUeRA==,
+        integrity: sha512-E7WXooLNtWyv79sYYHtQbfvXZ5B/OOR0ySBsB2evfrfvD4wJos1OKLBvVLC/a7+7YpG30bSUTgc2DEwz8ctPmQ==,
       }
     engines: { node: ^14.18.0 || >=16.0.0 }
     peerDependencies:
       prettier: ^3.0.3
     dependencies:
       jsox: 1.2.118
-      node-sql-parser: 4.11.0
+      node-sql-parser: 4.15.0
       prettier: 3.0.3
       sql-formatter: 15.0.2
       tslib: 2.6.2
