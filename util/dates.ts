@@ -22,21 +22,23 @@ export function getDaysUntilNextBirthday(currentDate: Date, birthDate: Date) {
     throw new Error('Birth date must be before current date!');
   }
 
-  // Create new date object to avoid mutating the original birth date
+  // Create new date objects to avoid mutating the original birth date
+  const startOfCurrentDate = new Date(currentDate);
   const nextBirthDate = new Date(birthDate);
 
   // Set UTC time to 0 to compare only days (avoid time zones)
-  currentDate.setUTCHours(0, 0, 0, 0);
+  startOfCurrentDate.setUTCHours(0, 0, 0, 0);
   nextBirthDate.setUTCHours(0, 0, 0, 0);
 
   nextBirthDate.setUTCFullYear(currentDate.getFullYear());
 
-  if (nextBirthDate.getTime() < currentDate.getTime()) {
-    nextBirthDate.setUTCFullYear(currentDate.getFullYear() + 1);
+  if (nextBirthDate.getTime() < startOfCurrentDate.getTime()) {
+    nextBirthDate.setUTCFullYear(startOfCurrentDate.getFullYear() + 1);
   }
 
   const daysUntilNextBirthday =
-    (nextBirthDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24);
+    (nextBirthDate.getTime() - startOfCurrentDate.getTime()) /
+    (1000 * 60 * 60 * 24);
 
   return daysUntilNextBirthday;
 }
