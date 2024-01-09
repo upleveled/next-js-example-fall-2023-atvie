@@ -145,7 +145,14 @@ export const getAnimalWithFoodsById = cache(async (id: number) => {
       animals.first_name AS animal_first_name,
       animals.type AS animal_type,
       animals.accessory AS animal_accessory,
-      json_agg(foods.*) AS animal_foods
+      -- Return empty array instead of [null] if no food is found
+      coalesce(
+        json_agg(foods.*) FILTER (
+          WHERE
+            foods.id IS NOT NULL
+        ),
+        '[]'
+      ) AS animal_foods
     FROM
       animals
       LEFT JOIN animal_foods ON animals.id = animal_foods.animal_id
