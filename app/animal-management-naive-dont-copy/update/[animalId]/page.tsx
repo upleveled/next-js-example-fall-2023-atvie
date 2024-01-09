@@ -9,16 +9,18 @@ type Props = {
     firstName: string;
     type: string;
     accessory: string;
+    birthDate: string;
   };
 };
 
 export default async function NaiveAnimalUpdatePage(props: Props) {
-  const animal = await updateAnimalById(
-    Number(props.params.animalId),
-    props.searchParams.firstName,
-    props.searchParams.type,
-    props.searchParams.accessory,
-  );
+  const animal = await updateAnimalById({
+    id: Number(props.params.animalId),
+    firstName: props.searchParams.firstName,
+    type: props.searchParams.type,
+    accessory: props.searchParams.accessory || null,
+    birthDate: new Date(props.searchParams.birthDate),
+  });
 
   if (!animal) {
     notFound();

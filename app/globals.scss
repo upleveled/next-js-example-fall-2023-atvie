@@ -4,13 +4,13 @@
 }
 
 body {
-  background: teal;
+  background: #fdf7e4;
 }
 
 nav {
   width: 100vw;
   height: 4rem;
-  background: tan;
+  background: #ded0b6;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -23,6 +23,7 @@ nav {
 
   > div a {
     margin: 4px;
+    color: #000;
   }
 }
 
@@ -37,4 +38,11 @@ nav {
   border: none;
   cursor: pointer;
   font-size: 18px;
+}
+
+button {
+  font-size: 14px;
+  height: 35px;
+  border-radius: 6px;
+  padding: 8px;
 }
