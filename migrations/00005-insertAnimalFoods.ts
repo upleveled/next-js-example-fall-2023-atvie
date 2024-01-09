@@ -12,10 +12,7 @@ export async function up(sql: Sql) {
   for (const animalFood of animalFoods) {
     await sql`
       INSERT INTO
-        animal_foods (
-          animal_id,
-          food_id
-        )
+        animal_foods (animal_id, food_id)
       VALUES
         (
           ${animalFood.animalId},

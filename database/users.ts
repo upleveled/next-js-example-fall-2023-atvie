@@ -16,10 +16,7 @@ export const createUser = cache(
   async (username: string, passwordHash: string) => {
     const [user] = await sql<User[]>`
       INSERT INTO
-        users (
-          username,
-          password_hash
-        )
+        users (username, password_hash)
       VALUES
         (
           ${username.toLowerCase()},
@@ -70,7 +67,7 @@ export const getUserBySessionToken = cache(async (token: string) => {
       INNER JOIN sessions ON (
         sessions.token = ${token}
         AND sessions.user_id = users.id
-        AND sessions.expiry_timestamp > NOW()
+        AND sessions.expiry_timestamp > now()
       )
   `;
   return user;
@@ -88,7 +85,7 @@ export const getUserNoteBySessionToken = cache(async (token: string) => {
       INNER JOIN sessions ON (
         sessions.token = ${token}
         AND sessions.user_id = users.id
-        AND sessions.expiry_timestamp > NOW()
+        AND sessions.expiry_timestamp > now()
       )
   `;
   return notes;

@@ -9,8 +9,8 @@ export type Note = {
 export async function up(sql: Sql) {
   await sql`
     CREATE TABLE notes (
-      id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-      user_id INTEGER NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      user_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
       text_content TEXT NOT NULL
     );
   `;

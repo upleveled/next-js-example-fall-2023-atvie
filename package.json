@@ -40,15 +40,11 @@
     "@types/react-dom": "^18.2.7",
     "eslint-config-upleveled": "^7.3.3",
     "libpg-query": "^15.0.2",
-    "prettier-plugin-embed": "^0.3.0",
-    "prettier-plugin-sql": "^0.17.0",
-    "stylelint": "^16.0.2",
-    "stylelint-config-upleveled": "^1.0.4",
+    "prettier-plugin-embed": "^0.3.2",
+    "prettier-plugin-sql": "^0.18.0",
+    "sql-formatter": "^15.0.2",
+    "stylelint": "^15.10.3",
+    "stylelint-config-upleveled": "^1.0.2",
     "typescript": "^5.2.2"
-  },
-  "pnpm": {
-    "overrides": {
-      "sql-formatter": "15.0.2"
-    }
   }
 }

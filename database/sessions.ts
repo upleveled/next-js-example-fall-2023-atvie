@@ -6,17 +6,14 @@ export const deleteExpiredSessions = cache(async () => {
   await sql`
     DELETE FROM sessions
     WHERE
-      expiry_timestamp < NOW()
+      expiry_timestamp < now()
   `;
 });
 
 export const createSession = cache(async (userId: number, token: string) => {
   const [session] = await sql<Session[]>`
     INSERT INTO
-      sessions (
-        user_id,
-        token
-      )
+      sessions (user_id, token)
     VALUES
       (
         ${userId},
@@ -57,7 +54,7 @@ export const getValidSessionByToken = cache(async (token: string) => {
       sessions
     WHERE
       sessions.token = ${token}
-      AND sessions.expiry_timestamp > NOW()
+      AND sessions.expiry_timestamp > now()
   `;
 
   return session;

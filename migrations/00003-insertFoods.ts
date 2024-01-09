@@ -18,10 +18,7 @@ export async function up(sql: Sql) {
   for (const food of foods) {
     await sql`
       INSERT INTO
-        foods (
-          name,
-          type
-        )
+        foods (name, type)
       VALUES
         (
           ${food.name},
