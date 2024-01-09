@@ -5,6 +5,8 @@
 
 body {
   background: teal;
+  // Avoid fixed footer obscuring content
+  padding-bottom: 50px;
 }
 
 nav {
