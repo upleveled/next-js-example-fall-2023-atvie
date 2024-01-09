@@ -20,9 +20,6 @@ export default async function AnimalsNaiveLayout(props: Props) {
 
   console.log('Check Xpath: ', headersList.get('x-pathname'));
 
-  // User has to be an admin
-  // Get user from the database that meets the admin requirements
-
   // 3. Either redirect or render the login form
   if (!session) redirect(`/login?returnTo=${headersList.get('x-pathname')}`);
 

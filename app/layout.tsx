@@ -44,7 +44,7 @@ export default async function RootLayout(props: Props) {
             <Link href="/about">About</Link>
             <Link href="/animals">Animals</Link>
             <Link href="/fruits">Fruits</Link>
-            <Link href="/animals-admin">Admin</Link>
+            <Link href="/dashboard">Dashboard</Link>
             <Link href="/notes">Check Notes</Link>
           </div>
 
