@@ -21,7 +21,7 @@ export default async function AnimalsPage() {
   //  Query your database to check if this user has the right access to this page
 
   // 3. If the sessionToken cookie is invalid or doesn't exist, redirect to login with returnTo
-  if (!session) redirect('/login?returnTo=/dashboard');
+  if (!session) redirect('/login?returnTo=/animals/dashboard');
 
   // 4. If the sessionToken cookie is valid, allow access to dashboard page
   const animals = await getAnimals();
