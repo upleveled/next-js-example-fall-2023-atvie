@@ -47,8 +47,8 @@ export default function AnimalsForm(props: Props) {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.tableContainer}>
+    <div className={styles.dashboard}>
+      <div>
         <table>
           <thead>
             <tr>
@@ -62,16 +62,18 @@ export default function AnimalsForm(props: Props) {
             {props.animals.map((animal) => (
               <tr
                 key={`animal-${animal.id}`}
-                className={selectedId === animal.id ? styles.selectedRow : ''}
+                className={selectedId === animal.id ? styles.selectedItem : ''}
               >
                 <td>{animal.firstName}</td>
                 <td>{animal.type}</td>
                 <td>{animal.accessory}</td>
                 <td>{dayjs(animal.birthDate).format('YYYY-MM-DD')}</td>
                 <td>
-                  <button onClick={() => handleEdit(animal.id)}>Edit</button>
-                </td>
-                <td>
+                  {selectedId === animal.id ? (
+                    ''
+                  ) : (
+                    <button onClick={() => handleEdit(animal.id)}>Edit</button>
+                  )}{' '}
                   <button
                     className={styles.button}
                     onClick={async () => {
@@ -90,8 +92,8 @@ export default function AnimalsForm(props: Props) {
           </tbody>
         </table>
       </div>
-      <div className={styles.editContainer}>
-        <h2>{selectedId > 0 ? 'Edit Animal' : 'Add Animal'}</h2>
+      <div className={styles.animalForm}>
+        <h1>{selectedId > 0 ? 'Edit Animal' : 'Add Animal'}</h1>
         <form
           onSubmit={(event) => {
             event.preventDefault();
