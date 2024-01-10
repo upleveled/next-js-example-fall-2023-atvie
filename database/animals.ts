@@ -76,7 +76,12 @@ export const createAnimal = cache(
   async (newAnimal: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
-        animals (first_name, type, accessory)
+        animals (
+          first_name,
+          type,
+          accessory,
+          birth_date
+        )
       VALUES
         (
           ${newAnimal.firstName},

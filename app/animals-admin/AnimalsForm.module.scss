@@ -1,37 +1,32 @@
-.container {
+.dashboard {
   display: grid;
   grid-template: 1fr / 2fr 1fr;
-  grid-template-areas: 'table form';
   padding: 1.5rem;
   gap: 1rem;
   height: 100vh;
-}
 
-.tableContainer {
-  // Allows the table to scroll when the screen is too small to show all the
-  // data at once
-  overflow: auto;
+  div {
+    // Allows the table to scroll when the screen is too small to show all the
+    // data at once
+    overflow: auto;
 
-  table {
-    width: 100%;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-    border-collapse: collapse;
-  }
+    table {
+      width: 100%;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      // Removes the default border between cells
+      border-collapse: collapse;
+    }
 
-  thead {
-    height: 3rem;
-    text-align: left;
-  }
+    thead {
+      height: 3rem;
+      text-align: left;
+    }
 
-  th {
-    padding: 0 1rem;
-    height: 3rem;
-  }
-
-  tr {
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
+    th {
+      padding: 0 1rem;
+      height: 3rem;
+    }
 
     td {
       padding: 1rem;
@@ -40,19 +35,14 @@
   }
 }
 
-.selectedRow {
+.selectedItem {
   background-color: #ded0b6;
 }
 
-.editContainer {
+.animalForm {
   position: sticky;
   top: 0;
   padding: 1.5rem;
-
-  h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
 
   label {
     font-size: 0.875rem;
@@ -69,10 +59,4 @@
     font-size: 0.875rem;
     margin-bottom: 0.5rem;
   }
-}
-
-.buttonContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
