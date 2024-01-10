@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Animal } from '../../migrations/00000-createTableAnimal';
+import { Animal } from '../../../migrations/00000-createTableAnimal';
 
 type Props = {
   animals: Animal[];

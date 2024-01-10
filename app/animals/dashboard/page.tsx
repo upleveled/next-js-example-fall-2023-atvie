@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getAnimals } from '../../database/animals';
-import { getValidSessionByToken } from '../../database/sessions';
+import { getAnimals } from '../../../database/animals';
+import { getValidSessionByToken } from '../../../database/sessions';
 import AnimalsForm from './AnimalsForm';
 
 export const metadata = {
