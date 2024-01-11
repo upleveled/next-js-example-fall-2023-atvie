@@ -17,7 +17,9 @@ export default async function NaiveAnimalsPage() {
       {animals.map((animal) => {
         return (
           <div key={`animal-div-${animal.id}`}>
-            <Link href={`/animals/${animal.id}`}>{animal.firstName}</Link>
+            <Link href={`/animal-management-naive-dont-copy/read/${animal.id}`}>
+              {animal.firstName}
+            </Link>
             <Image
               src={`/images/${animal.firstName.toLowerCase()}.png`}
               alt={animal.firstName}
