@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getAnimalById } from '../../../../database/animals';
+import { formatDate } from '../../../../util/dates';
 
 export async function generateMetadata(props: Props) {
   const singleAnimal = await getAnimalById(Number(props.params.animalId));
@@ -33,7 +34,8 @@ export default async function NaiveAnimalPage(props: Props) {
         height={200}
         alt={singleAnimal.firstName}
       />
-      this is a {singleAnimal.type} carrying {singleAnimal.accessory}
+      this is a {singleAnimal.type} carrying {singleAnimal.accessory} with a
+      birth date of {formatDate(singleAnimal.birthDate)}
     </div>
   );
 }
