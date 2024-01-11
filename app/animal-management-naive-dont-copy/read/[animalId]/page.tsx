@@ -28,14 +28,14 @@ export default async function NaiveAnimalPage(props: Props) {
     <div>
       This is a single animal page
       <h1>{singleAnimal.firstName}</h1>
+      <div>Birth date: {formatDate(singleAnimal.birthDate)}</div>
       <Image
         src={`/images/${singleAnimal.firstName.toLowerCase()}.png`}
         width={200}
         height={200}
         alt={singleAnimal.firstName}
       />
-      this is a {singleAnimal.type} carrying {singleAnimal.accessory} with a
-      birth date of {formatDate(singleAnimal.birthDate)}
+      this is a {singleAnimal.type} carrying {singleAnimal.accessory}
     </div>
   );
 }
