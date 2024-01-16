@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
+import styles from './AnimalsForm.module.scss';
 
 type Props = {
   animals: Animal[];
