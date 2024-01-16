@@ -1,9 +1,9 @@
-name: Playwright Tests and Deploy to Fly.io
+name: CI, CD
 on: push
 
 jobs:
-  playwright-tests:
-    name: Playwright Tests
+  ci:
+    name: Linting, Playwright End to End Tests
     runs-on: ubuntu-latest # or macos-latest, windows-latest
     timeout-minutes: 30
     # Update env variables with your own database credentials
@@ -75,11 +75,11 @@ jobs:
         with:
           name: playwright-screenshots-videos
           path: playwright/test-results/
-  deploy:
+  cd:
     name: Deploy to Fly.io
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: playwright-tests
+    needs: ci
     if: github.ref == 'refs/heads/main'
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
