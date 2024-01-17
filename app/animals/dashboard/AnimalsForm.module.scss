@@ -2,13 +2,12 @@
   display: grid;
   grid-template: 1fr / 2fr 1fr;
   padding: 1.5rem;
-  // Setting the height of the viewport prevents content
-  // from being hidden behind the footer
+  // Avoid fixed footer obscuring content
   height: 80vh;
 
   div {
-    // Allows the table to scroll when the screen is too small
-    //to show all the data at once
+    // Enables table scrolling when the screen isn't large
+    // enough to show all data at once
     overflow: auto;
 
     table {
