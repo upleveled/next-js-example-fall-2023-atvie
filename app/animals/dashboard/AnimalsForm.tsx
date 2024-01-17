@@ -99,7 +99,7 @@ export default function AnimalsForm(props: Props) {
           </table>
         </div>
         <div className={styles.animalForm}>
-          <h2>{selectedId > 0 ? 'Edit Animal' : 'Add Animal'}</h2>
+          <h2>{selectedId ? 'Edit Animal' : 'Add Animal'}</h2>
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -136,7 +136,7 @@ export default function AnimalsForm(props: Props) {
                 }
               />
             </label>
-            {selectedId > 0 ? (
+            {selectedId ? (
               <button
                 className={styles.button}
                 onClick={async () => {
