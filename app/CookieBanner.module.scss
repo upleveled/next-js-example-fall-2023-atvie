@@ -1,6 +1,6 @@
 .cookieBanner {
   background-color: tan;
-  padding: 5px;
+  padding: 0.3125rem;
   display: flex;
   justify-content: center;
   gap: 2rem;
@@ -21,13 +21,13 @@
 }
 
 .button {
-  border: 1px solid;
+  border: 0.1rem solid;
   color: black;
   background-color: white;
   cursor: pointer;
-  border-radius: 5px;
-  padding: 4px;
-  margin: 4px;
+  border-radius: 0.3125rem;
+  padding: 0.25rem;
+  margin: 0.25rem;
 
   &:hover {
     background-color: rgb(0, 31, 57);

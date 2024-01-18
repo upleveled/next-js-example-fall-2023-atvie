@@ -6,7 +6,7 @@
 body {
   background: teal;
   // Avoid fixed footer obscuring content
-  padding-bottom: 50px;
+  padding-bottom: 3.125rem;
 }
 
 nav {
@@ -20,11 +20,11 @@ nav {
   > div {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.625rem;
   }
 
   > div a {
-    margin: 4px;
+    margin: 0.25rem;
   }
 }
 
@@ -34,9 +34,9 @@ nav {
 }
 
 .logoutButton {
-  padding: 4px 8px;
+  padding: 0.25rem 0.5rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 1.125rem;
 }
