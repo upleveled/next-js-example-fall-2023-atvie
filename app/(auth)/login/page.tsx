@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getValidSessionByToken } from '../../../database/sessions';
+import { getSafeReturnToPath } from '../../../util/validation';
 import LoginForm from './LoginForm';
 
 type Props = { searchParams: { returnTo?: string | string[] } };
@@ -16,12 +17,18 @@ export default async function LoginPage({ searchParams }: Props) {
 
   // 3. If the sessionToken cookie is valid, redirect to home
 
-  if (session) redirect('/');
+  //  This is not the secured way of doing returnTo
+  // if (props.returnTo) {
+  //   console.log('Checks Return to: ', props.returnTo);
+  //   router.push(props.returnTo);
+  // }
+
+  if (session) redirect(getSafeReturnToPath(searchParams.returnTo) || '/');
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form
 
   return (
     <div>
-      <LoginForm returnTo={searchParams.returnTo} />
+      <LoginForm />
     </div>
   );
 }
