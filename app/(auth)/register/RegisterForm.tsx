@@ -28,8 +28,6 @@ export default function RegisterForm() {
       return;
     }
 
-    router.push(`/profile/${data.user.username}`);
-
     // revalidatePath() throws unnecessary error, will be used when stable
     // revalidatePath('/(auth)/login', 'page');
     router.refresh();
