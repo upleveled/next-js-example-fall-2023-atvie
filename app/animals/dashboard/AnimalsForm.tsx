@@ -11,7 +11,6 @@ type Props = {
 };
 
 export default function AnimalsForm(props: Props) {
-  const [selectedId, setSelectedId] = useState(0);
   const [id, setId] = useState(0);
   const [firstName, setFirstName] = useState('');
   const [type, setType] = useState('');
@@ -21,29 +20,11 @@ export default function AnimalsForm(props: Props) {
   const router = useRouter();
 
   function resetFormStates() {
-    setSelectedId(0);
     setId(0);
     setFirstName('');
     setType('');
     setAccessory('');
     setBirthDate(new Date());
-  }
-
-  function handleEdit(animalId: number) {
-    const selectedAnimal = props.animals.find(
-      (animal) => animal.id === animalId,
-    );
-
-    if (!selectedAnimal) {
-      return;
-    }
-
-    setSelectedId(animalId);
-    setId(selectedAnimal.id);
-    setFirstName(selectedAnimal.firstName);
-    setType(selectedAnimal.type);
-    setAccessory(selectedAnimal.accessory || '');
-    setBirthDate(selectedAnimal.birthDate);
   }
 
   return (
@@ -64,22 +45,25 @@ export default function AnimalsForm(props: Props) {
               {props.animals.map((animal) => (
                 <tr
                   key={`animal-${animal.id}`}
-                  className={
-                    selectedId === animal.id ? styles.selectedItem : ''
-                  }
+                  className={id === animal.id ? styles.selectedItem : ''}
                 >
                   <td>{animal.firstName}</td>
                   <td>{animal.type}</td>
                   <td>{animal.accessory}</td>
                   <td>{dayjs(animal.birthDate).format('YYYY-MM-DD')}</td>
-                  <td>
-                    {selectedId === animal.id ? (
-                      ''
-                    ) : (
-                      <button onClick={() => handleEdit(animal.id)}>
-                        Edit
-                      </button>
-                    )}{' '}
+                  <td className={styles.buttonCell}>
+                    <button
+                      onClick={() => {
+                        setId(animal.id);
+                        setFirstName(animal.firstName);
+                        setType(animal.type);
+                        setAccessory(animal.accessory || '');
+                        setBirthDate(animal.birthDate);
+                      }}
+                      disabled={id === animal.id && true}
+                    >
+                      Edit
+                    </button>
                     <button
                       className={styles.button}
                       onClick={async () => {
@@ -99,7 +83,7 @@ export default function AnimalsForm(props: Props) {
           </table>
         </div>
         <div className={styles.animalForm}>
-          <h2>{selectedId ? 'Edit Animal' : 'Add Animal'}</h2>
+          <h2>{id ? 'Edit Animal' : 'Add Animal'}</h2>
           <form
             onSubmit={(event) => {
               event.preventDefault();
@@ -136,7 +120,7 @@ export default function AnimalsForm(props: Props) {
                 }
               />
             </label>
-            {selectedId ? (
+            {id ? (
               <button
                 className={styles.button}
                 onClick={async () => {
