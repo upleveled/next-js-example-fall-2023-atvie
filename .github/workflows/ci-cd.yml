@@ -42,15 +42,15 @@ jobs:
         run: pnpm jest
       - name: Install SafeQL if not yet installed (eg. on Windows dev machines)
         run: grep package.json -e '@ts-safeql/eslint-plugin' || pnpm add @ts-safeql/eslint-plugin libpg-query
-      - run: pnpm migrate up
-      # Also generates next-env.d.ts, required for tsc
-      - name: Build Next.js app
+      - name: Run database migrations
+        run: pnpm migrate up
+      - name: Build Next.js app (types needed for TSC and ESLint)
         run: pnpm build
-      - name: Run TypeScript Compiler
+      - name: Check TypeScript Types
         run: pnpm tsc
-      - name: Run ESLint
+      - name: Lint with ESLint
         run: pnpm eslint . --max-warnings 0
-      - name: Run Stylelint
+      - name: Lint with Stylelint
         run: pnpm stylelint '**/*.{css,scss,less,js,tsx}'
 
       # Cache and install Playwright browser binaries, modified version of:

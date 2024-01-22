@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import style from './GenerateButton.module.scss';
+import styles from './GenerateButton.module.scss';
 
 export default function GenerateButton() {
   // You can also initialize it with a string, instead
@@ -32,7 +32,7 @@ export default function GenerateButton() {
   return (
     <div>
       <button
-        className={style.generateButton}
+        className={styles.generateButton}
         style={{ backgroundColor: color }}
         onClick={() => {
           const newColor = `#${Math.floor(Math.random() * 16777215).toString(
