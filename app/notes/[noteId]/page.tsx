@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { getUserNoteBySessionToken } from '../../../database/users';
+import { getNoteBySessionToken } from '../../../database/users';
 import styles from '../notes.module.scss';
 
 type Props = {
@@ -19,15 +19,15 @@ export default async function NotePage({ params }: Props) {
   const sessionTokenCookie = cookies().get('sessionToken');
 
   // 2. Query the notes with the session token and noteId
-  const userNote =
+  const note =
     sessionTokenCookie &&
-    (await getUserNoteBySessionToken(
+    (await getNoteBySessionToken(
       sessionTokenCookie.value,
       Number(params.noteId),
     ));
 
   // 3. If there is no note for the current user, show restricted access message
-  if (!userNote) {
+  if (!note) {
     return (
       <div className={styles.restrictedAccessError}>
         <h2>Restricted access</h2>
@@ -37,10 +37,10 @@ export default async function NotePage({ params }: Props) {
   }
 
   return (
-    <div className={styles.userNote}>
-      <h1>Title: {userNote.title}</h1>
-      <p>Content: {userNote.textContent}</p>
-      <p>Created by: {userNote.username}</p>
+    <div className={styles.noteContainer}>
+      <h1>Title: {note.title}</h1>
+      <p>Content: {note.textContent}</p>
+      <p>Created by: {note.username}</p>
       <Link href="/notes">Back to notes</Link>
     </div>
   );
