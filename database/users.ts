@@ -112,3 +112,26 @@ export const getUserWithNotesBySessionToken = cache(async (token: string) => {
   `;
   return notes;
 });
+
+export const getUserNoteBySessionToken = cache(
+  async (token: string, noteId: number) => {
+    const [note] = await sql<UserNote[]>`
+      SELECT
+        notes.id AS note_id,
+        notes.title AS title,
+        notes.text_content AS text_content,
+        users.username AS username
+      FROM
+        notes
+        INNER JOIN users ON (notes.user_id = users.id)
+        INNER JOIN sessions ON (
+          sessions.token = ${token}
+          AND sessions.user_id = users.id
+          AND sessions.expiry_timestamp > now()
+        )
+      WHERE
+        notes.id = ${noteId}
+    `;
+    return note;
+  },
+);
