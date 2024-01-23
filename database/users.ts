@@ -7,13 +7,6 @@ export type UserWithPasswordHash = User & {
   passwordHash: string;
 };
 
-export type NoteWithUsername = {
-  noteId: number;
-  title: string;
-  textContent: string;
-  username: string;
-};
-
 export const createUser = cache(
   async (username: string, passwordHash: string) => {
     const [user] = await sql<User[]>`
@@ -81,10 +74,9 @@ export const getNotesBySessionToken = cache(async (token: string) => {
       notes.*
     FROM
       notes
-      INNER JOIN users ON notes.user_id = users.id
       INNER JOIN sessions ON (
         sessions.token = ${token}
-        AND sessions.user_id = users.id
+        AND notes.user_id = sessions.user_id
         AND sessions.expiry_timestamp > now()
       )
   `;
@@ -93,18 +85,14 @@ export const getNotesBySessionToken = cache(async (token: string) => {
 
 export const getNoteBySessionToken = cache(
   async (token: string, noteId: number) => {
-    const [note] = await sql<NoteWithUsername[]>`
+    const [note] = await sql<Note[]>`
       SELECT
-        notes.id AS note_id,
-        notes.title AS title,
-        notes.text_content AS text_content,
-        users.username AS username
+        notes.*
       FROM
         notes
-        INNER JOIN users ON (notes.user_id = users.id)
         INNER JOIN sessions ON (
           sessions.token = ${token}
-          AND sessions.user_id = users.id
+          AND notes.user_id = sessions.user_id
           AND sessions.expiry_timestamp > now()
         )
       WHERE
