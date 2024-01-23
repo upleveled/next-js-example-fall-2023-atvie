@@ -30,11 +30,17 @@ export default function CreateNoteForm({ userId }: { userId: number }) {
       }}
     >
       <label>
-        Add Note:
+        Title:
+        <br />
         <input
           value={title}
           onChange={(event) => setTitle(event.currentTarget.value)}
         />
+      </label>
+      <br />
+      <label>
+        Note:
+        <br />
         <input
           value={textContent}
           onChange={(event) => setTextContent(event.currentTarget.value)}
