@@ -31,10 +31,6 @@ export default async function NotesPage() {
   return (
     <div>
       <CreateNoteForm userId={user.id} />
-
-      <br />
-      <br />
-      <br />
       <div>
         {userNote.length > 0 ? (
           <>
