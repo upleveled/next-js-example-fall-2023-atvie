@@ -1,10 +1,8 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import {
-  getNotesBySessionToken,
-  getUserBySessionToken,
-} from '../../database/users';
+import { getNotesBySessionToken } from '../../database/notes';
+import { getUserBySessionToken } from '../../database/users';
 import CreateNoteForm from './CreateNotesForm';
 import styles from './notes.module.scss';
 

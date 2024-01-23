@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
-import { getNoteBySessionToken } from '../../../database/users';
+import { getNoteBySessionToken } from '../../../database/notes';
 import styles from '../notes.module.scss';
 
 type Props = {
