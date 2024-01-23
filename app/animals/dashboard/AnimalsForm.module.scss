@@ -2,7 +2,9 @@
   display: grid;
   grid-template: 1fr / 2fr 1fr;
   padding: 1.5rem;
-  // Avoid fixed footer obscuring content
+  // Enables scrolling by fixing the container height.
+  // Without a fixed height, the container adjusts to its content,
+  // preventing scrolling
   height: 80vh;
 
   > div {
