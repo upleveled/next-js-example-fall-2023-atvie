@@ -94,7 +94,7 @@ export const getUserForProfile = cache(
   },
 );
 
-export const getUserNoteBySessionToken = cache(async (token: string) => {
+export const getUserWithNotesBySessionToken = cache(async (token: string) => {
   const notes = await sql<UserNote[]>`
     SELECT
       notes.id AS note_id,

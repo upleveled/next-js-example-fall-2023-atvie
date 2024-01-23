@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import {
   getUserBySessionToken,
-  getUserNoteBySessionToken,
+  getUserWithNotesBySessionToken,
 } from '../../database/users';
 import CreateNoteForm from './CreateNotesForm';
 
@@ -24,8 +24,9 @@ export default async function NotesPage() {
   if (!user) redirect('/login?returnTo=/notes');
 
   // Display the notes for the current logged in user
-  const userNote = await getUserNoteBySessionToken(sessionTokenCookie.value);
-
+  const userNote = await getUserWithNotesBySessionToken(
+    sessionTokenCookie.value,
+  );
   console.log('Checking: ', userNote);
 
   return (
