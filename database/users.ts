@@ -74,26 +74,6 @@ export const getUserBySessionToken = cache(async (token: string) => {
   return user;
 });
 
-export const getUserForProfile = cache(
-  async (token: string, username: string) => {
-    const [user] = await sql<User[]>`
-      SELECT
-        users.id,
-        users.username
-      FROM
-        users
-        INNER JOIN sessions ON (
-          sessions.token = ${token}
-          AND sessions.user_id = users.id
-          AND sessions.expiry_timestamp > now()
-        )
-      WHERE
-        users.username = ${username.toLowerCase()}
-    `;
-    return user;
-  },
-);
-
 export const getUserWithNotesBySessionToken = cache(async (token: string) => {
   const notes = await sql<UserNote[]>`
     SELECT
