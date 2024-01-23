@@ -29,7 +29,7 @@ export default async function NotesPage() {
 
   return (
     <div className={styles.notePage}>
-      <CreateNoteForm userId={user.id} />
+      <CreateNoteForm />
       <div>
         {notes.length > 0 ? (
           <>

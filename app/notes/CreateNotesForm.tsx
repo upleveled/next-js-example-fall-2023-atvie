@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function CreateNoteForm({ userId }: { userId: number }) {
+export default function CreateNoteForm() {
   const [textContent, setTextContent] = useState('');
   const [title, setTitle] = useState('');
 
@@ -12,7 +12,6 @@ export default function CreateNoteForm({ userId }: { userId: number }) {
     await fetch('/api/notes', {
       method: 'POST',
       body: JSON.stringify({
-        userId,
         title,
         textContent,
       }),
