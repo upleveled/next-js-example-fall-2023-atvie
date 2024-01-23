@@ -11,8 +11,10 @@ export const metadata = {
 
 export default async function Dashboard() {
   // Task: Add redirect to home if user is logged in
+
   // 1. Checking if the sessionToken cookie exists
   const sessionTokenCookie = cookies().get('sessionToken');
+
   // 2. Check if the sessionToken cookie is still valid
   const session =
     sessionTokenCookie &&

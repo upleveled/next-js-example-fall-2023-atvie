@@ -36,10 +36,10 @@ export async function POST(
     );
   }
 
-  // 1. get the token from the cookie
+  // 3. Get the token from the cookie
   const sessionTokenCookie = cookies().get('sessionToken');
 
-  // 2. check if the token has a valid session
+  // 4. Check if the token has a valid session
   const session =
     sessionTokenCookie &&
     (await getValidSessionByToken(sessionTokenCookie.value));
@@ -53,15 +53,14 @@ export async function POST(
     );
   }
 
-  // 3. Create the note
+  // 5. Create the note
   const newNote = await createNote(
     result.data.userId,
     result.data.title,
     result.data.textContent,
   );
 
-  // 4. If the note creation fails, return an error
-
+  // 6. If the note creation fails, return an error
   if (!newNote) {
     return NextResponse.json(
       {
@@ -71,7 +70,7 @@ export async function POST(
     );
   }
 
-  // 6. Return the text content of the note
+  // 7. Return the text content of the note
   return NextResponse.json({
     note: { textContent: newNote.textContent },
   });
