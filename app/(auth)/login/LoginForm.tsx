@@ -2,9 +2,12 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { getSafeReturnToPath } from '../../../util/validation';
 import { LoginResponseBodyPost } from '../../api/(auth)/login/route';
 
-export default function LoginForm() {
+type Props = { returnTo?: string | string[] };
+
+export default function LoginForm(props: Props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<{ message: string }[]>([]);
@@ -27,6 +30,14 @@ export default function LoginForm() {
       setErrors(data.errors);
       return;
     }
+
+    //  This is not the secured way of doing returnTo
+    // if (props.returnTo) {
+    //   console.log('Checks Return to: ', props.returnTo);
+    //   router.push(props.returnTo);
+    // }
+
+    router.push(getSafeReturnToPath(props.returnTo) || `/profile`);
 
     // revalidatePath() throws unnecessary error, will be used when stable
     // revalidatePath('/(auth)/login', 'page');

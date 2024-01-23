@@ -17,18 +17,12 @@ export default async function LoginPage({ searchParams }: Props) {
 
   // 3. If the sessionToken cookie is valid, redirect to home
 
-  //  This is not the secured way of doing returnTo
-  // if (props.returnTo) {
-  //   console.log('Checks Return to: ', props.returnTo);
-  //   router.push(props.returnTo);
-  // }
-
   if (session) redirect(getSafeReturnToPath(searchParams.returnTo) || '/');
   // 4. If the sessionToken cookie is invalid or doesn't exist, show the login form
 
   return (
     <div>
-      <LoginForm />
+      <LoginForm returnTo={searchParams.returnTo} />
     </div>
   );
 }
