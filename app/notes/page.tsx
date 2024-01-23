@@ -28,7 +28,6 @@ export default async function NotesPage() {
   const userNote = await getUserWithNotesBySessionToken(
     sessionTokenCookie.value,
   );
-  console.log('Checking: ', userNote);
 
   return (
     <div className={styles.notePage}>
