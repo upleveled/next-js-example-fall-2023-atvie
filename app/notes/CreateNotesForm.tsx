@@ -3,8 +3,8 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function CreateNoteForm() {
-  const [textContent, setTextContent] = useState('');
   const [title, setTitle] = useState('');
+  const [textContent, setTextContent] = useState('');
 
   const router = useRouter();
 
@@ -17,8 +17,8 @@ export default function CreateNoteForm() {
       }),
     });
     router.refresh();
-    setTextContent('');
     setTitle('');
+    setTextContent('');
   }
 
   return (
@@ -35,6 +35,7 @@ export default function CreateNoteForm() {
           onChange={(event) => setTitle(event.currentTarget.value)}
         />
       </label>
+
       <label>
         Note:
         <input
@@ -42,6 +43,7 @@ export default function CreateNoteForm() {
           onChange={(event) => setTextContent(event.currentTarget.value)}
         />
       </label>
+
       <button>Create +</button>
     </form>
   );
