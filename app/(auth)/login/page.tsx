@@ -4,7 +4,11 @@ import { getValidSessionByToken } from '../../../database/sessions';
 import { getSafeReturnToPath } from '../../../util/validation';
 import LoginForm from './LoginForm';
 
-type Props = { searchParams: { returnTo?: string | string[] } };
+type Props = {
+  searchParams: {
+    returnTo?: string | string[];
+  };
+};
 
 export default async function LoginPage({ searchParams }: Props) {
   // Task: Add redirect to home if user is logged in
