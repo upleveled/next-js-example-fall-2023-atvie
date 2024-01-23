@@ -35,6 +35,7 @@ export default async function RootLayout(props: Props) {
     <html lang="en">
       <body className={inter.className}>
         <CookieBanner />
+
         <header>
           <nav>
             <div>
@@ -67,7 +68,8 @@ export default async function RootLayout(props: Props) {
             </div>
           </nav>
         </header>
-        <main> {props.children}</main>
+
+        <main>{props.children}</main>
       </body>
     </html>
   );
