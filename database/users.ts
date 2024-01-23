@@ -8,6 +8,7 @@ export type UserWithPasswordHash = User & {
 
 export type UserNote = {
   noteId: number;
+  title: string;
   textContent: string;
   username: string;
 };
@@ -97,6 +98,7 @@ export const getUserNoteBySessionToken = cache(async (token: string) => {
   const notes = await sql<UserNote[]>`
     SELECT
       notes.id AS note_id,
+      notes.title AS title,
       notes.text_content AS text_content,
       users.username AS username
     FROM

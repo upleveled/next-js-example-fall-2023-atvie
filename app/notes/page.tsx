@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import {
   getUserBySessionToken,
@@ -40,7 +41,12 @@ export default async function NotesPage() {
             <h2>Notes For {user.username}</h2>
             <ul>
               {userNote.map((note) => (
-                <li key={`animal-div-${note.noteId}`}>{note.textContent}</li>
+                <Link
+                  key={`notes-div-${note.noteId}`}
+                  href={`/notes/${note.noteId}`}
+                >
+                  <li>{note.title}</li>
+                </Link>
               ))}
             </ul>
           </>

@@ -6,6 +6,7 @@ import { getValidSessionByToken } from '../../../database/sessions';
 
 const noteSchema = z.object({
   userId: z.number(),
+  title: z.string().min(3).max(100),
   textContent: z.string().min(3),
 });
 
@@ -53,7 +54,11 @@ export async function POST(
   }
 
   // 3. Create the note
-  const newNote = await createNote(result.data.userId, result.data.textContent);
+  const newNote = await createNote(
+    result.data.userId,
+    result.data.title,
+    result.data.textContent,
+  );
 
   // 4. If the note creation fails, return an error
 

@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 export default function CreateNoteForm({ userId }: { userId: number }) {
   const [textContent, setTextContent] = useState('');
+  const [title, setTitle] = useState('');
 
   const router = useRouter();
 
@@ -11,12 +12,14 @@ export default function CreateNoteForm({ userId }: { userId: number }) {
     await fetch('/api/notes', {
       method: 'POST',
       body: JSON.stringify({
-        textContent,
         userId,
+        title,
+        textContent,
       }),
     });
     router.refresh();
     setTextContent('');
+    setTitle('');
   }
 
   return (
@@ -28,6 +31,10 @@ export default function CreateNoteForm({ userId }: { userId: number }) {
     >
       <label>
         Add Note:
+        <input
+          value={title}
+          onChange={(event) => setTitle(event.currentTarget.value)}
+        />
         <input
           value={textContent}
           onChange={(event) => setTextContent(event.currentTarget.value)}
