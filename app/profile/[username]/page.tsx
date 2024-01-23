@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getValidSessionByToken } from '../../../database/sessions';
+import { getUserForProfile } from '../../../database/users';
 
 type Props = {
   params: { username: string };
@@ -8,21 +8,26 @@ type Props = {
 
 export default async function UserProfilePage({ params }: Props) {
   // Task: Add redirect to home if user is logged in
-  // 1. Checking if the sessionToken cookie exists
+  // 1. Check if the sessionToken cookie exists
   const sessionTokenCookie = cookies().get('sessionToken');
-  // 2. Check if the sessionToken cookie is still valid
-  const session =
-    sessionTokenCookie &&
-    (await getValidSessionByToken(sessionTokenCookie.value));
 
-  //  Query your database to check if this user has the right access to this page
+  // 2. If there is no sessionToken cookie, redirect to login
+  if (!sessionTokenCookie) {
+    redirect(`/login?returnTo=/profile/${params.username}`);
+  }
 
-  // 3. If the sessionToken cookie is invalid or doesn't exist, redirect to login with returnTo
-  if (!session) redirect(`/login?returnTo=/profile/${params.username}`);
+  // 3. Query the user that owns the profile
+  const userForProfile = await getUserForProfile(
+    sessionTokenCookie.value,
+    params.username,
+  );
+
+  // 4. Access denied to users that are not the owner of the profile
+  if (!userForProfile) return <div>Access denied</div>;
 
   return (
     <div>
-      <h2>{params.username} Profile</h2>
+      <h2>{userForProfile.username}'s Profile</h2>
     </div>
   );
 }
