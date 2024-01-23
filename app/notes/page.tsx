@@ -6,6 +6,7 @@ import {
   getUserWithNotesBySessionToken,
 } from '../../database/users';
 import CreateNoteForm from './CreateNotesForm';
+import styles from './notes.module.scss';
 
 export default async function NotesPage() {
   // Task: Restrict access to the notes page and only display notes belonging to the current logged in user
@@ -30,7 +31,7 @@ export default async function NotesPage() {
   console.log('Checking: ', userNote);
 
   return (
-    <div className="notePage">
+    <div className={styles.notePage}>
       <CreateNoteForm userId={user.id} />
       <div>
         {userNote.length > 0 ? (
