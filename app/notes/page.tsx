@@ -25,7 +25,7 @@ export default async function NotesPage() {
   if (!user) redirect('/login?returnTo=/notes');
 
   // Display the notes for the current logged in user
-  const userNote = await getUserWithNotesBySessionToken(
+  const userWithNotes = await getUserWithNotesBySessionToken(
     sessionTokenCookie.value,
   );
 
@@ -33,16 +33,16 @@ export default async function NotesPage() {
     <div className={styles.notePage}>
       <CreateNoteForm userId={user.id} />
       <div>
-        {userNote.length > 0 ? (
+        {userWithNotes.length > 0 ? (
           <>
             <h2>Notes For {user.username}</h2>
             <ul>
-              {userNote.map((note) => (
+              {userWithNotes.map((userWithNote) => (
                 <Link
-                  key={`notes-div-${note.noteId}`}
-                  href={`/notes/${note.noteId}`}
+                  key={`notes-div-${userWithNote.noteId}`}
+                  href={`/notes/${userWithNote.noteId}`}
                 >
-                  <li>{note.title}</li>
+                  <li>{userWithNote.title}</li>
                 </Link>
               ))}
             </ul>
