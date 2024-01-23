@@ -35,36 +35,41 @@ export default async function RootLayout(props: Props) {
     <html lang="en">
       <body className={inter.className}>
         <CookieBanner />
-        <nav>
-          <div>
-            {/* This is not optimized */}
-            {/* <a href="/">Home</a> */}
-            {/* This is optimized */}
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            <Link href="/animals">Animals</Link>
-            <Link href="/fruits">Fruits</Link>
-            <Link href="/animals/dashboard">Dashboard</Link>
-            <Link href="/notes">Check Notes</Link>
-          </div>
 
-          {Math.floor(Math.random() * 10)}
-          <div>
-            {user ? (
-              <>
-                <Link href={`/profile/${user.username}`}>{user.username}</Link>
-                <LogoutButton />
-              </>
-            ) : (
-              <>
-                <Link href="/register">Register</Link>
-                <Link href="/login">Login</Link>
-              </>
-            )}
-          </div>
-        </nav>
+        <header>
+          <nav>
+            <div>
+              {/* This is not optimized */}
+              {/* <a href="/">Home</a> */}
+              {/* This is optimized */}
+              <Link href="/">Home</Link>
+              <Link href="/about">About</Link>
+              <Link href="/animals">Animals</Link>
+              <Link href="/fruits">Fruits</Link>
+              <Link href="/animals/dashboard">Dashboard</Link>
+              <Link href="/notes">Check Notes</Link>
+            </div>
 
-        {props.children}
+            {Math.floor(Math.random() * 10)}
+            <div>
+              {user ? (
+                <>
+                  <Link href={`/profile/${user.username}`}>
+                    {user.username}
+                  </Link>
+                  <LogoutButton />
+                </>
+              ) : (
+                <>
+                  <Link href="/register">Register</Link>
+                  <Link href="/login">Login</Link>
+                </>
+              )}
+            </div>
+          </nav>
+        </header>
+
+        <main>{props.children}</main>
       </body>
     </html>
   );
