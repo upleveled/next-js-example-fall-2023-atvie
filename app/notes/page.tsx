@@ -30,7 +30,9 @@ export default async function NotesPage() {
     <div className={styles.notePage}>
       <CreateNoteForm />
       <div>
-        {notes.length > 0 ? (
+        {notes.length === 0 ? (
+          <h2>No notes yet</h2>
+        ) : (
           <>
             <h2>Notes For {user.username}</h2>
             <ul>
@@ -41,8 +43,6 @@ export default async function NotesPage() {
               ))}
             </ul>
           </>
-        ) : (
-          <h2> No notes yet</h2>
         )}
       </div>
     </div>
