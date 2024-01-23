@@ -29,7 +29,7 @@ export default async function NotesPage() {
   console.log('Checking: ', userNote);
 
   return (
-    <div>
+    <div className="notePage">
       <CreateNoteForm userId={user.id} />
       <div>
         {userNote.length > 0 ? (
