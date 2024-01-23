@@ -1,10 +1,10 @@
 import { cookies } from 'next/headers';
+import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import {
-  getUserBySessionToken,
-  getUserNoteBySessionToken,
-} from '../../database/users';
+import { getNotesBySessionToken } from '../../database/notes';
+import { getUserBySessionToken } from '../../database/users';
 import CreateNoteForm from './CreateNotesForm';
+import styles from './notes.module.scss';
 
 export default async function NotesPage() {
   // Task: Restrict access to the notes page and only display notes belonging to the current logged in user
@@ -24,29 +24,25 @@ export default async function NotesPage() {
   if (!user) redirect('/login?returnTo=/notes');
 
   // 6. Display the notes for the current logged in user
-  const userNote = await getUserNoteBySessionToken(sessionTokenCookie.value);
-
-  console.log('Checking: ', userNote);
+  const notes = await getNotesBySessionToken(sessionTokenCookie.value);
 
   return (
-    <div>
-      <CreateNoteForm userId={user.id} />
-
-      <br />
-      <br />
-      <br />
+    <div className={styles.notePage}>
+      <CreateNoteForm />
       <div>
-        {userNote.length > 0 ? (
+        {notes.length === 0 ? (
+          <h2>No notes yet</h2>
+        ) : (
           <>
             <h2>Notes For {user.username}</h2>
             <ul>
-              {userNote.map((note) => (
-                <li key={`animal-div-${note.noteId}`}>{note.textContent}</li>
+              {notes.map((note) => (
+                <Link key={`notes-div-${note.id}`} href={`/notes/${note.id}`}>
+                  <li>{note.title}</li>
+                </Link>
               ))}
             </ul>
           </>
-        ) : (
-          <h2> No notes yet</h2>
         )}
       </div>
     </div>

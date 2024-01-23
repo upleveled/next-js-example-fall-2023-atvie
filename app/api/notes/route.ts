@@ -2,10 +2,9 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createNote } from '../../../database/notes';
-import { getValidSessionByToken } from '../../../database/sessions';
 
 const noteSchema = z.object({
-  userId: z.number(),
+  title: z.string().min(3).max(100),
   textContent: z.string().min(3),
 });
 
@@ -38,24 +37,17 @@ export async function POST(
   // 3. Get the token from the cookie
   const sessionTokenCookie = cookies().get('sessionToken');
 
-  // 4. Check if the token has a valid session
-  const session =
+  // 4. Create the note
+  // This looks insecure but it isn't
+  const newNote =
     sessionTokenCookie &&
-    (await getValidSessionByToken(sessionTokenCookie.value));
+    (await createNote(
+      sessionTokenCookie.value,
+      result.data.title,
+      result.data.textContent,
+    ));
 
-  if (!session) {
-    return NextResponse.json(
-      {
-        errors: [{ message: 'Authentication token is invalid' }],
-      },
-      { status: 401 },
-    );
-  }
-
-  // 5. Create the note
-  const newNote = await createNote(result.data.userId, result.data.textContent);
-
-  // 6. If the note creation fails, return an error
+  // 5. If the note creation fails, return an error
   if (!newNote) {
     return NextResponse.json(
       {
@@ -65,7 +57,7 @@ export async function POST(
     );
   }
 
-  // 7. Return the text content of the note
+  // 6. Return the text content of the note
   return NextResponse.json({
     note: { textContent: newNote.textContent },
   });

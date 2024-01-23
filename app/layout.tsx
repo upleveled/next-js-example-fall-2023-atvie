@@ -54,9 +54,7 @@ export default async function RootLayout(props: Props) {
             <div>
               {user ? (
                 <>
-                  <Link href={`/profile/${user.username}`}>
-                    {user.username}
-                  </Link>
+                  <Link href="/profile">{user.username}</Link>
                   <LogoutButton />
                 </>
               ) : (
