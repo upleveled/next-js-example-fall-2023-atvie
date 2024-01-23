@@ -1,12 +1,13 @@
 import { cache } from 'react';
 import { sql } from '../database/connect';
 import { User } from '../migrations/00006-createTableUsers';
+import { Note } from '../migrations/00008-createTableNotes';
 
 export type UserWithPasswordHash = User & {
   passwordHash: string;
 };
 
-export type UserNote = {
+export type NoteWithUsername = {
   noteId: number;
   title: string;
   textContent: string;
@@ -74,13 +75,10 @@ export const getUserBySessionToken = cache(async (token: string) => {
   return user;
 });
 
-export const getUserWithNotesBySessionToken = cache(async (token: string) => {
-  const notes = await sql<UserNote[]>`
+export const getNotesBySessionToken = cache(async (token: string) => {
+  const notes = await sql<Note[]>`
     SELECT
-      notes.id AS note_id,
-      notes.title AS title,
-      notes.text_content AS text_content,
-      users.username AS username
+      notes.*
     FROM
       notes
       INNER JOIN users ON notes.user_id = users.id
@@ -95,7 +93,7 @@ export const getUserWithNotesBySessionToken = cache(async (token: string) => {
 
 export const getNoteBySessionToken = cache(
   async (token: string, noteId: number) => {
-    const [note] = await sql<UserNote[]>`
+    const [note] = await sql<NoteWithUsername[]>`
       SELECT
         notes.id AS note_id,
         notes.title AS title,

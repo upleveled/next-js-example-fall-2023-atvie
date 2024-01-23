@@ -2,8 +2,8 @@ import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import {
+  getNotesBySessionToken,
   getUserBySessionToken,
-  getUserWithNotesBySessionToken,
 } from '../../database/users';
 import CreateNoteForm from './CreateNotesForm';
 import styles from './notes.module.scss';
@@ -25,24 +25,19 @@ export default async function NotesPage() {
   if (!user) redirect('/login?returnTo=/notes');
 
   // Display the notes for the current logged in user
-  const userWithNotes = await getUserWithNotesBySessionToken(
-    sessionTokenCookie.value,
-  );
+  const notes = await getNotesBySessionToken(sessionTokenCookie.value);
 
   return (
     <div className={styles.notePage}>
       <CreateNoteForm userId={user.id} />
       <div>
-        {userWithNotes.length > 0 ? (
+        {notes.length > 0 ? (
           <>
             <h2>Notes For {user.username}</h2>
             <ul>
-              {userWithNotes.map((userWithNote) => (
-                <Link
-                  key={`notes-div-${userWithNote.noteId}`}
-                  href={`/notes/${userWithNote.noteId}`}
-                >
-                  <li>{userWithNote.title}</li>
+              {notes.map((note) => (
+                <Link key={`notes-div-${note.id}`} href={`/notes/${note.id}`}>
+                  <li>{note.title}</li>
                 </Link>
               ))}
             </ul>
