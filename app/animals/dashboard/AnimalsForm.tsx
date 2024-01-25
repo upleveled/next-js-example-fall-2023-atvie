@@ -85,8 +85,37 @@ export default function AnimalsForm(props: Props) {
         <div className={styles.animalForm}>
           <h2>{id ? 'Edit Animal' : 'Add Animal'}</h2>
           <form
-            onSubmit={(event) => {
+            onSubmit={async (event) => {
               event.preventDefault();
+              if (id) {
+                await fetch(`/api/animals/${id && id}`, {
+                  method: id ? 'PUT' : 'POST',
+                  body: JSON.stringify({
+                    firstName,
+                    type,
+                    accessory,
+                    birthDate,
+                  }),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                });
+              } else {
+                await fetch('/api/animals', {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    firstName,
+                    type,
+                    accessory,
+                    birthDate,
+                  }),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                });
+              }
+              resetFormStates();
+              router.refresh();
             }}
           >
             <label>
@@ -120,45 +149,9 @@ export default function AnimalsForm(props: Props) {
                 }
               />
             </label>
-            {id ? (
-              <button
-                className={styles.button}
-                onClick={async () => {
-                  await fetch(`/api/animals/${id}`, {
-                    method: 'PUT',
-                    body: JSON.stringify({
-                      firstName,
-                      type,
-                      accessory,
-                      birthDate,
-                    }),
-                  });
-                  resetFormStates();
-                  router.refresh();
-                }}
-              >
-                Save Changes
-              </button>
-            ) : (
-              <button
-                className={styles.button}
-                onClick={async () => {
-                  await fetch('/api/animals', {
-                    method: 'POST',
-                    body: JSON.stringify({
-                      firstName,
-                      type,
-                      accessory,
-                      birthDate,
-                    }),
-                  });
-                  resetFormStates();
-                  router.refresh();
-                }}
-              >
-                Add Animal
-              </button>
-            )}
+            <button className={styles.button}>
+              {id ? 'Save Changes' : 'Add Animal'}
+            </button>
           </form>
         </div>
       </div>
