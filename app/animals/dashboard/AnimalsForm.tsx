@@ -56,7 +56,7 @@ export default function AnimalsForm(props: Props) {
                   <td>{dayjs(animal.birthDate).format('YYYY-MM-DD')}</td>
                   <td className={styles.buttonCell}>
                     <button
-                      disabled={id === animal.id && true}
+                      disabled={id === animal.id}
                       onClick={() => {
                         setId(animal.id);
                         setFirstName(animal.firstName);
