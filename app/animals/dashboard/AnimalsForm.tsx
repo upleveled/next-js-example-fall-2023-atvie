@@ -83,76 +83,78 @@ export default function AnimalsForm(props: Props) {
           </table>
         </div>
         <div className={styles.animalForm}>
-          <h2>{id ? 'Edit Animal' : 'Add Animal'}</h2>
-          <form
-            onSubmit={async (event) => {
-              event.preventDefault();
-              if (id) {
-                await fetch(`/api/animals/${id && id}`, {
-                  method: id ? 'PUT' : 'POST',
-                  body: JSON.stringify({
-                    firstName,
-                    type,
-                    accessory,
-                    birthDate,
-                  }),
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                });
-              } else {
-                await fetch('/api/animals', {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    firstName,
-                    type,
-                    accessory,
-                    birthDate,
-                  }),
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                });
-              }
-              resetFormStates();
-              router.refresh();
-            }}
-          >
-            <label>
-              Name
-              <input
-                value={firstName}
-                onChange={(event) => setFirstName(event.currentTarget.value)}
-              />
-            </label>
-            <label>
-              Type
-              <input
-                value={type}
-                onChange={(event) => setType(event.currentTarget.value)}
-              />
-            </label>
-            <label>
-              Accessory
-              <input
-                value={accessory}
-                onChange={(event) => setAccessory(event.currentTarget.value)}
-              />
-            </label>
-            <label>
-              Birth Date
-              <input
-                type="date"
-                value={dayjs(birthDate).format('YYYY-MM-DD')}
-                onChange={(event) =>
-                  setBirthDate(new Date(event.currentTarget.value))
+          <div>
+            <h2>{id ? 'Edit Animal' : 'Add Animal'}</h2>
+            <form
+              onSubmit={async (event) => {
+                event.preventDefault();
+                if (id) {
+                  await fetch(`/api/animals/${id && id}`, {
+                    method: id ? 'PUT' : 'POST',
+                    body: JSON.stringify({
+                      firstName,
+                      type,
+                      accessory,
+                      birthDate,
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+                } else {
+                  await fetch('/api/animals', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      firstName,
+                      type,
+                      accessory,
+                      birthDate,
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
                 }
-              />
-            </label>
-            <button className={styles.button}>
-              {id ? 'Save Changes' : 'Add Animal'}
-            </button>
-          </form>
+                resetFormStates();
+                router.refresh();
+              }}
+            >
+              <label>
+                Name
+                <input
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.currentTarget.value)}
+                />
+              </label>
+              <label>
+                Type
+                <input
+                  value={type}
+                  onChange={(event) => setType(event.currentTarget.value)}
+                />
+              </label>
+              <label>
+                Accessory
+                <input
+                  value={accessory}
+                  onChange={(event) => setAccessory(event.currentTarget.value)}
+                />
+              </label>
+              <label>
+                Birth Date
+                <input
+                  type="date"
+                  value={dayjs(birthDate).format('YYYY-MM-DD')}
+                  onChange={(event) =>
+                    setBirthDate(new Date(event.currentTarget.value))
+                  }
+                />
+              </label>
+              <button className={styles.button}>
+                {id ? 'Save Changes' : 'Add Animal'}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </>
