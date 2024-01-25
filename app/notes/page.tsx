@@ -27,24 +27,27 @@ export default async function NotesPage() {
   const notes = await getNotesBySessionToken(sessionTokenCookie.value);
 
   return (
-    <div className={styles.notePage}>
-      <CreateNoteForm />
-      <div>
-        {notes.length === 0 ? (
-          <h2>No notes yet</h2>
-        ) : (
-          <>
-            <h2>Notes For {user.username}</h2>
-            <ul>
-              {notes.map((note) => (
-                <Link key={`notes-div-${note.id}`} href={`/notes/${note.id}`}>
-                  <li>{note.title}</li>
-                </Link>
-              ))}
-            </ul>
-          </>
-        )}
+    <>
+      <h1>Notes</h1>
+      <div className={styles.notePage}>
+        <div>
+          {notes.length === 0 ? (
+            <h2>No notes yet</h2>
+          ) : (
+            <>
+              <h2>Notes For {user.username}</h2>
+              <ul>
+                {notes.map((note) => (
+                  <Link key={`notes-div-${note.id}`} href={`/notes/${note.id}`}>
+                    <li>{note.title}</li>
+                  </Link>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+        <CreateNoteForm />
       </div>
-    </div>
+    </>
   );
 }
