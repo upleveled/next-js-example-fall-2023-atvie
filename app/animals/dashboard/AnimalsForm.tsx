@@ -88,6 +88,7 @@ export default function AnimalsForm(props: Props) {
             <form
               onSubmit={async (event) => {
                 event.preventDefault();
+
                 if (id) {
                   await fetch(`/api/animals/${id && id}`, {
                     method: id ? 'PUT' : 'POST',
@@ -115,6 +116,7 @@ export default function AnimalsForm(props: Props) {
                     },
                   });
                 }
+
                 resetFormStates();
                 router.refresh();
               }}
