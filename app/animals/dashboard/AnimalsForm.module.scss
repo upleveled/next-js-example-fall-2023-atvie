@@ -51,8 +51,12 @@
     top: 0;
   }
 
+  label {
+    display: flex;
+    flex-direction: column;
+  }
+
   input {
-    width: 100%;
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid;
