@@ -38,7 +38,7 @@
   padding: 1rem;
 
   @media (max-width: 990px) {
-    // Change order of form and table
+    // Change order to -1 to display animalForm above table
     order: -1;
   }
 
@@ -47,18 +47,18 @@
   > div {
     position: sticky;
     top: 0;
-  }
 
-  label {
-    display: flex;
-    flex-direction: column;
-  }
+    label {
+      display: flex;
+      flex-direction: column;
+    }
 
-  input {
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid;
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
+    input {
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid;
+      padding: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
   }
 }
