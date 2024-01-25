@@ -8,43 +8,37 @@ export default function CreateNoteForm() {
 
   const router = useRouter();
 
-  async function handleCreateNote() {
-    await fetch('/api/notes', {
-      method: 'POST',
-      body: JSON.stringify({
-        title,
-        textContent,
-      }),
-    });
-    router.refresh();
-    setTitle('');
-    setTextContent('');
-  }
-
   return (
     <form
       onSubmit={async (event) => {
         event.preventDefault();
-        await handleCreateNote();
+        await fetch('/api/notes', {
+          method: 'POST',
+          body: JSON.stringify({
+            title,
+            textContent,
+          }),
+        });
+        router.refresh();
+        setTitle('');
+        setTextContent('');
       }}
     >
       <label>
-        Title:
+        Title
         <input
           value={title}
           onChange={(event) => setTitle(event.currentTarget.value)}
         />
       </label>
-
       <label>
-        Note:
+        Note
         <input
           value={textContent}
           onChange={(event) => setTextContent(event.currentTarget.value)}
         />
       </label>
-
-      <button>Create +</button>
+      <button>Add Note</button>
     </form>
   );
 }

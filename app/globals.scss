@@ -1,18 +1,29 @@
+:root {
+  --color-background: rgb(253, 247, 228);
+  --color-layout: rgb(222, 208, 182);
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  background: teal;
+  background: var(--color-background);
   // Avoid fixed footer obscuring content
   padding-bottom: 50px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  margin: 0.25rem;
 }
 
 nav {
   width: 100vw;
   height: 4rem;
-  background: tan;
+  background: var(--color-layout);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -20,11 +31,7 @@ nav {
   > div {
     display: flex;
     align-items: center;
-    gap: 10px;
-  }
-
-  > div a {
-    margin: 4px;
+    gap: 0.625rem;
   }
 }
 
@@ -34,9 +41,16 @@ nav {
 }
 
 .logoutButton {
-  padding: 4px 8px;
+  padding: 0.5rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 1.125rem;
+}
+
+button {
+  font-size: 0.875rem;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
 }
