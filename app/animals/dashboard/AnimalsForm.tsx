@@ -74,6 +74,7 @@ export default function AnimalsForm(props: Props) {
                           method: 'DELETE',
                         });
                         router.refresh();
+                        // Reset form states if deleting an animal after editing it
                         resetFormStates();
                       }}
                     >
