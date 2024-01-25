@@ -38,7 +38,7 @@
   padding: 1rem;
 
   @media (max-width: 990px) {
-    // Display form above table on mobile
+    // Display form above table on smaller screens
     order: -1;
   }
 
