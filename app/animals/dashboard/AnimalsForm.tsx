@@ -92,22 +92,22 @@ export default function AnimalsForm(props: Props) {
             <label>
               Name
               <input
-                onChange={(event) => setFirstName(event.currentTarget.value)}
                 value={firstName}
+                onChange={(event) => setFirstName(event.currentTarget.value)}
               />
             </label>
             <label>
               Type
               <input
-                onChange={(event) => setType(event.currentTarget.value)}
                 value={type}
+                onChange={(event) => setType(event.currentTarget.value)}
               />
             </label>
             <label>
               Accessory
               <input
-                onChange={(event) => setAccessory(event.currentTarget.value)}
                 value={accessory}
+                onChange={(event) => setAccessory(event.currentTarget.value)}
               />
             </label>
             <label>
