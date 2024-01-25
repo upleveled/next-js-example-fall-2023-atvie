@@ -1,18 +1,29 @@
+:root {
+  --color-background: rgb(253, 247, 228);
+  --color-layout: rgb(222, 208, 182);
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 
 body {
-  background: #fdf7e4;
+  background: var(--color-background);
   // Avoid fixed footer obscuring content
   padding-bottom: 50px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+  margin: 0.25rem;
 }
 
 nav {
   width: 100vw;
   height: 4rem;
-  background: #ded0b6;
+  background: var(--color-layout);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -21,11 +32,6 @@ nav {
     display: flex;
     align-items: center;
     gap: 0.625rem;
-  }
-
-  > div a {
-    margin: 0.25rem;
-    color: #000;
   }
 }
 
