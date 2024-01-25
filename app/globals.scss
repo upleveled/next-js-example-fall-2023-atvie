@@ -5,6 +5,8 @@
 
 body {
   background: #fdf7e4;
+  // Avoid fixed footer obscuring content
+  padding-bottom: 50px;
 }
 
 nav {
@@ -33,7 +35,7 @@ nav {
 }
 
 .logoutButton {
-  padding: 0.25rem 0.5rem;
+  padding: 0.5rem;
   background: transparent;
   border: none;
   cursor: pointer;
@@ -42,7 +44,7 @@ nav {
 
 button {
   font-size: 0.875rem;
-  height: 35px;
   border-radius: 6px;
   padding: 0.5rem;
+  cursor: pointer;
 }

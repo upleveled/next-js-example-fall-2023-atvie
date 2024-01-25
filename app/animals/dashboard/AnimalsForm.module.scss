@@ -1,32 +1,28 @@
 .dashboard {
   display: grid;
-  grid-template: 1fr / 2fr 1fr;
+  position: relative;
+  grid-template-columns: 2fr 1fr;
   padding: 1.5rem;
-  // Enables scrolling by fixing the container height.
-  // Without a fixed height, the container adjusts to its content,
-  // preventing scrolling
-  height: 80vh;
+  grid-gap: 1rem;
 
-  > div {
-    // Enables table scrolling when the screen isn't large
-    // enough to show all data at once
-    overflow: auto;
+  @media screen and (max-width: 990px) {
+    grid-template-columns: 1fr;
+  }
 
-    table {
-      width: 100%;
-      font-size: 0.875rem;
-      // Removes the default border between cells
-      border-collapse: collapse;
-    }
+  table {
+    width: 100%;
+    font-size: 0.875rem;
+    // Removes the default border between cells
+    border-collapse: collapse;
+  }
 
-    thead {
-      text-align: left;
-    }
+  thead {
+    text-align: left;
+  }
 
-    th,
-    td {
-      padding: 1rem;
-    }
+  th,
+  td {
+    padding: 1rem;
   }
 }
 
@@ -40,10 +36,20 @@
 }
 
 .animalForm {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  width: 90%;
+  padding: 1rem;
+
+  @media screen and (max-width: 990px) {
+    // Change order of form and table
+    order: -1;
+  }
+
+  // Sticky position is disabled on the grid container, so we use
+  // a child div to enable and apply the sticky positioning
+  > div {
+    position: sticky;
+    top: 0;
+  }
 
   input {
     width: 100%;
