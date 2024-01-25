@@ -69,15 +69,25 @@ export const deleteAnimalById = cache(async (id: number) => {
 });
 
 export const createAnimal = cache(
-  async (firstName: string, type: string, accessory?: string) => {
+  // Accept an object as an argument, allowing optional properties like
+  // `accessory` before required properties like `birthDate`
+  //
+  // `Omit` is a TS utility type that excludes a property from a type
+  async (newAnimal: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
-        animals (first_name, type, accessory)
+        animals (
+          first_name,
+          type,
+          accessory,
+          birth_date
+        )
       VALUES
         (
-          ${firstName},
-          ${type},
-          ${accessory || null}
+          ${newAnimal.firstName},
+          ${newAnimal.type},
+          ${newAnimal.accessory},
+          ${newAnimal.birthDate}
         )
       RETURNING
         *
@@ -87,22 +97,21 @@ export const createAnimal = cache(
   },
 );
 
-export const updateAnimalById = cache(
-  async (id: number, firstName: string, type: string, accessory?: string) => {
-    const [animal] = await sql<Animal[]>`
-      UPDATE animals
-      SET
-        first_name = ${firstName},
-        type = ${type},
-        accessory = ${accessory || null}
-      WHERE
-        id = ${id}
-      RETURNING
-        *
-    `;
-    return animal;
-  },
-);
+export const updateAnimalById = cache(async (updatedAnimal: Animal) => {
+  const [animal] = await sql<Animal[]>`
+    UPDATE animals
+    SET
+      first_name = ${updatedAnimal.firstName},
+      type = ${updatedAnimal.type},
+      accessory = ${updatedAnimal.accessory},
+      birth_date = ${updatedAnimal.birthDate}
+    WHERE
+      id = ${updatedAnimal.id}
+    RETURNING
+      *
+  `;
+  return animal;
+});
 
 // export function getAnimal(id: number) {
 //   return animals1.find((animal) => animal.id === id);

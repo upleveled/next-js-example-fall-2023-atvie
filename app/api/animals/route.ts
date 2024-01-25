@@ -26,6 +26,11 @@ const animalSchema = z.object({
   firstName: z.string(),
   type: z.string(),
   accessory: z.string().optional(),
+  // The `birthDate` is received as a string from the client side. Zod, with
+  // `z.coerce.date()`, automatically converts any input value to a Date object
+  // before validation. If the conversion encounters issues (e.g., invalid
+  // format), an error will be thrown
+  birthDate: z.coerce.date(),
 });
 
 export async function GET(
@@ -72,11 +77,12 @@ export async function POST(
   }
 
   // Get the animals from the database
-  const animal = await createAnimal(
-    result.data.firstName,
-    result.data.type,
-    result.data.accessory,
-  );
+  const animal = await createAnimal({
+    firstName: result.data.firstName,
+    type: result.data.type,
+    accessory: result.data.accessory || null,
+    birthDate: result.data.birthDate,
+  });
 
   if (!animal) {
     return NextResponse.json(
