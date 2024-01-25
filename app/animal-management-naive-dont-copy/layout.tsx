@@ -13,7 +13,6 @@ export default async function AnimalsNaiveLayout(props: Props) {
   const sessionTokenCookie = cookies().get('sessionToken');
 
   // 2. check if the sessionToken has a valid session
-
   const session =
     sessionTokenCookie &&
     (await getValidSessionByToken(sessionTokenCookie.value));

@@ -5,7 +5,7 @@ import LocalStorage from './LocalStorage';
 
 export default function HomePage() {
   return (
-    <main>
+    <div>
       <GenerateButton />
       <LocalStorage />
       <h1>Hello UpLeveled!</h1>
@@ -20,6 +20,6 @@ export default function HomePage() {
         height={300}
       />
       <Image src={smilingCat} alt="Smiling cat" />
-    </main>
+    </div>
   );
 }
