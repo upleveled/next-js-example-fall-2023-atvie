@@ -38,7 +38,7 @@
   padding: 1rem;
 
   @media (max-width: 990px) {
-    // Change order to -1 to display animalForm above table
+    // Display form above table on mobile
     order: -1;
   }
 
