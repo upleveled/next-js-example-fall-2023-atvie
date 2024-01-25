@@ -1,167 +1,172 @@
 'use client';
+
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
+import styles from './AnimalsForm.module.scss';
 
 type Props = {
   animals: Animal[];
 };
 
-export default function AnimalsForm({ animals }: Props) {
-  const [animalList, setAnimalList] = useState(animals);
-  const [firstNameInput, setFirstNameInput] = useState('');
-  const [typeInput, setTypeInput] = useState('');
-  const [accessoryInput, setAccessoryInput] = useState('');
+export default function AnimalsForm(props: Props) {
+  const [id, setId] = useState(0);
+  const [firstName, setFirstName] = useState('');
+  const [type, setType] = useState('');
+  const [accessory, setAccessory] = useState('');
+  const [birthDate, setBirthDate] = useState(new Date());
 
-  const [onEditId, setOnEditId] = useState(0);
-  const [onEditFirstNameInput, setOnEditFirstNameInput] = useState('');
-  const [onEditTypeInput, setOnEditTypeInput] = useState('');
-  const [onEditAccessoryInput, setOnEditAccessoryInput] = useState('');
+  const router = useRouter();
 
-  async function createAnimal() {
-    const response = await fetch('/api/animals', {
-      method: 'POST',
-      body: JSON.stringify({
-        firstName: firstNameInput,
-        type: typeInput,
-        accessory: accessoryInput,
-      }),
-    });
-
-    const data = await response.json();
-
-    setAnimalList([...animalList, data.animal]);
-  }
-
-  async function updateAnimalById(id: number) {
-    const response = await fetch(`/api/animals/${id}`, {
-      method: 'PUT',
-      body: JSON.stringify({
-        firstName: onEditFirstNameInput,
-        type: onEditTypeInput,
-        accessory: onEditAccessoryInput,
-      }),
-    });
-
-    const data = await response.json();
-
-    setAnimalList(
-      animalList.map((animal) => {
-        if (animal.id === data.animal.id) {
-          return data.animal;
-        }
-        return animal;
-      }),
-    );
-  }
-
-  async function deleteAnimalById(id: number) {
-    const response = await fetch(`/api/animals/${id}`, {
-      method: 'DELETE',
-    });
-
-    const data = await response.json();
-
-    setAnimalList(animalList.filter((animal) => animal.id !== data.animal.id));
+  // Reset form states to default values so that the form is cleared
+  // after an add, edit or delete action
+  function resetFormStates() {
+    setId(0);
+    setFirstName('');
+    setType('');
+    setAccessory('');
+    setBirthDate(new Date());
   }
 
   return (
     <>
-      <div>
-        <form
-          onSubmit={async (event) => {
-            event.preventDefault();
-            await createAnimal();
-          }}
-        >
-          <label>
-            First Name:
-            <input
-              value={firstNameInput}
-              onChange={(event) => setFirstNameInput(event.currentTarget.value)}
-            />
-          </label>
-          <br />
-          <label>
-            Type:
-            <input
-              value={typeInput}
-              onChange={(event) => setTypeInput(event.currentTarget.value)}
-            />
-          </label>
-          <br />
-          <label>
-            Accessory:
-            <input
-              value={accessoryInput}
-              onChange={(event) => setAccessoryInput(event.currentTarget.value)}
-            />
-          </label>
-          <br />
-          <button>Create +</button>
-        </form>
-      </div>
-      <br />
-      <>
-        {animalList.map((animal) => {
-          return (
-            <div key={`animal-inputs-${animal.id}`}>
-              <input
-                value={
-                  animal.id !== onEditId
-                    ? animal.firstName
-                    : onEditFirstNameInput
-                }
-                onChange={(event) =>
-                  setOnEditFirstNameInput(event.currentTarget.value)
-                }
-                disabled={animal.id !== onEditId}
-              />
-              <input
-                value={animal.id !== onEditId ? animal.type : onEditTypeInput}
-                onChange={(event) =>
-                  setOnEditTypeInput(event.currentTarget.value)
-                }
-                disabled={animal.id !== onEditId}
-              />
-              <input
-                value={
-                  animal.id !== onEditId
-                    ? animal.accessory || ''
-                    : onEditAccessoryInput
-                }
-                onChange={(event) =>
-                  setOnEditAccessoryInput(event.currentTarget.value)
-                }
-                disabled={animal.id !== onEditId}
-              />
-              {onEditId === animal.id ? (
-                <button
-                  onClick={async () => {
-                    await updateAnimalById(animal.id);
-                    setOnEditId(0);
-                  }}
+      <h1>Animal Dashboard</h1>
+
+      <div className={styles.dashboard}>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Accessory</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {props.animals.map((animal) => (
+                <tr
+                  key={`animal-${animal.id}`}
+                  className={id === animal.id ? styles.selectedItem : ''}
                 >
-                  save
-                </button>
-              ) : (
-                <button
-                  onClick={() => {
-                    setOnEditFirstNameInput(animal.firstName);
-                    setOnEditTypeInput(animal.type);
-                    setOnEditAccessoryInput(animal.accessory || '');
-                    setOnEditId(animal.id);
-                  }}
-                >
-                  Edit
-                </button>
-              )}
-              <button onClick={async () => await deleteAnimalById(animal.id)}>
-                Delete
+                  <td>{animal.firstName}</td>
+                  <td>{animal.type}</td>
+                  <td>{animal.accessory}</td>
+                  <td>{dayjs(animal.birthDate).format('YYYY-MM-DD')}</td>
+                  <td className={styles.buttonCell}>
+                    <button
+                      disabled={id === animal.id}
+                      onClick={() => {
+                        setId(animal.id);
+                        setFirstName(animal.firstName);
+                        setType(animal.type);
+                        // Default to an empty string to avoid errors with
+                        // passing null to input values
+                        setAccessory(animal.accessory || '');
+                        setBirthDate(animal.birthDate);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className={styles.button}
+                      onClick={async () => {
+                        await fetch(`/api/animals/${animal.id}`, {
+                          method: 'DELETE',
+                        });
+                        router.refresh();
+
+                        // Reset form states if deleting an animal after editing it
+                        resetFormStates();
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className={styles.animalForm}>
+          <div>
+            <h2>{id ? 'Edit Animal' : 'Add Animal'}</h2>
+            <form
+              onSubmit={async (event) => {
+                event.preventDefault();
+
+                if (id) {
+                  await fetch(`/api/animals/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({
+                      firstName,
+                      type,
+                      accessory,
+                      birthDate,
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+                } else {
+                  await fetch('/api/animals', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                      firstName,
+                      type,
+                      accessory,
+                      birthDate,
+                    }),
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                  });
+                }
+
+                router.refresh();
+                resetFormStates();
+              }}
+            >
+              <label>
+                Name
+                <input
+                  value={firstName}
+                  onChange={(event) => setFirstName(event.currentTarget.value)}
+                />
+              </label>
+              <label>
+                Type
+                <input
+                  value={type}
+                  onChange={(event) => setType(event.currentTarget.value)}
+                />
+              </label>
+              <label>
+                Accessory
+                <input
+                  value={accessory}
+                  onChange={(event) => setAccessory(event.currentTarget.value)}
+                />
+              </label>
+              <label>
+                Birth Date
+                <input
+                  type="date"
+                  value={dayjs(birthDate).format('YYYY-MM-DD')}
+                  onChange={(event) =>
+                    setBirthDate(new Date(event.currentTarget.value))
+                  }
+                />
+              </label>
+              <button className={styles.button}>
+                {id ? 'Save Changes' : 'Add Animal'}
               </button>
-            </div>
-          );
-        })}
-      </>
+            </form>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
