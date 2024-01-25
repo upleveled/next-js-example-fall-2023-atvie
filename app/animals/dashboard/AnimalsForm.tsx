@@ -21,8 +21,8 @@ export default function AnimalsForm(props: Props) {
 
   function resetFormStates() {
     setId(0);
-    setFirstName('');
     setType('');
+    setFirstName('');
     setAccessory('');
     setBirthDate(new Date());
   }
@@ -30,6 +30,7 @@ export default function AnimalsForm(props: Props) {
   return (
     <>
       <h1>Animal Dashboard</h1>
+
       <div className={styles.dashboard}>
         <div>
           <table>
@@ -53,14 +54,14 @@ export default function AnimalsForm(props: Props) {
                   <td>{dayjs(animal.birthDate).format('YYYY-MM-DD')}</td>
                   <td className={styles.buttonCell}>
                     <button
+                      disabled={id === animal.id && true}
                       onClick={() => {
                         setId(animal.id);
-                        setFirstName(animal.firstName);
                         setType(animal.type);
+                        setFirstName(animal.firstName);
                         setAccessory(animal.accessory || '');
                         setBirthDate(animal.birthDate);
                       }}
-                      disabled={id === animal.id && true}
                     >
                       Edit
                     </button>
@@ -82,6 +83,7 @@ export default function AnimalsForm(props: Props) {
             </tbody>
           </table>
         </div>
+
         <div className={styles.animalForm}>
           <div>
             <h2>{id ? 'Edit Animal' : 'Add Animal'}</h2>
