@@ -21,8 +21,8 @@ export default function AnimalsForm(props: Props) {
 
   function resetFormStates() {
     setId(0);
-    setType('');
     setFirstName('');
+    setType('');
     setAccessory('');
     setBirthDate(new Date());
   }
@@ -57,8 +57,8 @@ export default function AnimalsForm(props: Props) {
                       disabled={id === animal.id && true}
                       onClick={() => {
                         setId(animal.id);
-                        setType(animal.type);
                         setFirstName(animal.firstName);
+                        setType(animal.type);
                         setAccessory(animal.accessory || '');
                         setBirthDate(animal.birthDate);
                       }}
