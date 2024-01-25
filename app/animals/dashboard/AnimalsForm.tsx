@@ -90,8 +90,8 @@ export default function AnimalsForm(props: Props) {
                 event.preventDefault();
 
                 if (id) {
-                  await fetch(`/api/animals/${id && id}`, {
-                    method: id ? 'PUT' : 'POST',
+                  await fetch(`/api/animals/${id}`, {
+                    method: 'PUT',
                     body: JSON.stringify({
                       firstName,
                       type,
