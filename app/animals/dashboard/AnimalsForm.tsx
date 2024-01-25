@@ -61,6 +61,8 @@ export default function AnimalsForm(props: Props) {
                         setId(animal.id);
                         setFirstName(animal.firstName);
                         setType(animal.type);
+                        // Set it to an empty string to avoid errors with
+                        // passing null to input values
                         setAccessory(animal.accessory || '');
                         setBirthDate(animal.birthDate);
                       }}
@@ -74,6 +76,7 @@ export default function AnimalsForm(props: Props) {
                           method: 'DELETE',
                         });
                         router.refresh();
+
                         // Reset form states if deleting an animal after editing it
                         resetFormStates();
                       }}
