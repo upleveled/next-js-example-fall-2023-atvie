@@ -19,6 +19,8 @@ export default function AnimalsForm(props: Props) {
 
   const router = useRouter();
 
+  // Reset form states to default values so that the form is cleared
+  // after an add, edit or delete action
   function resetFormStates() {
     setId(0);
     setFirstName('');
@@ -71,8 +73,8 @@ export default function AnimalsForm(props: Props) {
                         await fetch(`/api/animals/${animal.id}`, {
                           method: 'DELETE',
                         });
-                        resetFormStates();
                         router.refresh();
+                        resetFormStates();
                       }}
                     >
                       Delete
@@ -119,8 +121,8 @@ export default function AnimalsForm(props: Props) {
                   });
                 }
 
-                resetFormStates();
                 router.refresh();
+                resetFormStates();
               }}
             >
               <label>
