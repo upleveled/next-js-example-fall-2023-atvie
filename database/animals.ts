@@ -4,7 +4,7 @@ import { sql } from '../database/connect';
 import { Animal } from '../migrations/00000-createTableAnimal';
 import {
   AnimalFood,
-  AnimalWithFoodsInJsonAgg,
+  AnimalWithFoods,
 } from '../migrations/00004-createTableAnimalFoods';
 
 // const animals1 = [
@@ -139,30 +139,31 @@ export const getAnimalsWithFoods = cache(async (id: number) => {
 
 // Join query for getting a single animal with related food/foods using Json_aag
 export const getAnimalWithFoodsById = cache(async (id: number) => {
-  const [animal] = await sql<AnimalWithFoodsInJsonAgg[]>`
+  const [animal] = await sql<AnimalWithFoods[]>`
     SELECT
       animals.id AS animal_id,
       animals.first_name AS animal_first_name,
       animals.type AS animal_type,
       animals.accessory AS animal_accessory,
-      (
-        SELECT
-          json_agg(foods.*)
-        FROM
-          animal_foods
-          INNER JOIN foods ON animal_foods.food_id = foods.id
-        WHERE
-          animal_foods.animal_id = animals.id
+      -- Return empty array instead of [null] if no food is found
+      coalesce(
+        json_agg(foods.*) FILTER (
+          WHERE
+            foods.id IS NOT NULL
+        ),
+        '[]'
       ) AS animal_foods
     FROM
       animals
+      LEFT JOIN animal_foods ON animals.id = animal_foods.animal_id
+      LEFT JOIN foods ON foods.id = animal_foods.food_id
     WHERE
       animals.id = ${id}
     GROUP BY
       animals.first_name,
       animals.type,
       animals.accessory,
-      animals.id;
+      animals.id
   `;
 
   return animal;

@@ -11,14 +11,12 @@ export type AnimalFood = {
   animalFoodType: string | null;
 };
 
-type JsonAgg = Food[];
-
-export type AnimalWithFoodsInJsonAgg = {
+export type AnimalWithFoods = {
   animalId: number;
   animalFirstName: string;
   animalType: string;
   animalAccessory: string | null;
-  animalFoods: JsonAgg | null;
+  animalFoods: Food[] | null;
 };
 
 export async function up(sql: Sql) {

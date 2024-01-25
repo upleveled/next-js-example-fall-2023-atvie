@@ -8,9 +8,7 @@ import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
 export default async function AnimalFoodPage(props) {
   const animalsWithFoods = await getAnimalsWithFoods(props.params.animalId);
-  const animalWithFoodJsonAgg = await getAnimalWithFoodsById(
-    props.params.animalId,
-  );
+  const animalWithFood = await getAnimalWithFoodsById(props.params.animalId);
 
   if (!animalsWithFoods[0]) notFound();
 
@@ -45,23 +43,23 @@ export default async function AnimalFoodPage(props) {
       <br />
       <br />
       <h1>
-        {animalWithFoodJsonAgg.animalFirstName} (using data transformation in
-        SQL using json_agg)
+        {animalWithFood.animalFirstName} (using data transformation in SQL using
+        json_agg)
       </h1>
       <Image
-        src={`/images/${animalWithFoodJsonAgg.animalFirstName.toLowerCase()}.png`}
-        alt={`A picture of ${animalWithFoodJsonAgg.animalFirstName}`}
+        src={`/images/${animalWithFood.animalFirstName.toLowerCase()}.png`}
+        alt={`A picture of ${animalWithFood.animalFirstName}`}
         width={200}
         height={200}
       />
       <p>
-        This is a {animalWithFoodJsonAgg.animalType} carrying a{' '}
-        {animalWithFoodJsonAgg.animalAccessory}
+        This is a {animalWithFood.animalType} carrying a{' '}
+        {animalWithFood.animalAccessory}
       </p>
       <br />
       Who likes:
       <ul>
-        {animalWithFoodJsonAgg.animalFoods.map((animalFood) => {
+        {animalWithFood.animalFoods.map((animalFood) => {
           return (
             <li key={`animal-with-food-${animalFood.name}-${animalFood.id}`}>
               {animalFood.name}
