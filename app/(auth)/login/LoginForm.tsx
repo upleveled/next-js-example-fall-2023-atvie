@@ -37,9 +37,7 @@ export default function LoginForm(props: Props) {
     //   router.push(props.returnTo);
     // }
 
-    router.push(
-      getSafeReturnToPath(props.returnTo) || `/profile/${data.user.username}`,
-    );
+    router.push(getSafeReturnToPath(props.returnTo) || `/profile`);
 
     // revalidatePath() throws unnecessary error, will be used when stable
     // revalidatePath('/(auth)/login', 'page');
