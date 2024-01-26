@@ -24,20 +24,20 @@ export default async function NotePage({ params }: Props) {
     ));
 
   // 3. If there is no note for the current user, show restricted access message
-  if (!note) {
-    return (
-      <div className={styles.restrictedAccessError}>
-        <h2>Restricted access</h2>
-        <Link href="/notes">Back to notes</Link>
-      </div>
-    );
-  }
-
   return (
     <div className={styles.noteContainer}>
-      <h1>Title: {note.title}</h1>
-      <p>Content: {note.textContent}</p>
-      <Link href="/notes">Back to notes</Link>
+      {!note ? (
+        <>
+          <h1>Restricted access</h1>
+          <Link href="/notes">Back to notes</Link>
+        </>
+      ) : (
+        <>
+          <h1>Title: {note.title}</h1>
+          <p>Content: {note.textContent}</p>
+          <Link href="/notes">Back to notes</Link>{' '}
+        </>
+      )}
     </div>
   );
 }
