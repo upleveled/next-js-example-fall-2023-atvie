@@ -29,6 +29,7 @@ export default async function NotesPage() {
   return (
     <>
       <h1>Notes</h1>
+
       <div className={styles.notePage}>
         <div>
           {notes.length === 0 ? (
@@ -38,14 +39,15 @@ export default async function NotesPage() {
               <h2>Notes For {user.username}</h2>
               <ul>
                 {notes.map((note) => (
-                  <Link key={`notes-div-${note.id}`} href={`/notes/${note.id}`}>
-                    <li>{note.title}</li>
-                  </Link>
+                  <li key={`notes-div-${note.id}`}>
+                    <Link href={`/notes/${note.id}`}>{note.title}</Link>
+                  </li>
                 ))}
               </ul>
             </>
           )}
         </div>
+
         <CreateNoteForm />
       </div>
     </>

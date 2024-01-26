@@ -31,6 +31,7 @@ export default function CreateNoteForm() {
           onChange={(event) => setTitle(event.currentTarget.value)}
         />
       </label>
+
       <label>
         Note
         <input
@@ -38,6 +39,7 @@ export default function CreateNoteForm() {
           onChange={(event) => setTextContent(event.currentTarget.value)}
         />
       </label>
+
       <button>Add Note</button>
     </form>
   );
