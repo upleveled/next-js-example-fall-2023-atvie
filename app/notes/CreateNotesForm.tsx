@@ -13,6 +13,7 @@ export default function CreateNoteForm() {
     <div className={styles.noteForm}>
       <div>
         <h2>Create Note</h2>
+
         <form
           onSubmit={async (event) => {
             event.preventDefault();
