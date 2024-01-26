@@ -70,7 +70,6 @@ export default function AnimalsForm(props: Props) {
                       Edit
                     </button>
                     <button
-                      className={styles.button}
                       onClick={async () => {
                         await fetch(`/api/animals/${animal.id}`, {
                           method: 'DELETE',
@@ -160,9 +159,7 @@ export default function AnimalsForm(props: Props) {
                   }
                 />
               </label>
-              <button className={styles.button}>
-                {id ? 'Save Changes' : 'Add Animal'}
-              </button>
+              <button>{id ? 'Save Changes' : 'Add Animal'}</button>
             </form>
           </div>
         </div>
