@@ -55,3 +55,16 @@ button {
   padding: 0.5rem;
   cursor: pointer;
 }
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+input {
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
