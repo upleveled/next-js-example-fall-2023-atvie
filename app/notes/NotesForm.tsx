@@ -31,7 +31,7 @@ export default function NotesForm(props: Props) {
               <h2>Notes For {props.user.username}</h2>
               <ul>
                 {props.notes.map((note) => (
-                  <li key={`notes-div-${note.id}`}>
+                  <li key={`notes-${note.id}`}>
                     <Link href={`/notes/${note.id}`}>{note.title}</Link>
                   </li>
                 ))}
