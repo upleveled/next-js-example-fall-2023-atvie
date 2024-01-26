@@ -1,7 +1,7 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import styles from './notes.module.scss';
+import styles from './NotesForm.module.scss';
 
 export default function CreateNoteForm() {
   const [title, setTitle] = useState('');
@@ -13,7 +13,6 @@ export default function CreateNoteForm() {
     <div className={styles.noteForm}>
       <div>
         <h2>Create Note</h2>
-
         <form
           onSubmit={async (event) => {
             event.preventDefault();

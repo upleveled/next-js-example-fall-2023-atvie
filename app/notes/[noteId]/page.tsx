@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { getNoteBySessionToken } from '../../../database/notes';
-import styles from '../notes.module.scss';
+import styles from '../NotesForm.module.scss';
 
 type Props = {
   params: {
