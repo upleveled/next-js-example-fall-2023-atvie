@@ -68,6 +68,24 @@ export const deleteAnimalById = cache(async (id: number) => {
   return animal;
 });
 
+// Secure database query for deleting an animal by id
+export const deleteAnimalBySessionToken = cache(
+  async (sessionToken: string, id: number) => {
+    const [animal] = await sql<Animal[]>`
+      DELETE FROM animals USING sessions
+      INNER JOIN users ON sessions.user_id = users.id
+      WHERE
+        sessions.token = ${sessionToken}
+        AND sessions.expiry_timestamp > now()
+        AND animals.id = ${id}
+      RETURNING
+        animals.*
+    `;
+
+    return animal;
+  },
+);
+
 export const createAnimal = cache(
   // Accept an object as an argument, allowing optional properties like
   // `accessory` before required properties like `birthDate`

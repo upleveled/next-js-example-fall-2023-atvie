@@ -1,7 +1,8 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
-  deleteAnimalById,
+  deleteAnimalBySessionToken,
   getAnimalById,
   updateAnimalById,
 } from '../../../../database/animals';
@@ -121,8 +122,11 @@ export async function DELETE(
       { status: 400 },
     );
   }
+  const sessionTokenCookie = cookies().get('sessionToken');
 
-  const animal = await deleteAnimalById(animalId);
+  const animal =
+    sessionTokenCookie &&
+    (await deleteAnimalBySessionToken(sessionTokenCookie.value, animalId));
 
   if (!animal) {
     return NextResponse.json(
