@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { createAnimal } from '../../../database/animals';
+import { createAnimalNaiveDontCopy } from '../../../database/animals';
 import { formatDate } from '../../../util/dates';
 
 export const metadata = {
@@ -16,7 +16,7 @@ type Props = {
 };
 
 export default async function NaiveCreateAnimalPage(props: Props) {
-  const animal = await createAnimal({
+  const animal = await createAnimalNaiveDontCopy({
     firstName: props.searchParams.firstName,
     type: props.searchParams.type,
     accessory: props.searchParams.accessory || null,
