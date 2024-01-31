@@ -47,7 +47,7 @@ export default async function RootLayout(props: Props) {
               <Link href="/animals">Animals</Link>
               <Link href="/fruits">Fruits</Link>
               <Link href="/animals/dashboard">Dashboard</Link>
-              <Link href="/notes">Check Notes</Link>
+              <Link href="/notes">Notes</Link>
             </div>
 
             {Math.floor(Math.random() * 10)}
