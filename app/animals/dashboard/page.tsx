@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getAnimals } from '../../../database/animals';
+import { getAnimalsBySessionToken } from '../../../database/animals';
 import { getValidSessionByToken } from '../../../database/sessions';
 import AnimalsForm from './AnimalsForm';
 
@@ -26,7 +26,7 @@ export default async function Dashboard() {
   if (!session) redirect('/login?returnTo=/animals/dashboard');
 
   // 4. If the sessionToken cookie is valid, allow access to dashboard page
-  const animals = await getAnimals();
+  const animals = await getAnimalsBySessionToken(session.token);
 
   return <AnimalsForm animals={animals} />;
 }

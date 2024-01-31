@@ -26,6 +26,21 @@ export const getAnimals = cache(async () => {
   return animals;
 });
 
+// Secured database query for getting animals by session token
+export const getAnimalsBySessionToken = cache(async (token: string) => {
+  const animals = await sql<Animal[]>`
+    SELECT
+      animals.*
+    FROM
+      animals
+      INNER JOIN sessions ON (
+        sessions.token = ${token}
+        AND sessions.expiry_timestamp > now()
+      )
+  `;
+  return animals;
+});
+
 export const getAnimalsWithLimitAndOffset = cache(
   async (limit: number, offset: number) => {
     // return animals;
