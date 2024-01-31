@@ -74,7 +74,6 @@ export const deleteAnimalBySessionToken = cache(
   async (token: string, id: number) => {
     const [animal] = await sql<Animal[]>`
       DELETE FROM animals USING sessions
-      INNER JOIN users ON sessions.user_id = users.id
       WHERE
         sessions.token = ${token}
         AND sessions.expiry_timestamp > now()
