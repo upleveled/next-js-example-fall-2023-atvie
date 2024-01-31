@@ -71,12 +71,12 @@ export const deleteAnimalByIdNaiveDontCopy = cache(async (id: number) => {
 
 // Secure database query for deleting an animal by session token
 export const deleteAnimalBySessionToken = cache(
-  async (sessionToken: string, id: number) => {
+  async (token: string, id: number) => {
     const [animal] = await sql<Animal[]>`
       DELETE FROM animals USING sessions
       INNER JOIN users ON sessions.user_id = users.id
       WHERE
-        sessions.token = ${sessionToken}
+        sessions.token = ${token}
         AND sessions.expiry_timestamp > now()
         AND animals.id = ${id}
       RETURNING
@@ -108,6 +108,36 @@ export const createAnimalNaiveDontCopy = cache(
           ${newAnimal.type},
           ${newAnimal.accessory},
           ${newAnimal.birthDate}
+        )
+      RETURNING
+        *
+    `;
+
+    return animal;
+  },
+);
+
+// Secure database query for creating an animal by session token
+export const createAnimalBySessionToken = cache(
+  async (token: string, newAnimal: Omit<Animal, 'id'>) => {
+    const [animal] = await sql<Animal[]>`
+      INSERT INTO
+        animals (
+          first_name,
+          type,
+          accessory,
+          birth_date
+        ) (
+          SELECT
+            ${newAnimal.firstName},
+            ${newAnimal.type},
+            ${newAnimal.accessory},
+            ${newAnimal.birthDate}
+          FROM
+            sessions
+          WHERE
+            token = ${token}
+            AND sessions.expiry_timestamp > now()
         )
       RETURNING
         *
