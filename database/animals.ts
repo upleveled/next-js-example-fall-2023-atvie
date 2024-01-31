@@ -165,6 +165,29 @@ export const updateAnimalByIdNaiveDontCopy = cache(
   },
 );
 
+// Secure database query for updating an animal by session token
+export const updateAnimalBySessionToken = cache(
+  async (token: string, updatedAnimal: Animal) => {
+    const [animal] = await sql<Animal[]>`
+      UPDATE animals
+      SET
+        first_name = ${updatedAnimal.firstName},
+        type = ${updatedAnimal.type},
+        accessory = ${updatedAnimal.accessory},
+        birth_date = ${updatedAnimal.birthDate}
+      FROM
+        sessions
+      WHERE
+        sessions.token = ${token}
+        AND sessions.expiry_timestamp > now()
+        AND animals.id = ${updatedAnimal.id}
+      RETURNING
+        animals.*
+    `;
+    return animal;
+  },
+);
+
 // export function getAnimal(id: number) {
 //   return animals1.find((animal) => animal.id === id);
 // }
