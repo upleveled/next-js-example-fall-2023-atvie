@@ -117,8 +117,6 @@ export const createAnimalNaiveDontCopy = cache(
   },
 );
 
-// Secure database query for creating an animal by id
-
 // Insecure database query for updating an animal by id
 export const updateAnimalByIdNaiveDontCopy = cache(
   async (updatedAnimal: Animal) => {
