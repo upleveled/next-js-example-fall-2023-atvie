@@ -1,7 +1,8 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
-  createAnimal,
+  createAnimalBySessionToken,
   getAnimalsWithLimitAndOffset,
 } from '../../../database/animals';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
@@ -76,13 +77,17 @@ export async function POST(
     );
   }
 
+  const sessionTokenCookie = cookies().get('sessionToken');
+
   // Get the animals from the database
-  const animal = await createAnimal({
-    firstName: result.data.firstName,
-    type: result.data.type,
-    accessory: result.data.accessory || null,
-    birthDate: result.data.birthDate,
-  });
+  const animal =
+    sessionTokenCookie &&
+    (await createAnimalBySessionToken(sessionTokenCookie.value, {
+      firstName: result.data.firstName,
+      type: result.data.type,
+      accessory: result.data.accessory || null,
+      birthDate: result.data.birthDate,
+    }));
 
   if (!animal) {
     return NextResponse.json(
