@@ -69,7 +69,7 @@ export const deleteAnimalByIdNaiveDontCopy = cache(async (id: number) => {
   return animal;
 });
 
-// Secure database query for deleting an animal by id
+// Secure database query for deleting an animal by session token
 export const deleteAnimalBySessionToken = cache(
   async (sessionToken: string, id: number) => {
     const [animal] = await sql<Animal[]>`
@@ -116,6 +116,8 @@ export const createAnimalNaiveDontCopy = cache(
     return animal;
   },
 );
+
+// Secure database query for creating an animal by id
 
 // Insecure database query for updating an animal by id
 export const updateAnimalByIdNaiveDontCopy = cache(
