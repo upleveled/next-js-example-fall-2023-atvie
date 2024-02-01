@@ -5,7 +5,7 @@ export default function LogoutButton() {
   return (
     <form>
       <button className="logoutButton" formAction={logout}>
-        Logout{' '}
+        Logout
       </button>
     </form>
   );
