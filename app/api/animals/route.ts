@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
   createAnimalBySessionToken,
-  getAnimalsWithLimitAndOffset,
+  getAnimalsWithLimitAndOffsetInsecure,
 } from '../../../database/animals';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
 
@@ -52,7 +52,7 @@ export async function GET(
   }
 
   // query the database to get all the animals only if a valid session token is passed
-  const animals = await getAnimalsWithLimitAndOffset(limit, offset);
+  const animals = await getAnimalsWithLimitAndOffsetInsecure(limit, offset);
 
   return NextResponse.json({
     animals: animals,

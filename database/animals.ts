@@ -15,7 +15,7 @@ import {
 //   { id: 5, firstName: 'Bili', type: 'Capybara', accessory: 'Pen' },
 // ];
 
-export const getAnimals = cache(async () => {
+export const getAnimalsInsecure = cache(async () => {
   // return animals;
   const animals = await sql<Animal[]>`
     SELECT
@@ -41,7 +41,7 @@ export const getAnimalsBySessionToken = cache(async (token: string) => {
   return animals;
 });
 
-export const getAnimalsWithLimitAndOffset = cache(
+export const getAnimalsWithLimitAndOffsetInsecure = cache(
   async (limit: number, offset: number) => {
     // return animals;
     const animals = await sql<Animal[]>`
@@ -58,7 +58,7 @@ export const getAnimalsWithLimitAndOffset = cache(
   },
 );
 
-export const getAnimalById = cache(async (id: number) => {
+export const getAnimalByIdInsecure = cache(async (id: number) => {
   // Postgres always returns an array
   const [animal] = await sql<Animal[]>`
     SELECT
@@ -214,7 +214,7 @@ export const updateAnimalBySessionToken = cache(
 // animalFoodType: string;
 
 // Join query for getting animal with related food/foods
-export const getAnimalsWithFoods = cache(async (id: number) => {
+export const getAnimalsWithFoodsInsecure = cache(async (id: number) => {
   const animalsFoods = await sql<AnimalFood[]>`
     SELECT
       animals.id AS animal_id,
@@ -235,7 +235,7 @@ export const getAnimalsWithFoods = cache(async (id: number) => {
 });
 
 // Join query for getting a single animal with related food/foods using Json_aag
-export const getAnimalWithFoodsById = cache(async (id: number) => {
+export const getAnimalWithFoodsByIdInsecure = cache(async (id: number) => {
   const [animal] = await sql<AnimalWithFoodsInJsonAgg[]>`
     SELECT
       animals.id AS animal_id,

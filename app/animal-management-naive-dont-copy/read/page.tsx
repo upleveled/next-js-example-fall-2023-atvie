@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getAnimals } from '../../../database/animals';
+import { getAnimalsInsecure } from '../../../database/animals';
 
 export const metadata = {
   title: 'Naive Animals page',
@@ -8,7 +8,7 @@ export const metadata = {
 };
 
 export default async function NaiveAnimalsPage() {
-  const animals = await getAnimals();
+  const animals = await getAnimalsInsecure();
 
   return (
     <div>

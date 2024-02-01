@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getAnimalById } from '../../../../database/animals';
+import { getAnimalByIdInsecure } from '../../../../database/animals';
 import { formatDate } from '../../../../util/dates';
 
 export async function generateMetadata(props: Props) {
-  const singleAnimal = await getAnimalById(Number(props.params.animalId));
+  const singleAnimal = await getAnimalByIdInsecure(
+    Number(props.params.animalId),
+  );
 
   return {
     title: singleAnimal ? singleAnimal.firstName : '',
@@ -18,7 +20,9 @@ type Props = {
 };
 
 export default async function NaiveAnimalPage(props: Props) {
-  const singleAnimal = await getAnimalById(Number(props.params.animalId));
+  const singleAnimal = await getAnimalByIdInsecure(
+    Number(props.params.animalId),
+  );
 
   if (!singleAnimal) {
     return notFound();

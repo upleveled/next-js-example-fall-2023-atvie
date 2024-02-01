@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
   deleteAnimalBySessionToken,
-  getAnimalById,
+  getAnimalByIdInsecure,
   updateAnimalBySessionToken,
 } from '../../../../database/animals';
 import { Animal } from '../../../../migrations/00000-createTableAnimal';
@@ -40,7 +40,7 @@ export async function GET(
     );
   }
 
-  const animal = await getAnimalById(animalId);
+  const animal = await getAnimalByIdInsecure(animalId);
 
   if (!animal) {
     return NextResponse.json(
