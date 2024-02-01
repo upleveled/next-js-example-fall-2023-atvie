@@ -115,7 +115,7 @@ export const getAnimalsInsecure = cache(async () => {
   return animals;
 });
 
-export const getAnimalByIdInsecure = cache(async (id: number) => {
+export const getAnimalInsecure = cache(async (id: number) => {
   // Postgres always returns an array
   const [animal] = await sql<Animal[]>`
     SELECT
@@ -158,7 +158,7 @@ export const getAnimalsWithFoodsInsecure = cache(async (id: number) => {
 });
 
 // Join query for getting a single animal with related food/foods using Json_aag
-export const getAnimalWithFoodsByIdInsecure = cache(async (id: number) => {
+export const getAnimalWithFoodsInsecure = cache(async (id: number) => {
   const [animal] = await sql<AnimalWithFoodsInJsonAgg[]>`
     SELECT
       animals.id AS animal_id,
@@ -234,7 +234,7 @@ export const createAnimalInsecure = cache(
   },
 );
 
-export const updateAnimalByIdInsecure = cache(async (updatedAnimal: Animal) => {
+export const updateAnimalInsecure = cache(async (updatedAnimal: Animal) => {
   const [animal] = await sql<Animal[]>`
     UPDATE animals
     SET
@@ -250,7 +250,7 @@ export const updateAnimalByIdInsecure = cache(async (updatedAnimal: Animal) => {
   return animal;
 });
 
-export const deleteAnimalByIdInsecure = cache(async (id: number) => {
+export const deleteAnimalInsecure = cache(async (id: number) => {
   const [animal] = await sql<Animal[]>`
     DELETE FROM animals
     WHERE

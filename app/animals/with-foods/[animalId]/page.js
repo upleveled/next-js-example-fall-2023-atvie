@@ -2,7 +2,7 @@ import { Image } from 'next/dist/client/image-component';
 import { notFound } from 'next/navigation';
 import {
   getAnimalsWithFoodsInsecure,
-  getAnimalWithFoodsByIdInsecure,
+  getAnimalWithFoodsInsecure,
 } from '../../../../database/animals';
 import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
@@ -10,7 +10,7 @@ export default async function AnimalFoodPage(props) {
   const animalsWithFoods = await getAnimalsWithFoodsInsecure(
     props.params.animalId,
   );
-  const animalWithFoodJsonAgg = await getAnimalWithFoodsByIdInsecure(
+  const animalWithFoodJsonAgg = await getAnimalWithFoodsInsecure(
     props.params.animalId,
   );
 
