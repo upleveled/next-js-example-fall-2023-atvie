@@ -2,14 +2,6 @@ import { cache } from 'react';
 import { sql } from '../database/connect';
 import { Session } from '../migrations/00007-createTableSessions';
 
-export const deleteExpiredSessions = cache(async () => {
-  await sql`
-    DELETE FROM sessions
-    WHERE
-      expiry_timestamp < now()
-  `;
-});
-
 export const createSession = cache(async (userId: number, token: string) => {
   const [session] = await sql<Session[]>`
     INSERT INTO
@@ -25,7 +17,11 @@ export const createSession = cache(async (userId: number, token: string) => {
       user_id
   `;
 
-  await deleteExpiredSessions();
+  await sql`
+    DELETE FROM sessions
+    WHERE
+      expiry_timestamp < now()
+  `;
 
   return session;
 });
