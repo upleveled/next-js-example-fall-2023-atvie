@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { updateAnimalByIdNaiveDontCopy } from '../../../../database/animals';
+import { updateAnimalByIdInsecure } from '../../../../database/animals';
 
 type Props = {
   params: {
@@ -14,7 +14,7 @@ type Props = {
 };
 
 export default async function NaiveAnimalUpdatePage(props: Props) {
-  const animal = await updateAnimalByIdNaiveDontCopy({
+  const animal = await updateAnimalByIdInsecure({
     id: Number(props.params.animalId),
     firstName: props.searchParams.firstName,
     type: props.searchParams.type,

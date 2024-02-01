@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { deleteAnimalByIdNaiveDontCopy } from '../../../../database/animals';
+import { deleteAnimalByIdInsecure } from '../../../../database/animals';
 
 export const metadata = {
   title: 'Naive delete animal page',
@@ -12,9 +12,7 @@ type Props = {
 };
 
 export default async function DeleteAnimalPage(props: Props) {
-  const animal = await deleteAnimalByIdNaiveDontCopy(
-    Number(props.params.animalId),
-  );
+  const animal = await deleteAnimalByIdInsecure(Number(props.params.animalId));
 
   if (!animal) {
     notFound();

@@ -72,7 +72,7 @@ export const getAnimalById = cache(async (id: number) => {
 });
 
 // Insecure database query for deleting an animal by id
-export const deleteAnimalByIdNaiveDontCopy = cache(async (id: number) => {
+export const deleteAnimalByIdInsecure = cache(async (id: number) => {
   const [animal] = await sql<Animal[]>`
     DELETE FROM animals
     WHERE
@@ -102,7 +102,7 @@ export const deleteAnimalBySessionToken = cache(
 );
 
 // Insecure database query for creating an animal by id
-export const createAnimalNaiveDontCopy = cache(
+export const createAnimalInsecure = cache(
   // Accept an object as an argument, allowing optional properties like
   // `accessory` before required properties like `birthDate`
   //
@@ -162,23 +162,21 @@ export const createAnimalBySessionToken = cache(
 );
 
 // Insecure database query for updating an animal by id
-export const updateAnimalByIdNaiveDontCopy = cache(
-  async (updatedAnimal: Animal) => {
-    const [animal] = await sql<Animal[]>`
-      UPDATE animals
-      SET
-        first_name = ${updatedAnimal.firstName},
-        type = ${updatedAnimal.type},
-        accessory = ${updatedAnimal.accessory},
-        birth_date = ${updatedAnimal.birthDate}
-      WHERE
-        id = ${updatedAnimal.id}
-      RETURNING
-        *
-    `;
-    return animal;
-  },
-);
+export const updateAnimalByIdInsecure = cache(async (updatedAnimal: Animal) => {
+  const [animal] = await sql<Animal[]>`
+    UPDATE animals
+    SET
+      first_name = ${updatedAnimal.firstName},
+      type = ${updatedAnimal.type},
+      accessory = ${updatedAnimal.accessory},
+      birth_date = ${updatedAnimal.birthDate}
+    WHERE
+      id = ${updatedAnimal.id}
+    RETURNING
+      *
+  `;
+  return animal;
+});
 
 // Secure database query for updating an animal by session token
 export const updateAnimalBySessionToken = cache(
