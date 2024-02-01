@@ -15,18 +15,13 @@ import {
 //   { id: 5, firstName: 'Bili', type: 'Capybara', accessory: 'Pen' },
 // ];
 
-export const getAnimalsInsecure = cache(async () => {
-  // return animals;
-  const animals = await sql<Animal[]>`
-    SELECT
-      *
-    FROM
-      animals
-  `;
-  return animals;
-});
+// export function getAnimal(id: number) {
+//   return animals1.find((animal) => animal.id === id);
+// }
 
-// Secured database query for getting animals by session token
+// Secure database queries starts here
+// All queries without `Insecure` are protected by session tokens
+
 export const getAnimals = cache(async (token: string) => {
   const animals = await sql<Animal[]>`
     SELECT
@@ -41,95 +36,6 @@ export const getAnimals = cache(async (token: string) => {
   return animals;
 });
 
-export const getAnimalsWithLimitAndOffsetInsecure = cache(
-  async (limit: number, offset: number) => {
-    // return animals;
-    const animals = await sql<Animal[]>`
-      SELECT
-        *
-      FROM
-        animals
-      LIMIT
-        ${limit}
-      OFFSET
-        ${offset}
-    `;
-    return animals;
-  },
-);
-
-export const getAnimalByIdInsecure = cache(async (id: number) => {
-  // Postgres always returns an array
-  const [animal] = await sql<Animal[]>`
-    SELECT
-      *
-    FROM
-      animals
-    WHERE
-      id = ${id}
-  `;
-  return animal;
-});
-
-// Insecure database query for deleting an animal by id
-export const deleteAnimalByIdInsecure = cache(async (id: number) => {
-  const [animal] = await sql<Animal[]>`
-    DELETE FROM animals
-    WHERE
-      id = ${id}
-    RETURNING
-      *
-  `;
-
-  return animal;
-});
-
-// Secure database query for deleting an animal by session token
-export const deleteAnimal = cache(async (token: string, id: number) => {
-  const [animal] = await sql<Animal[]>`
-    DELETE FROM animals USING sessions
-    WHERE
-      sessions.token = ${token}
-      AND sessions.expiry_timestamp > now()
-      AND animals.id = ${id}
-    RETURNING
-      animals.*
-  `;
-
-  return animal;
-});
-
-// Insecure database query for creating an animal by id
-export const createAnimalInsecure = cache(
-  // Accept an object as an argument, allowing optional properties like
-  // `accessory` before required properties like `birthDate`
-  //
-  // `Omit` is a TS utility type that excludes a property from a type
-  async (newAnimal: Omit<Animal, 'id'>) => {
-    const [animal] = await sql<Animal[]>`
-      INSERT INTO
-        animals (
-          first_name,
-          type,
-          accessory,
-          birth_date
-        )
-      VALUES
-        (
-          ${newAnimal.firstName},
-          ${newAnimal.type},
-          ${newAnimal.accessory},
-          ${newAnimal.birthDate}
-        )
-      RETURNING
-        *
-    `;
-
-    return animal;
-  },
-);
-
-// Secure database query for creating an animal by session token
 export const createAnimal = cache(
   async (token: string, newAnimal: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
@@ -159,24 +65,6 @@ export const createAnimal = cache(
   },
 );
 
-// Insecure database query for updating an animal by id
-export const updateAnimalByIdInsecure = cache(async (updatedAnimal: Animal) => {
-  const [animal] = await sql<Animal[]>`
-    UPDATE animals
-    SET
-      first_name = ${updatedAnimal.firstName},
-      type = ${updatedAnimal.type},
-      accessory = ${updatedAnimal.accessory},
-      birth_date = ${updatedAnimal.birthDate}
-    WHERE
-      id = ${updatedAnimal.id}
-    RETURNING
-      *
-  `;
-  return animal;
-});
-
-// Secure database query for updating an animal by session token
 export const updateAnimal = cache(
   async (token: string, updatedAnimal: Animal) => {
     const [animal] = await sql<Animal[]>`
@@ -199,9 +87,46 @@ export const updateAnimal = cache(
   },
 );
 
-// export function getAnimal(id: number) {
-//   return animals1.find((animal) => animal.id === id);
-// }
+export const deleteAnimal = cache(async (token: string, id: number) => {
+  const [animal] = await sql<Animal[]>`
+    DELETE FROM animals USING sessions
+    WHERE
+      sessions.token = ${token}
+      AND sessions.expiry_timestamp > now()
+      AND animals.id = ${id}
+    RETURNING
+      animals.*
+  `;
+
+  return animal;
+});
+
+// Insecure database queries starts here
+// All queries with `Insecure` are not protected by session tokens
+
+export const getAnimalsInsecure = cache(async () => {
+  // return animals;
+  const animals = await sql<Animal[]>`
+    SELECT
+      *
+    FROM
+      animals
+  `;
+  return animals;
+});
+
+export const getAnimalByIdInsecure = cache(async (id: number) => {
+  // Postgres always returns an array
+  const [animal] = await sql<Animal[]>`
+    SELECT
+      *
+    FROM
+      animals
+    WHERE
+      id = ${id}
+  `;
+  return animal;
+});
 
 // animalId: number;
 // animalFirstName: string;
@@ -258,6 +183,80 @@ export const getAnimalWithFoodsByIdInsecure = cache(async (id: number) => {
       animals.type,
       animals.accessory,
       animals.id;
+  `;
+
+  return animal;
+});
+
+export const getAnimalsWithLimitAndOffsetInsecure = cache(
+  async (limit: number, offset: number) => {
+    // return animals;
+    const animals = await sql<Animal[]>`
+      SELECT
+        *
+      FROM
+        animals
+      LIMIT
+        ${limit}
+      OFFSET
+        ${offset}
+    `;
+    return animals;
+  },
+);
+
+export const createAnimalInsecure = cache(
+  // Accept an object as an argument, allowing optional properties like
+  // `accessory` before required properties like `birthDate`
+  //
+  // `Omit` is a TS utility type that excludes a property from a type
+  async (newAnimal: Omit<Animal, 'id'>) => {
+    const [animal] = await sql<Animal[]>`
+      INSERT INTO
+        animals (
+          first_name,
+          type,
+          accessory,
+          birth_date
+        )
+      VALUES
+        (
+          ${newAnimal.firstName},
+          ${newAnimal.type},
+          ${newAnimal.accessory},
+          ${newAnimal.birthDate}
+        )
+      RETURNING
+        *
+    `;
+
+    return animal;
+  },
+);
+
+export const updateAnimalByIdInsecure = cache(async (updatedAnimal: Animal) => {
+  const [animal] = await sql<Animal[]>`
+    UPDATE animals
+    SET
+      first_name = ${updatedAnimal.firstName},
+      type = ${updatedAnimal.type},
+      accessory = ${updatedAnimal.accessory},
+      birth_date = ${updatedAnimal.birthDate}
+    WHERE
+      id = ${updatedAnimal.id}
+    RETURNING
+      *
+  `;
+  return animal;
+});
+
+export const deleteAnimalByIdInsecure = cache(async (id: number) => {
+  const [animal] = await sql<Animal[]>`
+    DELETE FROM animals
+    WHERE
+      id = ${id}
+    RETURNING
+      *
   `;
 
   return animal;
