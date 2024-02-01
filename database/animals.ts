@@ -19,7 +19,7 @@ import {
 //   return animals1.find((animal) => animal.id === id);
 // }
 
-// Secure database queries starts here
+// Secure database queries start here
 // All queries not marked `Insecure` use session tokens to authenticate the user
 
 export const getAnimals = cache(async (token: string) => {
