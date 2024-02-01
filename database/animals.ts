@@ -19,8 +19,8 @@ import {
 //   return animals1.find((animal) => animal.id === id);
 // }
 
-// Secure database queries starts here
-// All queries not marked `Insecure` uses session tokens to authenticate the user
+// Secure database queries start here
+// All queries not marked `Insecure` use session tokens to authenticate the user
 
 export const getAnimals = cache(async (token: string) => {
   const animals = await sql<Animal[]>`
@@ -101,7 +101,7 @@ export const deleteAnimal = cache(async (token: string, id: number) => {
   return animal;
 });
 
-// Insecure database queries starts here
+// Insecure database queries start here
 // All queries marked `Insecure` do not use session tokens to authenticate the user
 
 export const getAnimalsInsecure = cache(async () => {
