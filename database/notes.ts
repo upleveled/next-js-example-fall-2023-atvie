@@ -2,29 +2,6 @@ import { cache } from 'react';
 import { Note } from '../migrations/00008-createTableNotes';
 import { sql } from './connect';
 
-export const createNote = cache(
-  async (token: string, title: string, textContent: string) => {
-    const [note] = await sql<Note[]>`
-      INSERT INTO
-        notes (user_id, title, text_content) (
-          SELECT
-            user_id,
-            ${title},
-            ${textContent}
-          FROM
-            sessions
-          WHERE
-            token = ${token}
-            AND sessions.expiry_timestamp > now()
-        )
-      RETURNING
-        *
-    `;
-
-    return note;
-  },
-);
-
 export const getNotes = cache(async (token: string) => {
   const notes = await sql<Note[]>`
     SELECT
@@ -56,3 +33,26 @@ export const getNote = cache(async (token: string, noteId: number) => {
   `;
   return note;
 });
+
+export const createNote = cache(
+  async (token: string, title: string, textContent: string) => {
+    const [note] = await sql<Note[]>`
+      INSERT INTO
+        notes (user_id, title, text_content) (
+          SELECT
+            user_id,
+            ${title},
+            ${textContent}
+          FROM
+            sessions
+          WHERE
+            token = ${token}
+            AND sessions.expiry_timestamp > now()
+        )
+      RETURNING
+        *
+    `;
+
+    return note;
+  },
+);
