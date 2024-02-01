@@ -25,7 +25,7 @@ export const createNote = cache(
   },
 );
 
-export const getNotesBySessionToken = cache(async (token: string) => {
+export const getNotes = cache(async (token: string) => {
   const notes = await sql<Note[]>`
     SELECT
       notes.*
@@ -40,21 +40,19 @@ export const getNotesBySessionToken = cache(async (token: string) => {
   return notes;
 });
 
-export const getNoteBySessionToken = cache(
-  async (token: string, noteId: number) => {
-    const [note] = await sql<Note[]>`
-      SELECT
-        notes.*
-      FROM
-        notes
-        INNER JOIN sessions ON (
-          sessions.token = ${token}
-          AND notes.user_id = sessions.user_id
-          AND sessions.expiry_timestamp > now()
-        )
-      WHERE
-        notes.id = ${noteId}
-    `;
-    return note;
-  },
-);
+export const getNote = cache(async (token: string, noteId: number) => {
+  const [note] = await sql<Note[]>`
+    SELECT
+      notes.*
+    FROM
+      notes
+      INNER JOIN sessions ON (
+        sessions.token = ${token}
+        AND notes.user_id = sessions.user_id
+        AND sessions.expiry_timestamp > now()
+      )
+    WHERE
+      notes.id = ${noteId}
+  `;
+  return note;
+});

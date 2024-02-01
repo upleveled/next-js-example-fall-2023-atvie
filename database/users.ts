@@ -51,7 +51,7 @@ export const getUserWithPasswordHashByUsername = cache(
   },
 );
 
-export const getUserBySessionToken = cache(async (token: string) => {
+export const getUser = cache(async (token: string) => {
   const [user] = await sql<User[]>`
     SELECT
       users.id,

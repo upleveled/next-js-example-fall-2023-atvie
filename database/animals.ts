@@ -27,7 +27,7 @@ export const getAnimalsInsecure = cache(async () => {
 });
 
 // Secured database query for getting animals by session token
-export const getAnimalsBySessionToken = cache(async (token: string) => {
+export const getAnimals = cache(async (token: string) => {
   const animals = await sql<Animal[]>`
     SELECT
       animals.*
@@ -85,21 +85,19 @@ export const deleteAnimalByIdInsecure = cache(async (id: number) => {
 });
 
 // Secure database query for deleting an animal by session token
-export const deleteAnimalBySessionToken = cache(
-  async (token: string, id: number) => {
-    const [animal] = await sql<Animal[]>`
-      DELETE FROM animals USING sessions
-      WHERE
-        sessions.token = ${token}
-        AND sessions.expiry_timestamp > now()
-        AND animals.id = ${id}
-      RETURNING
-        animals.*
-    `;
+export const deleteAnimal = cache(async (token: string, id: number) => {
+  const [animal] = await sql<Animal[]>`
+    DELETE FROM animals USING sessions
+    WHERE
+      sessions.token = ${token}
+      AND sessions.expiry_timestamp > now()
+      AND animals.id = ${id}
+    RETURNING
+      animals.*
+  `;
 
-    return animal;
-  },
-);
+  return animal;
+});
 
 // Insecure database query for creating an animal by id
 export const createAnimalInsecure = cache(
@@ -132,7 +130,7 @@ export const createAnimalInsecure = cache(
 );
 
 // Secure database query for creating an animal by session token
-export const createAnimalBySessionToken = cache(
+export const createAnimal = cache(
   async (token: string, newAnimal: Omit<Animal, 'id'>) => {
     const [animal] = await sql<Animal[]>`
       INSERT INTO
@@ -179,7 +177,7 @@ export const updateAnimalByIdInsecure = cache(async (updatedAnimal: Animal) => {
 });
 
 // Secure database query for updating an animal by session token
-export const updateAnimalBySessionToken = cache(
+export const updateAnimal = cache(
   async (token: string, updatedAnimal: Animal) => {
     const [animal] = await sql<Animal[]>`
       UPDATE animals

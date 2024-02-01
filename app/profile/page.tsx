@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getUserBySessionToken } from '../../database/users';
+import { getUser } from '../../database/users';
 
 export default async function UserProfilePage() {
   // Task: Add redirect to login page if user is not logged in
@@ -8,9 +8,7 @@ export default async function UserProfilePage() {
   const sessionTokenCookie = cookies().get('sessionToken');
 
   // 2. Query the current user with the sessionToken
-  const user =
-    sessionTokenCookie &&
-    (await getUserBySessionToken(sessionTokenCookie.value));
+  const user = sessionTokenCookie && (await getUser(sessionTokenCookie.value));
 
   // 3. If user doesn't exist, redirect to login page
   if (!user) {

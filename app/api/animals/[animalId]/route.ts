@@ -2,9 +2,9 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
-  deleteAnimalBySessionToken,
+  deleteAnimal,
   getAnimalByIdInsecure,
-  updateAnimalBySessionToken,
+  updateAnimal,
 } from '../../../../database/animals';
 import { Animal } from '../../../../migrations/00000-createTableAnimal';
 import { Error } from '../route';
@@ -90,7 +90,7 @@ export async function PUT(
   // query the database to update the animal
   const animal =
     sessionTokenCookie &&
-    (await updateAnimalBySessionToken(sessionTokenCookie.value, {
+    (await updateAnimal(sessionTokenCookie.value, {
       id: animalId,
       firstName: result.data.firstName,
       type: result.data.type,
@@ -130,7 +130,7 @@ export async function DELETE(
 
   const animal =
     sessionTokenCookie &&
-    (await deleteAnimalBySessionToken(sessionTokenCookie.value, animalId));
+    (await deleteAnimal(sessionTokenCookie.value, animalId));
 
   if (!animal) {
     return NextResponse.json(

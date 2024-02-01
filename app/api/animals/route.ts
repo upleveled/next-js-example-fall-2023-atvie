@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
-  createAnimalBySessionToken,
+  createAnimal,
   getAnimalsWithLimitAndOffsetInsecure,
 } from '../../../database/animals';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
@@ -82,7 +82,7 @@ export async function POST(
   // Get the animals from the database
   const animal =
     sessionTokenCookie &&
-    (await createAnimalBySessionToken(sessionTokenCookie.value, {
+    (await createAnimal(sessionTokenCookie.value, {
       firstName: result.data.firstName,
       type: result.data.type,
       accessory: result.data.accessory || null,
