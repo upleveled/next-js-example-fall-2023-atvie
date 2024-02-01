@@ -30,7 +30,7 @@ export const createSession = cache(async (userId: number, token: string) => {
   return session;
 });
 
-export const deleteSessionByToken = cache(async (token: string) => {
+export const deleteSession = cache(async (token: string) => {
   // 'Pick' is a TS utility type that picks specified properties
   // from a type and excluding the rest
   const [session] = await sql<Pick<Session, 'id' | 'token'>[]>`
@@ -45,7 +45,7 @@ export const deleteSessionByToken = cache(async (token: string) => {
   return session;
 });
 
-export const getValidSessionByToken = cache(async (token: string) => {
+export const getValidSession = cache(async (token: string) => {
   const [session] = await sql<Pick<Session, 'id' | 'token'>[]>`
     SELECT
       sessions.id,

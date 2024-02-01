@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { getAnimals } from '../../../database/animals';
-import { getValidSessionByToken } from '../../../database/sessions';
+import { getValidSession } from '../../../database/sessions';
 import AnimalsForm from './AnimalsForm';
 
 export const metadata = {
@@ -17,8 +17,7 @@ export default async function Dashboard() {
 
   // 2. Check if the sessionToken cookie is still valid
   const session =
-    sessionTokenCookie &&
-    (await getValidSessionByToken(sessionTokenCookie.value));
+    sessionTokenCookie && (await getValidSession(sessionTokenCookie.value));
 
   //  Query your database to check if this user has the right access to this page
 

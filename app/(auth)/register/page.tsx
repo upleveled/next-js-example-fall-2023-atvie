@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getValidSessionByToken } from '../../../database/sessions';
+import { getValidSession } from '../../../database/sessions';
 import { getSafeReturnToPath } from '../../../util/validation';
 import RegisterForm from './RegisterForm';
 
@@ -18,8 +18,7 @@ export default async function RegisterPage({ searchParams }: Props) {
 
   // 2. Check if the sessionToken cookie is still valid
   const session =
-    sessionTokenCookie &&
-    (await getValidSessionByToken(sessionTokenCookie.value));
+    sessionTokenCookie && (await getValidSession(sessionTokenCookie.value));
 
   // 3. If the sessionToken cookie is valid, redirect to home
   if (session) redirect(getSafeReturnToPath(searchParams.returnTo) || '/');
