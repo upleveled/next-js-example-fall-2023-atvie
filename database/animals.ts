@@ -101,7 +101,7 @@ export const deleteAnimal = cache(async (token: string, id: number) => {
   return animal;
 });
 
-// Insecure database queries starts here
+// Insecure database queries start here
 // All queries marked `Insecure` do not use session tokens to authenticate the user
 
 export const getAnimalsInsecure = cache(async () => {
