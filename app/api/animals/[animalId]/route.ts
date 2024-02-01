@@ -1,9 +1,10 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
-  deleteAnimalById,
-  getAnimalById,
-  updateAnimalById,
+  deleteAnimal,
+  getAnimalInsecure,
+  updateAnimal,
 } from '../../../../database/animals';
 import { Animal } from '../../../../migrations/00000-createTableAnimal';
 import { Error } from '../route';
@@ -39,7 +40,7 @@ export async function GET(
     );
   }
 
-  const animal = await getAnimalById(animalId);
+  const animal = await getAnimalInsecure(animalId);
 
   if (!animal) {
     return NextResponse.json(
@@ -84,14 +85,18 @@ export async function PUT(
     );
   }
 
+  const sessionTokenCookie = cookies().get('sessionToken');
+
   // query the database to update the animal
-  const animal = await updateAnimalById({
-    id: animalId,
-    firstName: result.data.firstName,
-    type: result.data.type,
-    accessory: result.data.accessory || null,
-    birthDate: result.data.birthDate,
-  });
+  const animal =
+    sessionTokenCookie &&
+    (await updateAnimal(sessionTokenCookie.value, {
+      id: animalId,
+      firstName: result.data.firstName,
+      type: result.data.type,
+      accessory: result.data.accessory || null,
+      birthDate: result.data.birthDate,
+    }));
 
   if (!animal) {
     return NextResponse.json(
@@ -122,7 +127,11 @@ export async function DELETE(
     );
   }
 
-  const animal = await deleteAnimalById(animalId);
+  const sessionTokenCookie = cookies().get('sessionToken');
+
+  const animal =
+    sessionTokenCookie &&
+    (await deleteAnimal(sessionTokenCookie.value, animalId));
 
   if (!animal) {
     return NextResponse.json(

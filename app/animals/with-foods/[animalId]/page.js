@@ -1,14 +1,16 @@
 import { Image } from 'next/dist/client/image-component';
 import { notFound } from 'next/navigation';
 import {
-  getAnimalsWithFoods,
-  getAnimalWithFoodsById,
+  getAnimalsWithFoodsInsecure,
+  getAnimalWithFoodsInsecure,
 } from '../../../../database/animals';
 import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
 export default async function AnimalFoodPage(props) {
-  const animalsWithFoods = await getAnimalsWithFoods(props.params.animalId);
-  const animalWithFoodJsonAgg = await getAnimalWithFoodsById(
+  const animalsWithFoods = await getAnimalsWithFoodsInsecure(
+    props.params.animalId,
+  );
+  const animalWithFoodJsonAgg = await getAnimalWithFoodsInsecure(
     props.params.animalId,
   );
 

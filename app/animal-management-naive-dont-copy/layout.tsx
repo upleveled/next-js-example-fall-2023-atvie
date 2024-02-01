@@ -1,6 +1,6 @@
 import { cookies, headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getValidSessionByToken } from '../../database/sessions';
+import { getValidSession } from '../../database/sessions';
 
 type Props = {
   children: React.ReactNode;
@@ -14,8 +14,7 @@ export default async function AnimalsNaiveLayout(props: Props) {
 
   // 2. check if the sessionToken has a valid session
   const session =
-    sessionTokenCookie &&
-    (await getValidSessionByToken(sessionTokenCookie.value));
+    sessionTokenCookie && (await getValidSession(sessionTokenCookie.value));
 
   console.log('Check Xpath: ', headersList.get('x-pathname'));
 

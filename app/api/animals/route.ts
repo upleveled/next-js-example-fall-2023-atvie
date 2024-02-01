@@ -1,8 +1,9 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
   createAnimal,
-  getAnimalsWithLimitAndOffset,
+  getAnimalsWithLimitAndOffsetInsecure,
 } from '../../../database/animals';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
 
@@ -51,7 +52,7 @@ export async function GET(
   }
 
   // query the database to get all the animals only if a valid session token is passed
-  const animals = await getAnimalsWithLimitAndOffset(limit, offset);
+  const animals = await getAnimalsWithLimitAndOffsetInsecure(limit, offset);
 
   return NextResponse.json({
     animals: animals,
@@ -76,13 +77,17 @@ export async function POST(
     );
   }
 
+  const sessionTokenCookie = cookies().get('sessionToken');
+
   // Get the animals from the database
-  const animal = await createAnimal({
-    firstName: result.data.firstName,
-    type: result.data.type,
-    accessory: result.data.accessory || null,
-    birthDate: result.data.birthDate,
-  });
+  const animal =
+    sessionTokenCookie &&
+    (await createAnimal(sessionTokenCookie.value, {
+      firstName: result.data.firstName,
+      type: result.data.type,
+      accessory: result.data.accessory || null,
+      birthDate: result.data.birthDate,
+    }));
 
   if (!animal) {
     return NextResponse.json(

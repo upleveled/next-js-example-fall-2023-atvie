@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { getUserBySessionToken } from '../database/users';
+import { getUser } from '../database/users';
 import LogoutButton from './(auth)/logout/LogoutButton';
 import CookieBanner from './CookieBanner';
 
@@ -28,8 +28,7 @@ export default async function RootLayout(props: Props) {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get('sessionToken');
 
-  const user =
-    sessionToken && (await getUserBySessionToken(sessionToken.value));
+  const user = sessionToken && (await getUser(sessionToken.value));
 
   return (
     <html lang="en">
