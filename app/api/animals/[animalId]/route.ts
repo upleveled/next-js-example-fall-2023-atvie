@@ -126,6 +126,7 @@ export async function DELETE(
       { status: 400 },
     );
   }
+
   const sessionTokenCookie = cookies().get('sessionToken');
 
   const animal =
