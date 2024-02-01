@@ -17,29 +17,31 @@ export const getValidSession = cache(async (token: string) => {
   return session;
 });
 
-export const createSession = cache(async (userId: number, token: string) => {
-  const [session] = await sql<Session[]>`
-    INSERT INTO
-      sessions (user_id, token)
-    VALUES
-      (
-        ${userId},
-        ${token}
-      )
-    RETURNING
-      id,
-      token,
-      user_id
-  `;
+export const createSessionInsecure = cache(
+  async (userId: number, token: string) => {
+    const [session] = await sql<Session[]>`
+      INSERT INTO
+        sessions (user_id, token)
+      VALUES
+        (
+          ${userId},
+          ${token}
+        )
+      RETURNING
+        id,
+        token,
+        user_id
+    `;
 
-  await sql`
-    DELETE FROM sessions
-    WHERE
-      expiry_timestamp < now()
-  `;
+    await sql`
+      DELETE FROM sessions
+      WHERE
+        expiry_timestamp < now()
+    `;
 
-  return session;
-});
+    return session;
+  },
+);
 
 export const deleteSession = cache(async (token: string) => {
   // 'Pick' is a TS utility type that picks specified properties

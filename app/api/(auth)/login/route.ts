@@ -3,8 +3,8 @@ import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createSession } from '../../../../database/sessions';
-import { getUserWithPasswordHashByUsername } from '../../../../database/users';
+import { createSessionInsecure } from '../../../../database/sessions';
+import { getUserWithPasswordHashByUsernameInsecure } from '../../../../database/users';
 import { secureCookieOptions } from '../../../../util/cookies';
 
 const loginSchema = z.object({
@@ -43,7 +43,7 @@ export async function POST(
   }
 
   // 3. verify the user credentials
-  const userWithPasswordHash = await getUserWithPasswordHashByUsername(
+  const userWithPasswordHash = await getUserWithPasswordHashByUsernameInsecure(
     result.data.username,
   );
 
@@ -76,7 +76,7 @@ export async function POST(
   const token = crypto.randomBytes(100).toString('base64');
 
   // 5. Create the session record
-  const session = await createSession(userWithPasswordHash.id, token);
+  const session = await createSessionInsecure(userWithPasswordHash.id, token);
 
   if (!session) {
     return NextResponse.json(
