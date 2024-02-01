@@ -20,7 +20,7 @@ import {
 // }
 
 // Secure database queries starts here
-// All queries without `Insecure` are protected by session tokens
+// All queries not marked `Insecure` uses session tokens to authenticate the user
 
 export const getAnimals = cache(async (token: string) => {
   const animals = await sql<Animal[]>`
@@ -102,7 +102,7 @@ export const deleteAnimal = cache(async (token: string, id: number) => {
 });
 
 // Insecure database queries starts here
-// All queries with `Insecure` are not protected by session tokens
+// All queries marked `Insecure` do not use session tokens to authenticate the user
 
 export const getAnimalsInsecure = cache(async () => {
   // return animals;
