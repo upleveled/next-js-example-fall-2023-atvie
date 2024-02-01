@@ -50,7 +50,7 @@ export const createNote = cache(
             AND sessions.expiry_timestamp > now()
         )
       RETURNING
-        *
+        notes.*
     `;
 
     return note;

@@ -58,7 +58,7 @@ export const createAnimal = cache(
             AND sessions.expiry_timestamp > now()
         )
       RETURNING
-        *
+        animals.*
     `;
 
     return animal;
@@ -227,7 +227,7 @@ export const createAnimalInsecure = cache(
           ${newAnimal.birthDate}
         )
       RETURNING
-        *
+        animals.*
     `;
 
     return animal;
@@ -245,7 +245,7 @@ export const updateAnimalInsecure = cache(async (updatedAnimal: Animal) => {
     WHERE
       id = ${updatedAnimal.id}
     RETURNING
-      *
+      animals.*
   `;
   return animal;
 });
@@ -256,7 +256,7 @@ export const deleteAnimalInsecure = cache(async (id: number) => {
     WHERE
       id = ${id}
     RETURNING
-      *
+      animals.*
   `;
 
   return animal;
