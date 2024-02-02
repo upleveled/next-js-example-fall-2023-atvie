@@ -1,15 +1,20 @@
-import Image from 'next/image';
+import { Image } from 'next/dist/client/image-component';
+import { notFound } from 'next/navigation';
 import {
-  getAnimalsWithFoods,
-  getAnimalWithFoodsById,
+  getAnimalsWithFoodsInsecure,
+  getAnimalWithFoodsInsecure,
 } from '../../../../database/animals';
 import { reduceAnimalsWithFoods } from '../../../../util/dataStructures';
 
 export default async function AnimalFoodPage(props) {
-  const animalsWithFoods = await getAnimalsWithFoods(props.params.animalId);
-  const animalWithFoodJsonAgg = await getAnimalWithFoodsById(
+  const animalsWithFoods = await getAnimalsWithFoodsInsecure(
     props.params.animalId,
   );
+  const animalWithFoodJsonAgg = await getAnimalWithFoodsInsecure(
+    props.params.animalId,
+  );
+
+  if (!animalsWithFoods[0]) notFound();
 
   const animalWithFoods = reduceAnimalsWithFoods(animalsWithFoods);
 
@@ -32,7 +37,7 @@ export default async function AnimalFoodPage(props) {
       <ul>
         {animalWithFoods.animalFoods.map((animalFood) => {
           return (
-            <li key={`This-${animalFood.name}-${animalFood.id}`}>
+            <li key={`animal-with-foods-${animalFood.name}-${animalFood.id}`}>
               {animalFood.name}
             </li>
           );
@@ -60,7 +65,7 @@ export default async function AnimalFoodPage(props) {
       <ul>
         {animalWithFoodJsonAgg.animalFoods.map((animalFood) => {
           return (
-            <li key={`This-${animalFood.name}-${animalFood.id}`}>
+            <li key={`animal-with-food-${animalFood.name}-${animalFood.id}`}>
               {animalFood.name}
             </li>
           );

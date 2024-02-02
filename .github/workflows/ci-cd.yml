@@ -1,9 +1,9 @@
-name: Playwright Tests and Deploy to Fly.io
+name: CI, CD
 on: push
 
 jobs:
-  playwright-tests:
-    name: Playwright Tests
+  ci:
+    name: Jest Unit Tests, Linting, Playwright End to End Tests
     runs-on: ubuntu-latest # or macos-latest, windows-latest
     timeout-minutes: 30
     # Update env variables with your own database credentials
@@ -38,17 +38,19 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+      - name: Jest unit tests
+        run: pnpm jest
       - name: Install SafeQL if not yet installed (eg. on Windows dev machines)
         run: grep package.json -e '@ts-safeql/eslint-plugin' || pnpm add @ts-safeql/eslint-plugin libpg-query
-      - run: pnpm migrate up
-      # Also generates next-env.d.ts, required for tsc
-      - name: Build Next.js app
+      - name: Run database migrations
+        run: pnpm migrate up
+      - name: Build Next.js app (types needed for TSC and ESLint)
         run: pnpm build
-      - name: Run TypeScript Compiler
+      - name: Check TypeScript Types
         run: pnpm tsc
-      - name: Run ESLint
+      - name: Lint with ESLint
         run: pnpm eslint . --max-warnings 0
-      - name: Run Stylelint
+      - name: Lint with Stylelint
         run: pnpm stylelint '**/*.{css,scss,less,js,tsx}'
 
       # Cache and install Playwright browser binaries, modified version of:
@@ -75,11 +77,11 @@ jobs:
         with:
           name: playwright-screenshots-videos
           path: playwright/test-results/
-  deploy:
+  cd:
     name: Deploy to Fly.io
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    needs: playwright-tests
+    needs: ci
     if: github.ref == 'refs/heads/main'
     env:
       FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}

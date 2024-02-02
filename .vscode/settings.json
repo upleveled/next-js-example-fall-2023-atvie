@@ -8,5 +8,7 @@
     "postcss",
     "javascript",
     "typescriptreact"
-  ]
+  ],
+  // Disable comment formatting on save from Rewrap VS Code extension
+  "rewrap.onSave": false
 }

@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { deleteAnimalById } from '../../../../database/animals';
+import { deleteAnimalInsecure } from '../../../../database/animals';
 
 export const metadata = {
   title: 'Naive delete animal page',
@@ -12,7 +12,7 @@ type Props = {
 };
 
 export default async function DeleteAnimalPage(props: Props) {
-  const animal = await deleteAnimalById(Number(props.params.animalId));
+  const animal = await deleteAnimalInsecure(Number(props.params.animalId));
 
   if (!animal) {
     notFound();

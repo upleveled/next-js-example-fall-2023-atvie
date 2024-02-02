@@ -1,8 +1,9 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
   createAnimal,
-  getAnimalsWithLimitAndOffset,
+  getAnimalsWithLimitAndOffsetInsecure,
 } from '../../../database/animals';
 import { Animal } from '../../../migrations/00000-createTableAnimal';
 
@@ -26,6 +27,11 @@ const animalSchema = z.object({
   firstName: z.string(),
   type: z.string(),
   accessory: z.string().optional(),
+  // The `birthDate` is received as a string from the client side. Zod, with
+  // `z.coerce.date()`, automatically converts any input value to a Date object
+  // before validation. If the conversion encounters issues (e.g., invalid
+  // format), an error will be thrown
+  birthDate: z.coerce.date(),
 });
 
 export async function GET(
@@ -46,7 +52,7 @@ export async function GET(
   }
 
   // query the database to get all the animals only if a valid session token is passed
-  const animals = await getAnimalsWithLimitAndOffset(limit, offset);
+  const animals = await getAnimalsWithLimitAndOffsetInsecure(limit, offset);
 
   return NextResponse.json({
     animals: animals,
@@ -71,12 +77,17 @@ export async function POST(
     );
   }
 
+  const sessionTokenCookie = cookies().get('sessionToken');
+
   // Get the animals from the database
-  const animal = await createAnimal(
-    result.data.firstName,
-    result.data.type,
-    result.data.accessory,
-  );
+  const animal =
+    sessionTokenCookie &&
+    (await createAnimal(sessionTokenCookie.value, {
+      firstName: result.data.firstName,
+      type: result.data.type,
+      accessory: result.data.accessory || null,
+      birthDate: result.data.birthDate,
+    }));
 
   if (!animal) {
     return NextResponse.json(

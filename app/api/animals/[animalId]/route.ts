@@ -1,9 +1,10 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import {
-  deleteAnimalById,
-  getAnimalById,
-  updateAnimalById,
+  deleteAnimal,
+  getAnimalInsecure,
+  updateAnimal,
 } from '../../../../database/animals';
 import { Animal } from '../../../../migrations/00000-createTableAnimal';
 import { Error } from '../route';
@@ -16,6 +17,11 @@ const animalSchema = z.object({
   firstName: z.string(),
   type: z.string(),
   accessory: z.string().optional(),
+  // The `birthDate` is received as a string from the client side. Zod, with
+  // `z.coerce.date()`, automatically converts any input value to a Date object
+  // before validation. If the conversion encounters issues (e.g., invalid
+  // format), an error will be thrown
+  birthDate: z.coerce.date(),
 });
 
 export async function GET(
@@ -34,7 +40,7 @@ export async function GET(
     );
   }
 
-  const animal = await getAnimalById(animalId);
+  const animal = await getAnimalInsecure(animalId);
 
   if (!animal) {
     return NextResponse.json(
@@ -79,13 +85,18 @@ export async function PUT(
     );
   }
 
+  const sessionTokenCookie = cookies().get('sessionToken');
+
   // query the database to update the animal
-  const animal = await updateAnimalById(
-    animalId,
-    result.data.firstName,
-    result.data.type,
-    result.data.accessory,
-  );
+  const animal =
+    sessionTokenCookie &&
+    (await updateAnimal(sessionTokenCookie.value, {
+      id: animalId,
+      firstName: result.data.firstName,
+      type: result.data.type,
+      accessory: result.data.accessory || null,
+      birthDate: result.data.birthDate,
+    }));
 
   if (!animal) {
     return NextResponse.json(
@@ -116,7 +127,11 @@ export async function DELETE(
     );
   }
 
-  const animal = await deleteAnimalById(animalId);
+  const sessionTokenCookie = cookies().get('sessionToken');
+
+  const animal =
+    sessionTokenCookie &&
+    (await deleteAnimal(sessionTokenCookie.value, animalId));
 
   if (!animal) {
     return NextResponse.json(

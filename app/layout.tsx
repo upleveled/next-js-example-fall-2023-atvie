@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
 import Link from 'next/link';
 import { ReactNode } from 'react';
-import { getUserBySessionToken } from '../database/users';
+import { getUser } from '../database/users';
 import LogoutButton from './(auth)/logout/LogoutButton';
 import CookieBanner from './CookieBanner';
 
@@ -28,43 +28,45 @@ export default async function RootLayout(props: Props) {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get('sessionToken');
 
-  const user =
-    sessionToken && (await getUserBySessionToken(sessionToken.value));
+  const user = sessionToken && (await getUser(sessionToken.value));
 
   return (
     <html lang="en">
       <body className={inter.className}>
         <CookieBanner />
-        <nav>
-          <div>
-            {/* This is not optimized */}
-            {/* <a href="/">Home</a> */}
-            {/* This is optimized */}
-            <Link href="/">Home</Link>
-            <Link href="/about">About</Link>
-            <Link href="/animals">Animals</Link>
-            <Link href="/fruits">Fruits</Link>
-            <Link href="/animals-admin">Admin</Link>
-            <Link href="/notes">Check Notes</Link>
-          </div>
 
-          {Math.floor(Math.random() * 10)}
-          <div>
-            {user ? (
-              <>
-                <div>{user.username}</div>
-                <LogoutButton />
-              </>
-            ) : (
-              <>
-                <Link href="/register">Register</Link>
-                <Link href="/login">Login</Link>
-              </>
-            )}
-          </div>
-        </nav>
+        <header>
+          <nav>
+            <div>
+              {/* This is not optimized */}
+              {/* <a href="/">Home</a> */}
+              {/* This is optimized */}
+              <Link href="/">Home</Link>
+              <Link href="/about">About</Link>
+              <Link href="/animals">Animals</Link>
+              <Link href="/fruits">Fruits</Link>
+              <Link href="/animals/dashboard">Dashboard</Link>
+              <Link href="/notes">Notes</Link>
+            </div>
 
-        {props.children}
+            {Math.floor(Math.random() * 10)}
+            <div>
+              {user ? (
+                <>
+                  <Link href="/profile">{user.username}</Link>
+                  <LogoutButton />
+                </>
+              ) : (
+                <>
+                  <Link href="/register">Register</Link>
+                  <Link href="/login">Login</Link>
+                </>
+              )}
+            </div>
+          </nav>
+        </header>
+
+        <main>{props.children}</main>
       </body>
     </html>
   );

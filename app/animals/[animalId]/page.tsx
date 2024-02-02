@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
-import { getAnimalById } from '../../../database/animals';
+import { getAnimalInsecure } from '../../../database/animals';
 import { formatDate, getDaysUntilNextBirthday } from '../../../util/dates';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export async function generateMetadata(props: Props) {
-  const singleAnimal = await getAnimalById(Number(props.params.animalId));
+  const singleAnimal = await getAnimalInsecure(Number(props.params.animalId));
 
   return {
     title: singleAnimal ? singleAnimal.firstName : '',
@@ -18,7 +18,7 @@ export async function generateMetadata(props: Props) {
 }
 
 export default async function AnimalPage(props: Props) {
-  const singleAnimal = await getAnimalById(Number(props.params.animalId));
+  const singleAnimal = await getAnimalInsecure(Number(props.params.animalId));
 
   if (!singleAnimal) {
     return notFound();

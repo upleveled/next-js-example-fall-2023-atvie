@@ -3,8 +3,11 @@ import bcrypt from 'bcrypt';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createSession } from '../../../../database/sessions';
-import { createUser, getUserByUsername } from '../../../../database/users';
+import { createSessionInsecure } from '../../../../database/sessions';
+import {
+  createUserInsecure,
+  getUserByUsernameInsecure,
+} from '../../../../database/users';
 import { User } from '../../../../migrations/00006-createTableUsers';
 import { secureCookieOptions } from '../../../../util/cookies';
 
@@ -42,7 +45,7 @@ export async function POST(
   }
 
   // 3. Check if user already exist in the database
-  const user = await getUserByUsername(result.data.username);
+  const user = await getUserByUsernameInsecure(result.data.username);
 
   if (user) {
     return NextResponse.json(
@@ -57,7 +60,7 @@ export async function POST(
   const passwordHash = await bcrypt.hash(result.data.password, 12);
 
   // 5. Save the user information with the hashed password in the database
-  const newUser = await createUser(result.data.username, passwordHash);
+  const newUser = await createUserInsecure(result.data.username, passwordHash);
 
   if (!newUser) {
     return NextResponse.json(
@@ -77,7 +80,7 @@ export async function POST(
   const token = crypto.randomBytes(100).toString('base64');
 
   // 5. Create the session record
-  const session = await createSession(newUser.id, token);
+  const session = await createSessionInsecure(newUser.id, token);
 
   if (!session) {
     return NextResponse.json(

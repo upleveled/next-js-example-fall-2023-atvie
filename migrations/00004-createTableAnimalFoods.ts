@@ -6,9 +6,9 @@ export type AnimalFood = {
   animalFirstName: string;
   animalType: string;
   animalAccessory: string | null;
-  animalFoodId: number;
-  animalFoodName: string;
-  animalFoodType: string;
+  animalFoodId: number | null;
+  animalFoodName: string | null;
+  animalFoodType: string | null;
 };
 
 type JsonAgg = Food[];
@@ -23,12 +23,11 @@ export type AnimalWithFoodsInJsonAgg = {
 
 export async function up(sql: Sql) {
   await sql`
-    CREATE TABLE
-      animal_foods (
-        id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        animal_id INTEGER NOT NULL REFERENCES animals (id) ON DELETE CASCADE,
-        food_id INTEGER NOT NULL REFERENCES foods (id)
-      )
+    CREATE TABLE animal_foods (
+      id integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+      animal_id integer NOT NULL REFERENCES animals (id) ON DELETE CASCADE,
+      food_id integer NOT NULL REFERENCES foods (id)
+    )
   `;
 }
 
