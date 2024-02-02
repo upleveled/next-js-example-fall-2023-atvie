@@ -1,40 +1,27 @@
 #!/usr/bin/env bash
 
-# Exit if any command exits with a non-zero exit code
-set -o errexit
+mkdir -p /postgres-volume/run/postgresql/data
+chown postgres:postgres /postgres-volume/run/postgresql
 
-# Set volume path for use in PostgreSQL paths if volume directory exists
-[ -d "../postgres-volume" ] && VOLUME_PATH=/postgres-volume
+su postgres -c "./alpine-postgresql-setup-and-start.sh"
 
-echo "Creating folders for PostgreSQL and adding permissions for postgres user..."
-mkdir -p $VOLUME_PATH/run/postgresql/data/
-chown postgres:postgres $VOLUME_PATH/run/postgresql/ $VOLUME_PATH/run/postgresql/data/
+# # Initialize a database in the data directory
+# su postgres -c "initdb -D /postgres-volume/run/postgresql/data/"
 
-# If PostgreSQL config file exists, start database. Otherwise, initialize, configure, and create user and database.
-if [[ -f $VOLUME_PATH/run/postgresql/data/postgresql.conf ]]; then
-  echo "PostgreSQL config file exists, starting database..."
-  su postgres -c "pg_ctl start -D /postgres-volume/run/postgresql/data/"
-else
-  echo "PostgreSQL config file doesn't exist, initializing database..."
+# # Update PostgreSQL config path to use volume location if app has a volume
+# sed -i "s/#unix_socket_directories = '\/run\/postgresql'/unix_socket_directories = '\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, running database as non-persistent (new deploys erase changes not saved in migrations)"
 
-  # Initialize a database in the data directory
-  su postgres -c "initdb -D $VOLUME_PATH/run/postgresql/data/"
+# # Configure PostgreSQL to listen for connections from any address
+# echo "listen_addresses='*'" >> /postgres-volume/run/postgresql/data/postgresql.conf
 
-  # Update PostgreSQL config path to use volume location if app has a volume
-  sed -i "s/'\/run\/postgresql'/'\/postgres-volume\/run\/postgresql'/g" /postgres-volume/run/postgresql/data/postgresql.conf || echo "PostgreSQL volume not mounted, running database as non-persistent (new deploys erase changes not saved in migrations)"
+# # Start database
+# su postgres -c "pg_ctl start -D /postgres-volume/run/postgresql/data/"
 
-  # Configure PostgreSQL to listen for connections from any address
-  echo "listen_addresses='*'" >> $VOLUME_PATH/run/postgresql/data/postgresql.conf
-
-  # Start database
-  su postgres -c "pg_ctl start -D $VOLUME_PATH/run/postgresql/data/"
-
-  # Create database and user with credentials from Fly.io secrets
-  psql -U postgres postgres << SQL
-    CREATE DATABASE $PGDATABASE;
-    CREATE USER $PGUSERNAME WITH ENCRYPTED PASSWORD '$PGPASSWORD';
-    GRANT ALL PRIVILEGES ON DATABASE $PGDATABASE TO $PGUSERNAME;
-    \\connect $PGDATABASE;
-    CREATE SCHEMA $PGUSERNAME AUTHORIZATION $PGUSERNAME;
-SQL
-fi
+# # Create database and user with credentials from Fly.io secrets
+# psql -U postgres postgres << SQL
+#   CREATE DATABASE test;
+#   CREATE USER test WITH ENCRYPTED PASSWORD 'test';
+#   GRANT ALL PRIVILEGES ON DATABASE test TO test;
+#   \\connect test;
+#   CREATE SCHEMA test AUTHORIZATION test;
+# SQL
