@@ -7,6 +7,8 @@ echo "Setting up PostgreSQL on Alpine Linux..."
 
 echo "Creating folders for PostgreSQL and adding permissions for postgres user..."
 export PGDATA=/postgres-volume/run/postgresql/data
+mkdir -p "$PGDATA"
+
 # Only allow postgres user access to data directory
 chmod 0700 "$PGDATA"
 initdb -D "$PGDATA"
@@ -17,9 +19,8 @@ sed -i "s/#unix_socket_directories = '\/run\/postgresql'/unix_socket_directories
 # Log to syslog, which is rotated (older logs automatically deleted)
 sed "/^[# ]*log_destination/clog_destination = 'syslog'" -i "$PGDATA/postgresql.conf"
 
-# TODO test if needed
 # Configure PostgreSQL to listen for connections from any address
-# echo "listen_addresses='*'" >> $PGDATA/postgresql.conf
+echo "listen_addresses='*'" >> $PGDATA/postgresql.conf
 
 echo "Starting PostgreSQL..."
 pg_ctl start -D "$PGDATA"
