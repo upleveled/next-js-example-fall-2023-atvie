@@ -8,7 +8,7 @@ if [[ ! -f /postgres-volume/run/postgresql/data/postgresql.conf ]]; then
   sleep infinity
 fi
 
-echo "Setting up PostgreSQL on Fly.io..."
+echo "Starting PostgreSQL..."
 su postgres -c "pg_ctl start -D /postgres-volume/run/postgresql/data"
 
 pnpm migrate up
