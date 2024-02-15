@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { getSafeReturnToPath } from '../../../util/validation';
 import { LoginResponseBodyPost } from '../../api/(auth)/login/route';
+import ErrorMessage from '../../ErrorMessage';
 
 type Props = { returnTo?: string | string[] };
 
@@ -60,9 +61,9 @@ export default function LoginForm(props: Props) {
       <button>Login</button>
 
       {errors.map((error) => (
-        <div className="error" key={`error-${error.message}`}>
+        <ErrorMessage key={`error-${error.message}`}>
           Error: {error.message}
-        </div>
+        </ErrorMessage>
       ))}
     </form>
   );

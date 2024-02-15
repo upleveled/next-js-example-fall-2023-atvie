@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { RegisterResponseBodyPost } from '../../api/(auth)/register/route';
+import ErrorMessage from '../../ErrorMessage';
 
 export default function RegisterForm() {
   const [username, setUsername] = useState('');
@@ -51,9 +52,9 @@ export default function RegisterForm() {
       <button>Register</button>
 
       {errors.map((error) => (
-        <div className="error" key={`error-${error.message}`}>
+        <ErrorMessage key={`error-${error.message}`}>
           Error: {error.message}
-        </div>
+        </ErrorMessage>
       ))}
     </form>
   );
