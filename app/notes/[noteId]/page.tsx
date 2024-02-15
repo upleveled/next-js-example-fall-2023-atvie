@@ -32,8 +32,8 @@ export default async function NotePage({ params }: Props) {
 
   return (
     <div className={styles.noteContainer}>
-      <h1>Title: {note.title}</h1>
-      <p>Content: {note.textContent}</p>
+      <h1>{note.title}</h1>
+      <p>{note.textContent}</p>
       <Link href="/notes">Back to notes</Link>
     </div>
   );
