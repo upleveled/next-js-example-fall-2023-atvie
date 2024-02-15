@@ -1,4 +1,4 @@
-.notePage {
+.notes {
   display: grid;
   grid-template-columns: 2fr 1fr;
   padding: 1.5rem;
@@ -8,13 +8,13 @@
     padding: 0.5rem;
     list-style: none;
   }
+}
 
-  .noteForm {
-    padding: 1rem;
+.notesForm {
+  padding: 1rem;
 
-    > div {
-      position: sticky;
-      top: 0;
-    }
+  > div {
+    position: sticky;
+    top: 0;
   }
 }

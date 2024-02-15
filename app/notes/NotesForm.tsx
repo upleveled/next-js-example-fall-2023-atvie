@@ -22,7 +22,7 @@ export default function NotesForm(props: Props) {
     <>
       <h1>Notes</h1>
 
-      <div className={styles.notePage}>
+      <div className={styles.notes}>
         <div>
           {props.notes.length === 0 ? (
             <h2>No notes yet</h2>
@@ -40,7 +40,7 @@ export default function NotesForm(props: Props) {
           )}
         </div>
 
-        <div className={styles.noteForm}>
+        <div className={styles.notesForm}>
           <div>
             <h2>Create Note</h2>
 
