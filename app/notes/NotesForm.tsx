@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { User } from '../../migrations/00006-createTableUsers';
 import { Note } from '../../migrations/00008-createTableNotes';
+import ErrorMessage from '../ErrorMessage';
 import styles from './NotesForm.module.scss';
 
 type Props = {
@@ -15,6 +16,7 @@ type Props = {
 export default function NotesForm(props: Props) {
   const [title, setTitle] = useState('');
   const [textContent, setTextContent] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const router = useRouter();
 
@@ -44,14 +46,36 @@ export default function NotesForm(props: Props) {
             <form
               onSubmit={async (event) => {
                 event.preventDefault();
-                await fetch('/api/notes', {
+
+                const response = await fetch('/api/notes', {
                   method: 'POST',
                   body: JSON.stringify({
                     title,
                     textContent,
                   }),
                 });
+
+                setErrorMessage('');
+
+                if (!response.ok) {
+                  let newErrorMessage = 'Error creating note';
+
+                  try {
+                    const body = await response.json();
+                    newErrorMessage = body.error;
+                  } catch (error) {
+                    // Don't fail if response JSON body
+                    // cannot be parsed
+                  }
+
+                  // TODO: Use toast instead of showing
+                  // this below creation / update form
+                  setErrorMessage(newErrorMessage);
+                  return;
+                }
+
                 router.refresh();
+
                 setTitle('');
                 setTextContent('');
               }}
@@ -76,6 +100,8 @@ export default function NotesForm(props: Props) {
 
               <button>Add Note</button>
             </form>
+
+            <ErrorMessage>{errorMessage}</ErrorMessage>
           </div>
         </div>
       </div>

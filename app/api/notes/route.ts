@@ -13,7 +13,7 @@ export type CreateNoteResponseBodyPost =
       note: { textContent: string };
     }
   | {
-      errors: { message: string }[];
+      error: string;
     };
 
 export async function POST(
@@ -27,7 +27,10 @@ export async function POST(
 
   if (!result.success) {
     return NextResponse.json(
-      { errors: result.error.issues },
+      {
+        error: 'Request does not contain note object',
+        // errorIssues: result.error.issues,
+      },
       {
         status: 400,
       },
@@ -51,7 +54,7 @@ export async function POST(
   if (!newNote) {
     return NextResponse.json(
       {
-        errors: [{ message: 'Note creation failed' }],
+        error: 'Note not created or access denied creating note',
       },
       { status: 500 },
     );
